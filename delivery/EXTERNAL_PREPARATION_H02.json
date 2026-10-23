@@ -1,0 +1,56 @@
+{
+  "project": "ClipNest",
+  "checkpoint": "CP-02",
+  "handoff_revision": "H02",
+  "recorded_at": "2026-10-23T16:32:36.513654+00:00",
+  "application_sources_changed": false,
+  "test_harness_and_docs_changed": true,
+  "checks": [
+    {
+      "name": "External evidence controller unit tests",
+      "command": "python3 -m unittest discover -s tests -p 'external_runner_test.py' -v",
+      "tests": 13,
+      "passed": 13,
+      "failed": 0,
+      "scope": "Timeout/process failure, credential redaction, no-skip/result-proof interpretation, target restriction, fingerprint and return bundle; no native/browser/container/AWS suite execution"
+    },
+    {
+      "name": "JavaScript syntax/lock/entry check",
+      "command": "npm run check",
+      "javascript_files": 67,
+      "result": "passed"
+    },
+    {
+      "name": "New shell script syntax",
+      "files": [
+        "scripts/external/setup.sh",
+        "scripts/external/containers.sh"
+      ],
+      "result": "passed"
+    },
+    {
+      "name": "New Python AST and workflow/buildspec YAML parse",
+      "result": "passed"
+    }
+  ],
+  "prior_application_suite": {
+    "record": "delivery/LOCAL_VERIFICATION.json",
+    "date": "2026-10-22",
+    "total": 54,
+    "passed": 53,
+    "failed": 0,
+    "skipped": 1,
+    "rerun_in_h02": false
+  },
+  "new_external_groups_executed": false,
+  "aws_resources_created": false,
+  "master_counts_unchanged": true,
+  "release_decision": "NO_GO",
+  "capability_record": "delivery/AUTHORING_CAPABILITIES_H02.json",
+  "current_authoring_probe": {
+    "native": "Native PostgreSQL requires mapped non-root identity and permitted Unix sockets",
+    "browser": "Pinned Playwright Chromium is not installed; run prepared setup once",
+    "terraform": "Provider Unix socket creation is unavailable",
+    "containers": "Working Docker daemon and Compose v2 absent; no daemon installation or privilege workaround in this task"
+  }
+}

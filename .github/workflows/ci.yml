@@ -1,0 +1,113 @@
+name: Verify ClipNest
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+  workflow_call:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    services:
+      postgres:
+        image: postgres:17-bookworm
+        env:
+          POSTGRES_USER: clipnest_test
+          POSTGRES_PASSWORD: disposable-ci-password
+          POSTGRES_DB: clipnest_test
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U clipnest_test -d clipnest_test"
+          --health-interval 5s --health-timeout 5s --health-retries 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with: {node-version: 24, cache: npm}
+      - run: sudo apt-get update && sudo apt-get install -y ffmpeg
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - run: npm run check
+      - run: npm test
+      - name: Native PostgreSQL pooling, transactions, races and upgrade
+        run: npm run test:database
+        env:
+          TEST_DATABASE_URL: postgresql://clipnest_test:disposable-ci-password@127.0.0.1:5432/clipnest_test
+      - name: Native active-job SIGKILL and replacement
+        run: node --test tests/crash.native.mjs
+        env:
+          TEST_DATABASE_URL: postgresql://clipnest_test:disposable-ci-password@127.0.0.1:5432/clipnest_test
+      - run: npm audit --omit=dev --audit-level=high
+      - run: python3 scripts/package.py
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1
+        with: {node-version: 24, cache: npm}
+      - run: sudo apt-get update && sudo apt-get install -y ffmpeg
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - run: npx playwright install --with-deps chromium
+      - name: Desktop/mobile positive journey and axe (synthetic media only)
+        run: npm run test:browser
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: browser-report
+          path: playwright-report/
+          retention-days: 7
+  container:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1
+        with: {node-version: 24, cache: npm}
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Native certificate verification
+        run: bash scripts/ops/native-tls.sh
+      - run: node scripts/init-local.mjs && docker compose config --quiet
+      - run: docker compose up --build -d --wait
+      - run: curl --fail http://localhost:8787/readyz
+      - name: Non-root identity, writable work directory and graceful worker restart
+        run: |
+          docker compose exec -T worker sh -c 'test "$(id -u)" != 0 && test -w /app/.cache'
+          docker compose restart worker
+          docker compose up -d --wait
+          curl --fail http://localhost:8787/readyz
+      - name: Image vulnerability gate
+        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
+        with:
+          image-ref: clipnest:local
+          severity: HIGH,CRITICAL
+          exit-code: '1'
+          format: json
+          output: trivy-report.json
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with: {name: container-scan, path: trivy-report.json, retention-days: 7}
+      - if: always()
+        run: docker compose down
+  terraform:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {persist-credentials: false}
+      - name: Install checksum-verified Terraform 1.17.0 from HashiCorp
+        run: |
+          curl --fail --silent --show-error --output /tmp/terraform.zip https://releases.hashicorp.com/terraform/1.17.0/terraform_1.17.0_linux_amd64.zip
+          curl --fail --silent --show-error --output /tmp/SHA256SUMS https://releases.hashicorp.com/terraform/1.17.0/terraform_1.17.0_SHA256SUMS
+          EXPECTED=$(awk '$2=="terraform_1.17.0_linux_amd64.zip" {print $1}' /tmp/SHA256SUMS)
+          test -n "$EXPECTED"
+          printf '%s  /tmp/terraform.zip\n' "$EXPECTED" | sha256sum --check --status
+          unzip /tmp/terraform.zip -d /tmp/clipnest-terraform
+          echo /tmp/clipnest-terraform >> "$GITHUB_PATH"
+      - run: terraform -chdir=infra/terraform fmt -check -recursive
+      - run: terraform -chdir=infra/terraform init -backend=false -input=false -lockfile=readonly
+      - run: terraform -chdir=infra/terraform validate
+      - run: terraform -chdir=infra/terraform test -no-color

@@ -1,0 +1,46 @@
+{
+  "project": "ClipNest",
+  "checkpoint": "CP-02",
+  "handoff_revision": "H01",
+  "recorded_at": "2026-10-22T11:46:41.362445+00:00",
+  "application_baseline_commit": "92a00a4bb1a2c0ae3de12105f37e129ab5e8df10",
+  "application_sources_changed": false,
+  "commands": [
+    {
+      "command": "npm run check",
+      "exit_code": 0,
+      "javascript_files": 67,
+      "lock_and_entry_checks": "passed"
+    },
+    {
+      "command": "npm test",
+      "exit_code": 0,
+      "tests": 54,
+      "passed": 53,
+      "failed": 0,
+      "skipped": 1,
+      "duration_ms": 10500.087575
+    }
+  ],
+  "database_scope": "pglite-single-backend",
+  "skip": "native PostgreSQL parallel idempotency and global worker claim limits",
+  "scope": [
+    "Actual local HTTP",
+    "Real PostgreSQL SQL via single-backend PGlite",
+    "Real FFmpeg-generated fixture bytes/range",
+    "Real RSA signature verification",
+    "Injected AWS SDK contracts",
+    "Actual frontend JS in emulated DOM",
+    "Actual active-process SIGTERM"
+  ],
+  "not_proved": [
+    "Native pg/concurrency/TLS",
+    "Containers",
+    "Terraform provider validation",
+    "Full real browser/device journey",
+    "AWS services",
+    "Full real authorized source transfer",
+    "Worldwide capacity/speed",
+    "Restore/rollback or elapsed operating observation"
+  ]
+}

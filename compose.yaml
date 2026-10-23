@@ -1,0 +1,70 @@
+# Single-host LOCAL staging. Do not publish this development TLS configuration.
+# See docs/OPERATIONS.md before planning an internet-facing AWS deployment.
+x-app: &app
+  build: .
+  image: clipnest:local
+  init: true
+  restart: unless-stopped
+  environment: &env
+    NODE_ENV: development
+    HOST: 0.0.0.0
+    PUBLIC_ORIGIN: http://localhost:8787
+    DATABASE_URL: postgresql://clipnest:${POSTGRES_PASSWORD:?Run npm run setup:local first}@db:5432/clipnest
+    DB_TLS: disable
+    SESSION_SECRET: ${SESSION_SECRET:?Run npm run setup:local first}
+    COOKIE_SECURE: "false"
+    INLINE_WORKER: "false"
+    ALLOW_REGISTRATION: "true"
+    MAX_FILE_BYTES: "262144000"
+    MAX_DURATION_SECONDS: "900"
+    MAX_CONCURRENT_JOBS: "2"
+    DAILY_JOB_LIMIT: "5"
+    DAILY_BYTE_LIMIT: "1310720000"
+  volumes:
+    - media:/app/.cache
+  mem_limit: 1g
+  cpus: 2
+  cap_drop: [ALL]
+  security_opt: [no-new-privileges:true]
+services:
+  db:
+    image: postgres:17-bookworm
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: clipnest
+      POSTGRES_DB: clipnest
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Run npm run setup:local first}
+    volumes:
+      - database:/var/lib/postgresql/data
+    healthcheck:
+      test: [CMD-SHELL, "pg_isready -U clipnest -d clipnest"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+  migrate:
+    <<: *app
+    restart: "no"
+    command: [node, backend/migrate.mjs]
+    healthcheck: {disable: true}
+    depends_on:
+      db: {condition: service_healthy}
+  api:
+    <<: *app
+    ports:
+      - "127.0.0.1:8787:8787"
+    depends_on:
+      migrate: {condition: service_completed_successfully}
+  worker:
+    <<: *app
+    command: [node, backend/worker.mjs]
+    healthcheck:
+      test: [CMD, node, backend/worker-health.mjs]
+      interval: 15s
+      timeout: 5s
+      start_period: 30s
+      retries: 3
+    depends_on:
+      migrate: {condition: service_completed_successfully}
+volumes:
+  database:
+  media:

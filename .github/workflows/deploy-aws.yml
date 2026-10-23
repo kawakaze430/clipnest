@@ -1,0 +1,104 @@
+name: Deploy ClipNest to authorized AWS environment
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: choice
+        options: [staging, production]
+        required: true
+        default: staging
+permissions:
+  contents: read
+concurrency:
+  group: clipnest-deploy-${{ inputs.environment }}
+  cancel-in-progress: false
+jobs:
+  verify:
+    uses: ./.github/workflows/ci.yml
+  deploy:
+    needs: verify
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    environment: ${{ inputs.environment }}
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1
+        with: {node-version: 24, cache: npm}
+      - run: npm ci --omit=dev --ignore-scripts --no-audit --no-fund
+      - name: Write public deployment outputs and validate environment
+        env:
+          DEPLOYMENT_OUTPUTS: ${{ vars.CLIPNEST_OUTPUTS_JSON }}
+          RELEASE_ENVIRONMENT: ${{ inputs.environment }}
+        run: |
+          node --input-type=module <<'JS'
+          import {mkdir,writeFile} from 'node:fs/promises';
+          const raw=JSON.parse(process.env.DEPLOYMENT_OUTPUTS),d=raw.deployment?.value||raw.deployment||raw;
+          if(d.environment!==process.env.RELEASE_ENVIRONMENT)throw new Error('Environment mismatch');
+          await mkdir('.cache/release',{recursive:true});await writeFile('.cache/release/outputs.json',JSON.stringify(raw),{mode:0o600});
+          JS
+      - name: Require exact-commit production acceptance evidence
+        if: inputs.environment == 'production'
+        env:
+          RELEASE_EVIDENCE: ${{ vars.CLIPNEST_PRODUCTION_EVIDENCE_JSON }}
+        run: |
+          node --input-type=module <<'JS'
+          import {writeFile} from 'node:fs/promises';
+          await writeFile('.cache/release/evidence.json',JSON.stringify(JSON.parse(process.env.RELEASE_EVIDENCE)),{mode:0o600});
+          JS
+          node scripts/ops/release-gates.mjs .cache/release/evidence.json "$GITHUB_SHA"
+      - uses: aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd # v6.3.0
+        with:
+          role-to-assume: ${{ vars.AWS_DEPLOY_ROLE_ARN }}
+          aws-region: ${{ vars.AWS_REGION }}
+          role-session-name: clipnest-release
+      - name: Authenticate ECR and select repository
+        run: |
+          node --input-type=module <<'JS'
+          import {readFile,appendFile} from 'node:fs/promises';
+          const raw=JSON.parse(await readFile('.cache/release/outputs.json','utf8')),d=raw.deployment?.value||raw.deployment||raw;
+          await appendFile(process.env.GITHUB_ENV,`IMAGE_REPOSITORY=${d.image_repository}\nFRONTEND_BUCKET=${d.frontend_bucket}\nDISTRIBUTION_ID=${d.distribution_id}\nPUBLIC_ORIGIN=${d.public_origin}\n`);
+          JS
+          REGISTRY=$(node -p 'process.env.IMAGE_REPOSITORY.split("/")[0]')
+          aws ecr get-login-password | docker login --username AWS --password-stdin "$REGISTRY"
+      - name: Build digest-pinned image with SBOM and provenance
+        run: |
+          docker buildx create --use --name clipnest-builder
+          docker buildx build --platform linux/amd64 --push --tag "$IMAGE_REPOSITORY:$GITHUB_SHA-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT" --build-arg "SOURCE_COMMIT=$GITHUB_SHA" --sbom=true --provenance=mode=max --metadata-file .cache/release/build.json .
+          node --input-type=module <<'JS'
+          import {readFile,appendFile} from 'node:fs/promises';
+          const meta=JSON.parse(await readFile('.cache/release/build.json','utf8'));
+          await appendFile(process.env.GITHUB_ENV,`RELEASE_IMAGE=${process.env.IMAGE_REPOSITORY}@${meta['containerimage.digest']}\n`);
+          JS
+      - name: Scan the exact pushed image
+        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25
+        with:
+          image-ref: ${{ env.RELEASE_IMAGE }}
+          severity: HIGH,CRITICAL
+          exit-code: '1'
+          format: json
+          output: trivy-release.json
+      - name: Migrate, roll tasks and verify readiness
+        run: node scripts/ops/deploy.mjs .cache/release/outputs.json "$RELEASE_IMAGE" "$GITHUB_SHA" --execute
+      - name: Publish matching frontend
+        run: |
+          aws s3 sync dist/ "s3://$FRONTEND_BUCKET/" --delete --exclude clipnest-source.zip --cache-control 'public,max-age=300'
+          aws cloudfront create-invalidation --distribution-id "$DISTRIBUTION_ID" --paths '/*'
+          node scripts/ops/probe.mjs "$PUBLIC_ORIGIN" github-runner .cache/release/probe.json
+      - name: Save non-secret release records for compatible rollback
+        uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: release-${{ inputs.environment }}-${{ github.sha }}
+          path: |
+            .cache/release/previous-deployment.json
+            .cache/release/deployment.json
+            .cache/release/build.json
+            .cache/release/probe.json
+            trivy-release.json
+            dist/
+          include-hidden-files: true
+          retention-days: 30

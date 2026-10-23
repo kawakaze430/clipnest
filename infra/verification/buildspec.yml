@@ -1,0 +1,52 @@
+# Remote execution only; creates no application infrastructure.
+# Project: Ubuntu 24.04 standard:8.0 x86_64, Docker support, 35-minute timeout,
+# concurrency 1, automatic retry 0. Owner must approve cost/role/source/artifacts.
+version: 0.2
+env:
+  variables:
+    CLIPNEST_CHECK_GROUP: containers
+phases:
+  install:
+    runtime-versions:
+      nodejs: 24
+    commands:
+      - |
+        cd "$CODEBUILD_SRC_DIR"
+        if [ -f clipnest/package.json ]; then cd clipnest; fi
+        test -f scripts/external/verify.py
+        case "$CLIPNEST_CHECK_GROUP" in native|browser|terraform|containers|all) ;; *) exit 2;; esac
+        bash scripts/external/setup.sh "$CLIPNEST_CHECK_GROUP"
+  build:
+    commands:
+      - |
+        cd "$CODEBUILD_SRC_DIR"
+        if [ -f clipnest/package.json ]; then cd clipnest; fi
+        if [ "$CLIPNEST_CHECK_GROUP" = all ]; then
+          python3 scripts/external/verify.py run --groups native browser terraform containers --budget-minutes 20 --output qa-artifacts/return
+        else
+          python3 scripts/external/verify.py run --groups "$CLIPNEST_CHECK_GROUP" --budget-minutes 20 --output qa-artifacts/return
+        fi
+  post_build:
+    commands:
+      - |
+        cd "$CODEBUILD_SRC_DIR"
+        if [ -f clipnest/package.json ]; then cd clipnest; fi
+        python3 scripts/package.py
+        python3 scripts/package.py --verify dist/clipnest-source.zip
+artifacts:
+  files:
+    - qa-artifacts/return/ClipNest-External-Evidence.zip
+    - qa-artifacts/return/ClipNest-External-Evidence.zip.sha256
+    - qa-artifacts/return/summary.json
+    - qa-artifacts/return/summary.md
+    - qa-artifacts/return/capabilities.json
+    - dist/clipnest-source.zip
+    - dist/clipnest-source.zip.sha256
+    - clipnest/qa-artifacts/return/ClipNest-External-Evidence.zip
+    - clipnest/qa-artifacts/return/ClipNest-External-Evidence.zip.sha256
+    - clipnest/qa-artifacts/return/summary.json
+    - clipnest/qa-artifacts/return/summary.md
+    - clipnest/qa-artifacts/return/capabilities.json
+    - clipnest/dist/clipnest-source.zip
+    - clipnest/dist/clipnest-source.zip.sha256
+  discard-paths: no

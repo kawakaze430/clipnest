@@ -1,0 +1,16 @@
+.git
+.openai
+.cache
+node_modules
+tests
+.env
+.env.*
+docs
+scripts
+.github
+dist/clipnest-source.zip
+__pycache__
+infra
+*.tfstate*
+playwright-report
+test-results

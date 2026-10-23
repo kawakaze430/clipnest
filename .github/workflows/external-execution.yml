@@ -1,0 +1,55 @@
+name: ClipNest external checks (execution only)
+on:
+  workflow_dispatch:
+    inputs:
+      group:
+        description: Run only a still-unverified group (all is a sequential bounded run)
+        type: choice
+        options: [native, browser, terraform, containers, all]
+        default: native
+        required: true
+permissions:
+  contents: read
+concurrency:
+  group: clipnest-external-${{ github.ref }}-${{ inputs.group }}
+  cancel-in-progress: false
+jobs:
+  execute:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    env:
+      CHECK_GROUP: ${{ inputs.group }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1
+        with: {node-version: 24, cache: npm}
+      - name: Prepare only the selected remote checks
+        continue-on-error: true
+        run: bash scripts/external/setup.sh "$CHECK_GROUP"
+      - name: Execute and collect bounded evidence
+        if: always()
+        run: |
+          if [ "$CHECK_GROUP" = all ]; then
+            python3 scripts/external/verify.py run --groups native browser terraform containers --budget-minutes 20 --output qa-artifacts/return
+          else
+            python3 scripts/external/verify.py run --groups "$CHECK_GROUP" --budget-minutes 20 --output qa-artifacts/return
+          fi
+      - name: Package complete source even when an external check fails
+        if: always()
+        run: python3 scripts/package.py && python3 scripts/package.py --verify dist/clipnest-source.zip
+      - name: Return complete source and sanitized evidence
+        if: always()
+        uses: actions/upload-artifact@v7.0.2
+        with:
+          name: clipnest-external-${{ inputs.group }}
+          retention-days: 7
+          if-no-files-found: error
+          path: |
+            qa-artifacts/return/ClipNest-External-Evidence.zip
+            qa-artifacts/return/ClipNest-External-Evidence.zip.sha256
+            qa-artifacts/return/summary.json
+            qa-artifacts/return/summary.md
+            qa-artifacts/return/capabilities.json
+            dist/clipnest-source.zip
+            dist/clipnest-source.zip.sha256

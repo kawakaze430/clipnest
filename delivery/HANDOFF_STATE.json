@@ -1,0 +1,307 @@
+{
+  "schema_version": 1,
+  "project": "ClipNest",
+  "checkpoint": "CP-02",
+  "handoff_revision": "H02",
+  "prepared_date": "2026-10-23",
+  "application_version": "1.2.0",
+  "application_baseline_commit": "92a00a4bb1a2c0ae3de12105f37e129ab5e8df10",
+  "handoff_changes": [
+    "Minimal execution-only Codex Cloud prompt and retained engineering ownership",
+    "Capability probe and bounded external native/browser/provider/container controller",
+    "One disposable native database run with optional SIGKILL and local TLS coverage",
+    "Remote setup, targeted manual Actions workflow and CodeBuild fallback definitions",
+    "Resource/dependency routing prioritizing remote work and the Windows laptop last",
+    "Complete source ZIP with updated guides, status and verification records"
+  ],
+  "application_source_changed_in_handoff": false,
+  "release_decision": "NO_GO",
+  "aws_backend_deployed": false,
+  "main_goal": "Authenticated authorized YouTube/Shorts link \u2192 actual available video/audio qualities \u2192 selected durable preparation/progress/cancel \u2192 final file download, private account history/usage; complete bounded AWS service for approved worldwide markets.",
+  "scope": {
+    "initial_release": "Free capped invitation beta",
+    "core_task_total": 112,
+    "conditional_tasks": 8,
+    "conditional_scope": [
+      "Custom domain/DNS",
+      "Paid billing, payment and reconciliation"
+    ],
+    "no_guaranteed_download_speed": true
+  },
+  "status_counts": {
+    "Locally implemented": 60,
+    "Partially implemented": 25,
+    "Prepared, not executed": 17,
+    "Externally blocked": 10,
+    "Not started": 0
+  },
+  "status_register": "docs/END_TO_END_STATUS.json",
+  "compact_register": "docs/STATUS.json",
+  "statuses": {
+    "L": "Bounded feature/deliverable exists and is supported by inspected source or recorded local verification. Does not mean production deployed.",
+    "P": "Some source, implementation or local checks exist; material scope or acceptance is incomplete.",
+    "R": "Runnable definition, test harness or workflow is authored but the actual relevant execution is not recorded. External runtime dependencies are listed separately.",
+    "B": "A concrete execution stage or owner input is unavailable/failed. Some also depend on unfinished assistant-owned code.",
+    "N": "Specific deliverable or production-scope acceptance has not started; assistant-owned code is not marked blocked just for lack of AWS access."
+  },
+  "register_integrity": "Keep the original 112 IDs and current evidence; counts are not weighted effort or production completion.",
+  "private_site": {
+    "project_id": "appgprj_6ad8ea922f288191b8b3f85b710b6be0",
+    "url": "https://clipnest-youtube-download.renoukhan39.chatgpt.site",
+    "audience": "Existing sole-owner private audience",
+    "application_checkpoint_site_version": 3,
+    "mode": "Static frontend/source only",
+    "node_api_or_database_hosted_here": false
+  },
+  "production_architecture": {
+    "frontend": "dist static vanilla HTML/CSS/JS",
+    "api": "Node 24",
+    "identity": "Email/password scrypt, opaque hashed sessions, verification/reset; not Cognito",
+    "database": "Native pg / PostgreSQL 17 RDS target",
+    "test_database": "PGlite single backend only",
+    "engine": "Pinned yt-dlp and FFmpeg",
+    "work": "Durable database tasks + SQS transactional outbox + independent ECS workers",
+    "delivery": "Private S3 + CloudFront signed objects",
+    "communications": "Encrypted mail outbox + SES",
+    "infrastructure": "Terraform, private ALB VPC origin/CloudFront/WAF, GitHub OIDC/ECR",
+    "region": "ap-south-1 template proposal; owner confirmation pending",
+    "availability": "Single primary application Region with Multi-AZ target and global CDN; no multi-Region failover proof"
+  },
+  "current_local_run": {
+    "commands": [
+      "npm run check",
+      "npm test"
+    ],
+    "result": "passed with one explicit native skip",
+    "tests_total": 54,
+    "passed": 53,
+    "failed": 0,
+    "skipped": 1,
+    "syntax_files": 67,
+    "scope": "Actual PostgreSQL SQL via PGlite single backend; real local HTTP and FFmpeg fixture; AWS SDK transport injection and real RSA signing; actual frontend JavaScript in emulated DOM; actual process SIGTERM. No native PostgreSQL, Docker, real AWS/S3/SQS/SES/CloudFront, automated browser suite or completed real YouTube transfer proof.",
+    "skipped_test": "native PostgreSQL parallel idempotency and global worker claim limits",
+    "record": "delivery/LOCAL_VERIFICATION.json",
+    "executed_on": "2026-10-22",
+    "is_h02_rerun": false
+  },
+  "prior_evidence": {
+    "local_burst": {
+      "requests": 20,
+      "accepted": 3,
+      "queue_full": 17,
+      "p95_ms": 155,
+      "environment": "localhost/PGlite; not AWS capacity"
+    },
+    "source_cli_formats": 44,
+    "actual_app_source_lookup": "502 source restriction",
+    "complete_authorized_source_to_device_transfer": false,
+    "browser": "Real desktop illustrative picker/privacy review only; full Playwright/axe suite unrun",
+    "terraform": "fmt parses; actual provider startup failed listen unix socket operation not permitted",
+    "audit": "Production npm audit had zero known vulnerabilities at CP-02; not rerun by H01 unless receipt states so"
+  },
+  "evidence_not_yet_passed": [
+    "Native PostgreSQL pooling/concurrency/TLS",
+    "Docker build/run/lifecycle/resource/image scan/SBOM",
+    "Terraform provider validate/mock and account plan/apply",
+    "Full real desktop/mobile browser and device journey",
+    "Actual AWS S3/SQS/CloudFront/SES/IAM/WAF",
+    "Full real authorized YouTube app\u2192worker\u2192device transfer",
+    "Multi-instance active loss/outages and physical object deletion",
+    "Real RDS restore/RTO/RPO and compatible image/frontend rollback",
+    "Actual multi-geography load/speed/cost",
+    "Real alarm/inbox/support delivery",
+    "Owner final budget/traffic/policy/markets inputs",
+    "Elapsed capped-beta observation"
+  ],
+  "first_read": [
+    "docs/NEXT_PATH.md",
+    "START_HERE.md",
+    "AGENTS.md",
+    "delivery/HANDOFF_STATE.json",
+    "docs/PROJECT_HANDOFF.md",
+    "docs/END_TO_END_STATUS.json",
+    "docs/REMAINING_WORK.md",
+    "docs/PRODUCTION_ACCEPTANCE.md",
+    "docs/API.md",
+    "docs/OPERATIONS.md",
+    "docs/RELEASE.md",
+    "docs/HANDOFF.md",
+    "infra/terraform/README.md"
+  ],
+  "next_steps": [
+    "Use verified same-source CI results if already available; avoid duplicate cloud runs",
+    "Run bounded E01 in prepared Codex Cloud only for native/browser/provider and optional existing-Docker checks",
+    "Return full source and separate sanitized evidence ZIP to original chat",
+    "Original chat reviews/fixes findings and requests only affected checks",
+    "Use targeted Actions, then approved CodeBuild/other remote runner for concrete remaining environment blockers",
+    "Review actual source feasibility before costly always-on AWS provisioning",
+    "Confirm owner account/role/Region/spend/traffic/sender/alerts/operator/source/market inputs",
+    "Review/deploy authorized staging and close actual 16 production gates",
+    "Operate capped beta and review elapsed observations before expansion"
+  ],
+  "blockers": [
+    {
+      "id": "B-01",
+      "title": "Docker execution unavailable",
+      "scope": "Container verification",
+      "evidence": "docker not on PATH; /var/run/docker.sock absent.",
+      "unblock": "Use a Docker-enabled local machine or authorised CI/CodeBuild runner; retain build/run logs.",
+      "owner": "Execution environment / developer",
+      "hard_release_gate": true
+    },
+    {
+      "id": "B-02",
+      "title": "AWS deployment access unavailable",
+      "scope": "Cloud provisioning and AWS staging",
+      "evidence": "AWS CLI absent; no AWS auth source detected; plugin discovery found analytics functionality, not an infrastructure deployment connection.",
+      "unblock": "Establish a scoped, authorised AWS deployment context and verify account, role, Region and permitted actions. No credentials in chat.",
+      "owner": "Account owner / deployment environment",
+      "hard_release_gate": true
+    },
+    {
+      "id": "B-03",
+      "title": "Application-level live source path has not passed",
+      "scope": "Real lookup and download reliability",
+      "evidence": "CLI returned 44 formats with system CA trust; actual application request returned 502 source-restriction error. Full real file transfer is unverified.",
+      "unblock": "Investigate supported app/runtime behaviour, then pass controlled source-to-worker-to-device tests with authorised media and the actual AWS image/network. Preserve failure details; do not treat a fixture as proof.",
+      "owner": "Developer and source/platform dependencies",
+      "hard_release_gate": true
+    },
+    {
+      "id": "B-04",
+      "title": "Native PostgreSQL execution requires another runtime",
+      "scope": "Database integration verification",
+      "evidence": "Schema/repository implemented and PGlite SQL/HTTP tests passed. Native binaries installed; root-only UID namespace prevents non-root initdb execution (chown EINVAL). No native concurrency/TLS target supplied.",
+      "unblock": "Run the provided native suite in a mapped non-root environment or with a disposable TEST_DATABASE_URL. Preserve the single-backend/native distinction.",
+      "owner": "Docker/non-root runner or disposable database context",
+      "hard_release_gate": true
+    },
+    {
+      "id": "B-05",
+      "title": "Payment provider and live-test prerequisites absent",
+      "scope": "Paid release only",
+      "evidence": "Provider, merchant approval, test/live keys and integration are absent.",
+      "unblock": "Choose a suitable provider, implement and test sandbox/webhooks, then arrange an explicitly authorised live test and reconciliation.",
+      "owner": "Merchant owner / payment provider / developer",
+      "hard_release_gate": false,
+      "required_if": "Paid release selected"
+    },
+    {
+      "id": "B-06",
+      "title": "Custom domain and DNS inputs absent",
+      "scope": "Custom hostname only",
+      "evidence": "No chosen owned domain or authorised DNS management context.",
+      "unblock": "Provide chosen domain/DNS context and validate certificates; staging can use an AWS-generated hostname.",
+      "owner": "Domain owner",
+      "hard_release_gate": false,
+      "required_if": "Custom domain required"
+    },
+    {
+      "id": "B-07",
+      "title": "Traffic and spending bounds undefined",
+      "scope": "Resource provisioning and public capacity",
+      "evidence": "No verified target-account estimate, traffic model or budget.",
+      "unblock": "Estimate compute/database/CDN/egress costs and define tested quota/worker/cost controls before provisioning and public access.",
+      "owner": "Account owner and developer",
+      "hard_release_gate": true
+    },
+    {
+      "id": "B-08",
+      "title": "Permitted source use and market scope unresolved",
+      "scope": "Public service launch",
+      "evidence": "Authorisations and supported-market review not established; YouTube terms restrict download and automated use.",
+      "unblock": "Confirm the allowed workflow and relevant source/rights-holder permissions; complete appropriate public terms, privacy, support and complaint handling.",
+      "owner": "Product owner / appropriate review",
+      "hard_release_gate": true
+    },
+    {
+      "id": "B-09",
+      "title": "Terraform provider execution unavailable here",
+      "scope": "Provider schema validation/mock tests",
+      "evidence": "Official Terraform 1.17.0 and AWS provider 6.70.0 installed; fmt passes; provider listen unix socket fails operation not permitted.",
+      "unblock": "Run the prepared locked-provider validate/mock jobs on a normal CI runner, then fix any real provider/API errors before plan/apply.",
+      "owner": "Runner executes; assistant owns any source fixes",
+      "hard_release_gate": true
+    },
+    {
+      "id": "B-10",
+      "title": "Production sender and notification delivery unverified",
+      "scope": "SES/account verification/recovery and SNS alerts",
+      "evidence": "SES/outbox and alarm source exist; no verified account sender/production access, inbox or alert delivery is recorded.",
+      "unblock": "Owner confirms sender/alert recipient and SES production access; runner verifies actual email and alarm delivery.",
+      "owner": "Owner + authorized AWS runner",
+      "hard_release_gate": true
+    },
+    {
+      "id": "B-11",
+      "title": "Public operator/contact/policy commitments pending",
+      "scope": "Public support, legal identity and retention commitments",
+      "evidence": "Concrete defaults, private-beta policy/help pages and operator enrollment exist; no public operator identity/contact/response commitment approval.",
+      "unblock": "Owner supplies public identity/contact and approves final policy/support/market commitments before opening registration.",
+      "owner": "Product owner",
+      "hard_release_gate": true
+    },
+    {
+      "id": "B-12",
+      "title": "Post-launch observation requires a live capped beta",
+      "scope": "Elapsed operating/expansion evidence",
+      "evidence": "Observation collector/checklist are prepared; the application is not deployed on AWS and no real beta traffic/cost window has elapsed.",
+      "unblock": "First close release gates and operate the capped beta; then gather actual launch/1h/24h/7d evidence.",
+      "owner": "Operator after authorized release",
+      "hard_release_gate": true
+    }
+  ],
+  "ownership": {
+    "assistant": "All feasible implementation, local tests, documentation, source packaging and fixes after external execution evidence. The 51 targeted IDs remain traceable.",
+    "codex_or_runner": "Execution only where required: Docker/native PostgreSQL/TLS, provider validation, browser suite and actual AWS/source/restore/failure/geography checks. The prepared handoff minimizes rewriting.",
+    "user": "Scoped AWS/account/Region/budget/traffic authorization, sender/alert recipient, public operator/contact/policy/market/source rights inputs. DNS and payments only if selected."
+  },
+  "packaging": {
+    "create": "npm run package",
+    "verify": "python3 scripts/package.py --verify dist/clipnest-source.zip",
+    "custom_output": "python3 scripts/package.py --output /absolute/path/ClipNest-Complete-NEXT.zip",
+    "archive_root": "clipnest/",
+    "internal_manifest": "delivery/FILE_MANIFEST.json (generated in ZIP)",
+    "whole_zip_sha256": "External .sha256 / delivery receipt; not embedded self-referentially",
+    "dependencies_included": false,
+    "credentials_state_runtime_media_included": false,
+    "git_history_included": false
+  },
+  "response_contract": {
+    "every_final_project_reply": [
+      "Current goal/checkpoint and GO/NO_GO",
+      "Same 112 task IDs with L/P/R/B/N counts and actual changes/evidence",
+      "Checks actually executed with failure/skip and scope",
+      "Exact blockers/unblock/owner and next unblocked work",
+      "Complete latest source ZIP + SHA-256 + status/handoff/prompt"
+    ],
+    "if_no_change": "Link verified existing latest full ZIP; explicitly say unchanged",
+    "intermediate_updates": "Brief progress updates do not require repackaging",
+    "external_test_only": "No feature/source fixes; return both evidence ZIP and complete unchanged/latest source ZIP plus checksums"
+  },
+  "prior_handoff_source_commit": "2f498a9d61a402660386eccd92d912dc1c91e640",
+  "h02_verification_record": "delivery/EXTERNAL_PREPARATION_H02.json",
+  "external_execution": {
+    "profile": "E01",
+    "status": "Prepared, not executed on an external runner",
+    "engineering_owner": "Original ChatGPT project chat",
+    "external_role": "Run fixed assigned checks and return evidence; no source fixes/feature work/deployment",
+    "prompt": "CLOUD_TEST_ONLY_PROMPT.md",
+    "guide": "docs/NEXT_PATH.md",
+    "contract": "docs/EXTERNAL_EXECUTION.md",
+    "command": "python3 scripts/external/verify.py run --groups native browser terraform containers --budget-minutes 20",
+    "return_evidence_and_full_source_separately": true,
+    "automatic_master_promotion": false,
+    "docker_if_working_daemon_only": true,
+    "windows_local_heavy_setup": "Last fallback only"
+  },
+  "user_reported_resources": {
+    "codex_cloud": "Limited Plus access; actual quota not verified",
+    "antigravity_gemini": "Limited, reserve only",
+    "codex_local_windows": "Avoid heavy local work unless suitable remote options fail",
+    "colab": "Reported 200 units; treated as compute units, not Codex tokens",
+    "drive": "Reported 5 TB, archive backup only",
+    "aws": "Reported USD 200 credit, balance/eligibility/spend authorization unverified",
+    "azure": "Reported USD 100 credit, backup remote runner only"
+  }
+}

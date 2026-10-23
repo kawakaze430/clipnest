@@ -1,0 +1,80 @@
+{
+  "project": "ClipNest",
+  "checkpoint": "CP-02",
+  "handoff_revision": "H02",
+  "prepared_date": "2026-10-23",
+  "source_commit": "af433b7d708d8b534159f24e55a65b8b34f21d39",
+  "application_baseline_commit": "92a00a4bb1a2c0ae3de12105f37e129ab5e8df10",
+  "previous_handoff_commit": "2f498a9d61a402660386eccd92d912dc1c91e640",
+  "application_backend_frontend_changed": false,
+  "test_ops_harness_and_docs_changed": true,
+  "release_decision": "NO_GO",
+  "aws_backend_deployed": false,
+  "aws_resources_created": false,
+  "core_task_count": 112,
+  "counts": {
+    "Locally implemented": 60,
+    "Partially implemented": 25,
+    "Prepared, not executed": 17,
+    "Externally blocked": 10,
+    "Not started": 0
+  },
+  "source_zip": {
+    "filename": "ClipNest-Complete-CP02-H02.zip",
+    "source_files": 144,
+    "zip_entries": 145,
+    "bytes": 434630,
+    "sha256": "27f8d1f807c857e360b4b965f6fbd673824176d7112dd778cc427528b729f7c7",
+    "complete_snapshot": true,
+    "root": "clipnest/"
+  },
+  "fresh_h02_checks": {
+    "controller_unit_tests": {
+      "total": 13,
+      "passed": 13,
+      "failed": 0
+    },
+    "distribution_checks": {
+      "passed": 8,
+      "failed": 0
+    },
+    "javascript_syntax_files": 67,
+    "new_shell_and_python_and_yaml_parse": "passed",
+    "actual_external_suites_executed": 0,
+    "authoring_groups_blocked": 4
+  },
+  "prior_application_suite": {
+    "date": "2026-10-22",
+    "total": 54,
+    "passed": 53,
+    "failed": 0,
+    "skipped": 1,
+    "rerun_in_h02": false,
+    "scope": "Local HTTP/FFmpeg fixture/PGlite SQL/SDK injection/RSA/emulated DOM/real SIGTERM; not native pg/Docker/full browser/AWS/live YouTube"
+  },
+  "private_site": {
+    "version": 5,
+    "status": "succeeded",
+    "url": "https://clipnest-youtube-download.renoukhan39.chatgpt.site",
+    "audience": "Existing owner-only private audience preserved",
+    "runtime": "Static frontend/source distribution only"
+  },
+  "ownership": {
+    "engineering": "Original project chat retains implementation/fix/review/docs/status/package ownership",
+    "external": "Execute assigned unavailable checks only; no product/source fixes/deployment",
+    "user": "Scoped account/role/Region/spend, owner/source/market/policy/contact/sender/alert inputs and return artifacts"
+  },
+  "next_task": {
+    "profile": "E01",
+    "prompt": "CLOUD_TEST_ONLY_PROMPT.md",
+    "guide": "docs/NEXT_PATH.md",
+    "contract": "docs/EXTERNAL_EXECUTION.md",
+    "command": "python3 scripts/external/verify.py run --groups native browser terraform containers --budget-minutes 20",
+    "return": "Complete source ZIP + checksum and separate sanitized evidence ZIP + checksum; failed/blocked evidence is useful",
+    "heavy_windows_setup_required_now": false
+  },
+  "new_files": "Full manifest inside source ZIP",
+  "integrity_note": "Whole ZIP hash and final Git commit are external to source ZIP to avoid self-reference; original CP-02 status receipt remains historical application context.",
+  "recorded_at": "2026-10-23T16:39:41.717880+00:00",
+  "app_test_tree_sha256": "a2cc80e6e796e2f1c09ef23116bd36e28813ae2c96066adbf9a1fc0ffb0b6072"
+}

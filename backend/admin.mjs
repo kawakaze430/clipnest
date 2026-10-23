@@ -1,0 +1,5 @@
+import {loadRuntimeConfig} from './runtime-config.mjs';
+import {createPool,PgStore} from './db/store.mjs';
+import {normalizeEmail} from './security.mjs';
+const [command,target]=process.argv.slice(2),config=await loadRuntimeConfig(),pool=await createPool(config),store=new PgStore(pool,config);
+try{if(command==='grant-operator'){const user=await store.userForLogin(normalizeEmail(target));if(!user||user.disabled_at)throw new Error('Active account not found');await pool.query("INSERT INTO user_roles(user_id,role) VALUES($1,'operator') ON CONFLICT DO NOTHING",[user.id]);await pool.query('INSERT INTO audit_events(user_id,action) VALUES($1,$2)',[user.id,'operator.granted_via_cli']);console.log('Operator role granted to the specified active account.');}else if(command==='revoke-operator'){const user=await store.userForLogin(normalizeEmail(target));if(!user)throw new Error('Account not found');await pool.query('DELETE FROM user_roles WHERE user_id=$1',[user.id]);console.log('Operator role revoked.');}else throw new Error('Usage: node backend/admin.mjs grant-operator|revoke-operator EMAIL');}finally{await pool.end();}

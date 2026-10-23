@@ -1,0 +1,4 @@
+import { createCipheriv,createDecipheriv,createHash,randomBytes } from 'node:crypto';
+const key=secret=>createHash('sha256').update('clipnest-mail-outbox-v1\0'+secret).digest();
+export function seal(payload,secret){const iv=randomBytes(12),cipher=createCipheriv('aes-256-gcm',key(secret),iv);const bytes=Buffer.concat([cipher.update(JSON.stringify(payload)),cipher.final()]);return ['v1',iv.toString('base64url'),cipher.getAuthTag().toString('base64url'),bytes.toString('base64url')].join('.');}
+export function unseal(value,secret){const [version,iv,tag,data]=String(value).split('.');if(version!=='v1')throw new Error('Unknown envelope version');const decipher=createDecipheriv('aes-256-gcm',key(secret),Buffer.from(iv,'base64url'));decipher.setAuthTag(Buffer.from(tag,'base64url'));return JSON.parse(Buffer.concat([decipher.update(Buffer.from(data,'base64url')),decipher.final()]).toString());}

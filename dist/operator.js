@@ -1,0 +1,8 @@
+const $=s=>document.querySelector(s);let session;
+async function request(path,{method='GET',body}={}){const res=await fetch(path,{method,credentials:'same-origin',cache:'no-store',headers:{'Content-Type':'application/json',...(session?.csrfToken?{'X-CSRF-Token':session.csrfToken}:{})},body:body?JSON.stringify(body):undefined});const data=await res.json();if(!res.ok)throw new Error(data.error||'Request failed.');return data;}
+async function refresh(){const data=await request('/api/admin/state');$('#operator-state').textContent=JSON.stringify(data.operations,null,2);$('#downloads-paused').checked=data.controls.downloads_paused;$('#registration-mode').value=data.controls.registration_mode;}
+async function action(work){try{await work();await refresh();$('#operator-message').textContent='Changes saved.';}catch(e){$('#operator-message').textContent=e.message;}}
+$('#controls-form').addEventListener('submit',e=>{e.preventDefault();action(()=>request('/api/admin/controls',{method:'POST',body:{downloadsPaused:$('#downloads-paused').checked,registrationMode:$('#registration-mode').value}}));});
+$('#invite-form').addEventListener('submit',e=>{e.preventDefault();action(()=>request('/api/admin/invitations',{method:'POST',body:{email:$('#invite-email').value}}));});
+$('#disable-form').addEventListener('submit',e=>{e.preventDefault();action(()=>request('/api/admin/disable',{method:'POST',body:{userId:$('#disable-user-id').value}}));});
+(async()=>{try{session=await request('/api/auth/session');if(!session.user?.operator)throw new Error('Sign in with an authorized operator account.');await refresh();$('#operator-panel').hidden=false;$('#operator-message').textContent='Operator access verified.';}catch(e){$('#operator-message').textContent=e.message;}})();

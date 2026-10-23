@@ -1,0 +1,13 @@
+# Run a read-only public probe from independent CodeBuild projects in 3 Regions.
+# Provide an owner-approved source revision, SITE_ORIGIN and PROBE_REGION.
+version: 0.2
+phases:
+  install:
+    runtime-versions: {nodejs: 24}
+  build:
+    commands:
+      - test -n "$SITE_ORIGIN"
+      - test -n "$PROBE_REGION"
+      - node scripts/ops/probe.mjs "$SITE_ORIGIN" "$PROBE_REGION" geography-probe.json
+artifacts:
+  files: [geography-probe.json]

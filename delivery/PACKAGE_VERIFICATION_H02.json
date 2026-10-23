@@ -1,0 +1,19 @@
+{
+  "project": "ClipNest",
+  "handoff_revision": "H02",
+  "recorded_at": "2026-10-23T16:35:58.838080+00:00",
+  "checks": [
+    "Full source ZIP CRC/per-file manifest verification",
+    "All distributable tracked and current source files included",
+    "All H02 execution/guide/workflow/buildspec files included",
+    "No dependency/cache/runtime evidence nested in source ZIP",
+    "Unchanged source rebuild is byte reproducible",
+    "Extracted snapshot rebuilds without Git or installed app dependencies",
+    "Original 112 task IDs and exact counts retained",
+    "Application backend/frontend source unchanged"
+  ],
+  "passed": 8,
+  "failed": 0,
+  "scope": "Source distribution verification only; not external or production execution",
+  "whole_zip_identity": "External delivery receipt and .sha256 after final packaging"
+}

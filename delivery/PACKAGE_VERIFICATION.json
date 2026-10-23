@@ -1,0 +1,26 @@
+{
+  "project": "ClipNest",
+  "checkpoint": "CP-02",
+  "handoff_revision": "H01",
+  "recorded_at": "2026-10-22T11:49:02.808435+00:00",
+  "scope": "Source packaging/integrity and documentation only; no new production-service acceptance",
+  "checks": [
+    "ZIP CRC and every source SHA-256 pass",
+    "All distributable tracked source files included",
+    "Single safe clipnest/ root with no duplicate/traversal/symlink paths",
+    "Dependencies, runtime data, private keys, Terraform state/cache and old ZIPs excluded",
+    "Same inputs reproduce identical full ZIP bytes",
+    "Extracted snapshot packages and verifies without Git or installed dependencies",
+    "Changed source bytes rejected by manifest verification",
+    "Traversal entry rejected",
+    "Duplicate entry rejected",
+    "Private-key envelope in source rejected before export",
+    "Symlink to an external path rejected",
+    "Exclusion policy blocks representative secret/runtime paths and retains public examples/CA/provider lock",
+    "All 112 original task IDs and all 52 remaining rows retained"
+  ],
+  "passed": 13,
+  "failed": 0,
+  "finding_fixed": "Generated manifest excluded case-insensitively so a ZIP extracted outside Git can be rebuilt without duplicate manifest entries",
+  "whole_zip_digest": "Use the external receipt/.sha256 for final bytes; this file is part of the final source snapshot"
+}

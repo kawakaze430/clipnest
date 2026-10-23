@@ -1,0 +1,23 @@
+{
+  "commit": "REPLACE_WITH_EXACT_COMMIT",
+  "recordedAt": "REPLACE_AFTER_EXECUTING_CHECKS",
+  "owner": {"legalEntity": "", "onCall": "", "monthlyBudgetUsd": null, "launchMarkets": []},
+  "checks": {
+    "nativePostgresTls": {"status": "pending", "reference": ""},
+    "containerLifecycle": {"status": "pending", "reference": ""},
+    "imageScan": {"status": "pending", "reference": ""},
+    "browserDesktopMobile": {"status": "pending", "reference": ""},
+    "loadBackpressure": {"status": "pending", "reference": ""},
+    "securityReview": {"status": "pending", "reference": ""},
+    "s3SqsCloudFront": {"status": "pending", "reference": ""},
+    "multiInstanceFailure": {"status": "pending", "reference": ""},
+    "restoreRollback": {"status": "pending", "reference": ""},
+    "multiGeography": {"status": "pending", "reference": ""},
+    "sourceAuthorizedDownload": {"status": "pending", "reference": ""},
+    "sesDelivery": {"status": "pending", "reference": ""},
+    "alarmDelivery": {"status": "pending", "reference": ""},
+    "termsPrivacyOwnerApproval": {"status": "pending", "reference": ""},
+    "supportContact": {"status": "pending", "reference": ""},
+    "budgetCapacity": {"status": "pending", "reference": ""}
+  }
+}

@@ -1,0 +1,10 @@
+// Local bounded HTTP admission test; synthetic metadata, no source downloads.
+import {acceptanceApp} from '../../tests/helpers/acceptance-app.mjs';
+import {buildOptions,publicInfo} from '../../backend/core.mjs';
+import {fixture} from '../../tests/fixtures.mjs';
+import {opaqueId,digest,csrfFor} from '../../backend/security.mjs';
+import {privateJson} from './aws-cli.mjs';
+const app=await acceptanceApp({overrides:{INLINE_WORKER:'false',MAX_QUEUED_JOBS:'3',GLOBAL_DAILY_JOB_LIMIT:'10'}});
+try{const users=[],options=buildOptions(fixture);for(let i=0;i<20;i++){const user=await app.store.createUser(`burst${i}@example.test`,'fixture'),token=opaqueId();await app.store.createSession(user.id,digest(token));const a=await app.store.saveAnalysis(user.id,'https://youtu.be/'+fixture.id,publicInfo(fixture,options),options);users.push({user,token,analysisId:a.analysisId});}
+ const results=await Promise.all(users.map(async(u,i)=>{const start=performance.now(),r=await fetch(app.origin+'/api/jobs',{method:'POST',headers:{Origin:app.origin,'Content-Type':'application/json',Cookie:app.config.cookieName+'='+u.token,'X-CSRF-Token':csrfFor(u.token,app.config.sessionSecret),'Idempotency-Key':'load-fixture-request-'+i},body:JSON.stringify({analysisId:u.analysisId,optionId:options[0].id})});const body=await r.json();return{status:r.status,code:body.code||null,ms:performance.now()-start};}));const ms=results.map(r=>r.ms).sort((a,b)=>a-b),accepted=results.filter(r=>r.status===202).length,rejected=results.filter(r=>r.status===429&&r.code==='QUEUE_FULL').length;const report={recordedAt:new Date().toISOString(),scope:'20 concurrent localhost HTTP submissions; synthetic source; '+app.db.kind,accepted,rejected,p95Ms:Math.round(ms[Math.ceil(ms.length*.95)-1]),passed:accepted===3&&rejected===17,limitations:['Not a throughput/capacity measurement for AWS or YouTube','PGlite serializes transactions; native PostgreSQL contention remains a separate check']};await privateJson('.cache/release/local-load.json',report);console.log(JSON.stringify(report,null,2));if(!report.passed)process.exitCode=1;
+}finally{await app.close();}

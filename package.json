@@ -1,0 +1,44 @@
+{
+  "name": "clipnest",
+  "version": "1.2.0",
+  "private": true,
+  "type": "module",
+  "description": "YouTube quality discovery and download interface with a self-hosted yt-dlp backend",
+  "scripts": {
+    "start": "node backend/server.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "package": "python3 scripts/package.py",
+    "test:database": "node scripts/test-database.mjs",
+    "db:migrate": "node backend/migrate.mjs",
+    "worker": "node backend/worker.mjs",
+    "check": "node scripts/check.mjs",
+    "test:sql": "node --test tests/database.test.mjs",
+    "setup:local": "node scripts/init-local.mjs",
+    "dev": "node --env-file-if-exists=.env.qa scripts/qa-preview.mjs",
+    "test:browser": "playwright test",
+    "test:ui": "node --test tests/ui.test.mjs",
+    "test:operations": "node --test tests/operations.test.mjs tests/gates.test.mjs",
+    "test:tls": "bash scripts/ops/native-tls.sh",
+    "deployment:keys": "node scripts/prepare-deployment.mjs"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "dependencies": {
+    "pg": "8.23.1",
+    "@aws-sdk/client-s3": "3.1155.0",
+    "@aws-sdk/lib-storage": "3.1155.0",
+    "@aws-sdk/client-sqs": "3.1155.0",
+    "@aws-sdk/client-sesv2": "3.1155.0",
+    "@aws-sdk/client-secrets-manager": "3.1155.0",
+    "@aws-sdk/cloudfront-signer": "3.1155.0"
+  },
+  "devDependencies": {
+    "embedded-postgres": "18.4.0-beta.17",
+    "@electric-sql/pglite": "0.5.11",
+    "happy-dom": "21.0.4",
+    "@playwright/test": "1.64.1",
+    "axe-core": "4.14.0"
+  },
+  "packageManager": "npm@11.9.0"
+}

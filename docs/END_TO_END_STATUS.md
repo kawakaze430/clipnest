@@ -1,0 +1,237 @@
+# ClipNest complete start-to-end status · CP-02
+
+Updated: 2026-10-22T16:49:08+05:30
+
+**Worldwide AWS release: NO GO. Backend/AWS not live.** The hosted checkpoint is a private static frontend and source download.
+
+All **51 requested IDs** were worked: the 35 not-started items now have implementation, tests, infrastructure, operational preparation or a concrete external-stage blocker. The 16 existing partials retain their acceptance obligations. **This does not mean all 51 are complete.**
+
+## Current complete project
+
+**60 Locally implemented** · **25 Partially implemented** · **17 Prepared, not executed** · **10 Externally blocked** · **0 Not started**. Total **112** original core tasks. Eight optional domain/payment items stay outside this denominator.
+
+Requested 51 outcomes: **12 Locally implemented** · **25 Partially implemented** · **13 Prepared, not executed** · **1 Externally blocked**. Counts describe tasks, not effort or a production-completion percentage. Prepared code/definitions are not verified services.
+
+## Blocked first · who needs to act
+
+| ID | Boundary | Concrete next action | Owner |
+| --- | --- | --- | --- |
+| B-01 | Docker execution unavailable | Use a Docker-enabled local machine or authorised CI/CodeBuild runner; retain build/run logs. | Execution environment / developer |
+| B-02 | AWS deployment access unavailable | Establish a scoped, authorised AWS deployment context and verify account, role, Region and permitted actions. No credentials in chat. | Account owner / deployment environment |
+| B-03 | Application-level live source path has not passed | Investigate supported app/runtime behaviour, then pass controlled source-to-worker-to-device tests with authorised media and the actual AWS image/network. Preserve failure details; do not treat a fixture as proof. | Developer and source/platform dependencies |
+| B-04 | Native PostgreSQL execution requires another runtime | Run the provided native suite in a mapped non-root environment or with a disposable TEST_DATABASE_URL. Preserve the single-backend/native distinction. | Docker/non-root runner or disposable database context |
+| B-05 | Payment provider and live-test prerequisites absent (conditional) | Choose a suitable provider, implement and test sandbox/webhooks, then arrange an explicitly authorised live test and reconciliation. | Merchant owner / payment provider / developer |
+| B-06 | Custom domain and DNS inputs absent (conditional) | Provide chosen domain/DNS context and validate certificates; staging can use an AWS-generated hostname. | Domain owner |
+| B-07 | Traffic and spending bounds undefined | Estimate compute/database/CDN/egress costs and define tested quota/worker/cost controls before provisioning and public access. | Account owner and developer |
+| B-08 | Permitted source use and market scope unresolved | Confirm the allowed workflow and relevant source/rights-holder permissions; complete appropriate public terms, privacy, support and complaint handling. | Product owner / appropriate review |
+| B-09 | Terraform provider execution unavailable here | Run the prepared locked-provider validate/mock jobs on a normal CI runner, then fix any real provider/API errors before plan/apply. | Runner executes; assistant owns any source fixes |
+| B-10 | Production sender and notification delivery unverified | Owner confirms sender/alert recipient and SES production access; runner verifies actual email and alarm delivery. | Owner + authorized AWS runner |
+| B-11 | Public operator/contact/policy commitments pending | Owner supplies public identity/contact and approves final policy/support/market commitments before opening registration. | Product owner |
+| B-12 | Post-launch observation requires a live capped beta | First close release gates and operate the capped beta; then gather actual launch/1h/24h/7d evidence. | Operator after authorized release |
+
+## New verification
+
+- **53 passed, 0 failed, 1 explicit native skip (54 total).** Actual local HTTP/PostgreSQL SQL through PGlite, FFmpeg fixture, RSA signatures, injected AWS transports, actual frontend JavaScript in emulated DOM and actual process SIGTERM.
+- The emulated DOM is not a browser renderer. Full Playwright desktop/mobile/axe, native PostgreSQL/TLS, Docker and AWS checks have not run.
+- Local admission burst: 20 concurrent HTTP requests, 3 accepted, 17 QUEUE_FULL, p95 155 ms. This is not an AWS capacity or download-speed result.
+- 67 JavaScript files pass syntax/lock/entry checks; Compose/CI/probe YAML and shell syntax parse; Terraform fmt passes. Production npm audit reports zero known vulnerabilities. Container scan/SBOM/provenance are prepared, not executed.
+- Terraform validate cannot start the provider because this runtime forbids its Unix socket; no provider-schema/mock/plan/apply pass is claimed.
+- Prior real application source restriction remains unresolved. No complete real YouTube transfer, SES message, AWS resource or public-access change occurred.
+
+## Exact task register
+
+### A · Scope, planning and ownership
+
+| ID | Task | Status | Evidence | What is left | Owner |
+| --- | --- | --- | --- | --- | --- |
+| A-01 | Initial beta scope and user workflow | Locally implemented | CP-00 plan defines link, real qualities, selected download, history and limited free beta. | Keep scope aligned as implementation changes. | Assistant |
+| A-02 | Release architecture and dependency plan | Locally implemented | Production plan documents frontend, API, workers, database, queue, objects and edge delivery. | Reconcile implementation choices before AWS rollout. | Assistant |
+| A-03 | Release gates and blocker register | Locally implemented | Mandatory and conditional gates plus B-01 to B-08 are recorded in the current status. | Close gates only with execution evidence. | Assistant |
+| A-04 | Checkpoint/source handoff and ownership | Locally implemented | CP-02 source/archive, full API/operations/release/runner handoff and canonical 112-task status register prepared. | Keep the same artifact identities and update after external execution. | Assistant |
+| A-05 | Traffic targets and spending bounds | Externally blocked | No owner-approved traffic model or target-account budget is recorded. | Owner supplies bounds; assistant completes the estimate and controls. Dependencies: B-07. | User + Assistant |
+| A-06 | Permitted sources and supported markets | Externally blocked | Required source-use and market inputs are unresolved in the current register. | Owner confirms allowed workflow/media/markets and appropriate review. Dependencies: B-08. | User + Assistant |
+| A-07 | Product retention and support decisions | Partially implemented | Concrete beta retention/support/identity/limits defaults are documented in docs/RELEASE.md and public beta pages; configurable retention is implemented. | Owner confirms public operator/contact, commitments and final policy/market scope. Dependencies: B-08, B-11. | Assistant + User |
+
+### B · Consumer frontend
+
+| ID | Task | Status | Evidence | What is left | Owner |
+| --- | --- | --- | --- | --- | --- |
+| B-01 | Downloader layout and navigation | Locally implemented | Existing HTML/CSS and desktop browser review show the downloader, tabs, FAQ and setup UI. | Preserve the design during integration. | Assistant |
+| B-02 | Link entry and frontend validation | Locally implemented | Frontend canonicalizes video/Shorts links and handles invalid input; source inspected. | Keep validation aligned with the API. | Assistant |
+| B-03 | Video/audio tabs and quality selection | Locally implemented | Browser review verified illustrative options and changing the selected quality. | Verify the same controls with authorized live media in acceptance. | Assistant |
+| B-04 | Source quality labels and estimates | Locally implemented | Options distinguish real resolutions, approximate sizes and converted MP3; core format tests pass. | Retain faithful labels with the production source path. | Assistant |
+| B-05 | Mobile layouts and device acceptance | Partially implemented | Responsive account/operator/policy layouts added; desktop picker/privacy browser review completed; desktop/mobile Playwright overflow/download suite prepared. | Execute mobile browser/device/touch/file-save acceptance against the deployed API. Dependencies: B-01, B-02. | Assistant + Runner |
+| B-06 | Account sign-up/sign-in/sign-out interface | Partially implemented | Actual frontend JS passed registration, login, logout and account-state checks against real HTTP/SQL in an emulated DOM; expiry-registration mode defect fixed. | Run credential-bearing desktop/mobile browser suite; DOM emulation is not real browser acceptance. Dependencies: B-01. | Assistant + Runner |
+| B-07 | Session expiry and signed-out recovery UI | Partially implemented | Actual frontend handles revoked sessions, clears private history, reopens sign-in and relogs in; emulated-DOM test passed; one-use reset form also passed. | Execute actual device/browser expiry, reload and recovery acceptance. Dependencies: B-01. | Assistant + Runner |
+| B-08 | Automatic same-origin API connection | Partially implemented | Same-origin config/session/CSRF discovery passed local HTTP+DOM tests; CloudFront private-ALB routing and cache-disabled API source authored. | Verify real CloudFront/ALB Origin, forwarded-hop, secure-cookie and routing behavior. Dependencies: B-02, B-09. | Assistant + Runner |
+| B-09 | Account history and usage display | Partially implemented | Account history/usage and load-more UI implemented; emulated-DOM test loads 20 then 22 owned items; logout/expiry clears private data. | Complete browser account switching and running-job restart/resume against staging. Dependencies: B-01, B-02. | Assistant + Runner |
+| B-10 | Progress, cancellation and network errors | Partially implemented | Durable analysis cancel/poll, job cancel/progress and network recovery UI exist; HTTP/SQL cancellation tests pass; browser cancel/offline/reload cases authored. | Run browser interrupted-network/cancel cases and actual staged worker cancellation. Dependencies: B-01, B-02. | Assistant + Runner |
+| B-11 | Ready, failed and expired download journey | Partially implemented | Ready file and history flow pass in real local HTTP with generated FFmpeg media and actual frontend emulated DOM; browser download/hash path prepared. | Complete real permitted source-to-device transfer and actual expired-link/re-preparation browser acceptance. Dependencies: B-03. | Assistant + Runner |
+| B-12 | Accessibility acceptance | Partially implemented | Keyboard radio navigation passes actual-JS DOM test; labeled account/privacy forms, focus treatment and contrast changes added; axe desktop/mobile suite authored. | Execute axe, keyboard/screen-reader/contrast checks and fix actual findings. Dependencies: B-01. | Assistant + Runner |
+
+### C · Accounts and application security
+
+| ID | Task | Status | Evidence | What is left | Owner |
+| --- | --- | --- | --- | --- | --- |
+| C-01 | Email normalization and password policy | Locally implemented | Normalization, length/byte limits and negative validation tests exist. | Maintain policy and input handling. | Assistant |
+| C-02 | Salted password hashing and verification | Locally implemented | scrypt hashing and positive/negative password verification tests pass. | Review cost parameters under measured production load. | Assistant |
+| C-03 | Persistent session creation, expiry and logout | Locally implemented | Hashed opaque tokens, expiry/revocation and HTTP registration/logout checks pass in local SQL/HTTP tests. | Prove the complete browser session lifecycle in acceptance. | Assistant |
+| C-04 | Session-bound CSRF and origin enforcement | Locally implemented | HMAC CSRF and exact Origin checks reject missing tokens and foreign origins in HTTP tests. | Verify ingress preserves the intended origin policy. | Assistant |
+| C-05 | Per-user ownership and isolation | Locally implemented | Owned analyses/jobs/history, composite foreign keys and two-user negative tests pass. | Repeat against native PostgreSQL and the deployed service. | Assistant |
+| C-06 | No browser-ID impersonation in database mode | Locally implemented | Database endpoints require a valid session; X-Client-ID impersonation is rejected. | Keep prototype mode private/local. | Assistant |
+| C-07 | Persistent authentication/API throttling | Locally implemented | Atomic database minute buckets and repository-restart rate tests pass. | Combine with edge controls and abuse limits before public scale. | Assistant |
+| C-08 | Secure cookies and production config guards | Locally implemented | HttpOnly/SameSite, Secure production cookies, HTTPS and verified DB TLS are required; config tests pass. | Validate certificates and cookie behavior in staging. | Assistant + Runner |
+| C-09 | Login endpoint acceptance | Locally implemented | Successful HTTP login, wrong password, operator-disabled account login rejection and session revocation passed; actual frontend login passed in emulated DOM. | Keep full browser acceptance in B-06/J-04; repeat native/staging checks before release. | Assistant; runner for separate production acceptance |
+| C-10 | Email verification / production identity decision | Locally implemented | Email/password identity lifecycle chosen for this implementation: verified flag, production verification gate, hashed one-use actions and encrypted leased mail outbox; HTTP/SQL tests passed. | Verify real SES identity, production access and inbox delivery; no OIDC integration is claimed. Dependencies: B-10. | Assistant; runner for separate production acceptance |
+| C-11 | Password reset and recovery | Locally implemented | Generic forgot response, per-address/IP bounds, 30-minute one-use reset, password hashing and all-session revocation passed HTTP/SQL tests; frontend reset fragment/form passed DOM test. | Run actual mail delivery/browser acceptance and planned session-key rotation. Dependencies: B-10. | Assistant; runner for separate production acceptance |
+| C-12 | Account deletion and privacy export | Locally implemented | Owned export excludes credentials; password-reauthenticated deletion revokes sessions, anonymizes metadata, cancels work and schedules files/history/tombstone cleanup; late-analysis/session race tests passed. | Verify retention/deletion on actual RDS/S3 and ensure restore reapplies deletion requests. Dependencies: B-02, B-04. | Assistant; runner for separate production acceptance |
+| C-13 | Operator roles and abuse controls | Locally implemented | Operator role enforcement, audit records, global pause, registration mode, one-use email-bound invitations and account disabling pass HTTP/SQL tests; protected operator UI and bootstrap CLI authored. | Bootstrap the intended owner only on authorized staging and verify real email/ops acceptance. Dependencies: B-02, B-10. | Assistant; runner for separate production acceptance |
+
+### D · API and source integration
+
+| ID | Task | Status | Evidence | What is left | Owner |
+| --- | --- | --- | --- | --- | --- |
+| D-01 | Server-side YouTube URL validation | Locally implemented | Canonical host/ID checks reject SSRF-style hosts, credentials, ports and command text in tests. | Maintain the allowed-source boundary. | Assistant |
+| D-02 | Extractor integration and application lookup | Partially implemented | Extractor invocation, supported URL/quality filters and asynchronous application integration exist; prior real application request was source-restricted after CLI metadata succeeded. | Use the real-source acceptance command on the actual permitted target image/network; no protection bypass or new success claim. Dependencies: B-03. | Assistant + Runner |
+| D-03 | Available format enumeration | Locally implemented | Real-format parsing, compatible audio pairing, DRM filtering and no-upscaling logic pass fixture tests. | Validate against permitted live metadata from the target image. | Assistant |
+| D-04 | Owned safe format selection | Locally implemented | Jobs select a server-stored owned option; fabricated selectors/options are rejected. | Preserve the server-side selector boundary. | Assistant |
+| D-05 | Video duration and output-size limits | Locally implemented | Analysis rejects excessive duration/known size; worker also checks output bounds. | Measure CPU/disk overhead separately before public traffic. | Assistant |
+| D-06 | Versioned API responses and safe errors | Locally implemented | Protocol 1, structured errors, request IDs and sanitized extractor messages are implemented. | Keep deployment errors equally safe and useful. | Assistant |
+| D-07 | Request body and JSON limits | Locally implemented | JSON object/content-type checks and an 8 KiB body limit are implemented. | Exercise the same policy through the public ingress. | Assistant |
+| D-08 | Liveness and dependency readiness | Locally implemented | Liveness/readiness and engine/database checks exist; direct installed-engine health succeeds. | Verify readiness for the deployed API and worker roles. | Assistant + Runner |
+| D-09 | Long-running analysis response strategy | Locally implemented | POST /api/analyses queues a durable owned task; short polling, cancellation, 90-second worker deadline, leases and bounded recovery implemented and HTTP/SQL tested. | Measure real source/ingress latency in staging; UI resume/device checks remain separately tracked. Dependencies: B-02, B-03. | Assistant; runner for separate production acceptance |
+| D-10 | Real authorized source-to-device transfer | Externally blocked | No completed real selected-quality download is recorded; application source access failed. | Run an authorized full transfer from the actual target image/network and verify final bytes. Dependencies: B-03. | Assistant + Runner |
+
+### E · Database persistence and migrations
+
+| ID | Task | Status | Evidence | What is left | Owner |
+| --- | --- | --- | --- | --- | --- |
+| E-01 | Relational schema, indexes and constraints | Locally implemented | Migrations 001 and 002 execute in PGlite, adding account actions/roles/mail, async analyses, object assets, outbox leases and retention controls. | Verify the same schema/checksums with native PostgreSQL/RDS. | Assistant |
+| E-02 | Versioned/checksummed migrations | Locally implemented | Migration lock, repeat application and historical checksum rejection are tested. | Keep future schema changes in new forward migrations. | Assistant |
+| E-03 | Atomic migration failure rollback | Locally implemented | Failing migration SQL rolls back DDL/checksum; a populated CP-01 upgrade fixture now passes in PGlite. | Repeat populated upgrade/rollback boundaries in native staging. | Assistant |
+| E-04 | Native pg pool and TLS integration | Partially implemented | Native pg pool uses verified TLS/CA and runtime secret resolution; disposable Docker TLS/negative-CA/hostname test and native race/crash suites authored. | Execute native pooling, contention, TLS and RDS tests; PGlite cannot prove them. Dependencies: B-01, B-04. | Assistant + Runner |
+| E-05 | Owned analyses and restart-persistent history | Locally implemented | SQL expiry/ownership and local API restart/history tests pass. | Prove storage durability on the target database/runtime. | Assistant + Runner |
+| E-06 | Atomic job, quota and outbox commit | Locally implemented | Forced outbox failure rolls back job/usage/reservation creation in the SQL suite. | Repeat under native concurrent load. | Assistant + Runner |
+| E-07 | Database job-state transition guard | Locally implemented | SQL trigger rejects invalid transitions and increments versions; negative tests pass. | Maintain transition invariants in future queue/storage adapters. | Assistant |
+| E-08 | Native multi-client database test harness | Prepared, not executed | scripts/test-database.mjs and the conditional parallel idempotency/worker-limit test are authored; execution is blocked by root-only UID mapping. | Run the supplied suite as a mapped non-root user or against a disposable TEST_DATABASE_URL. Dependencies: B-04. | Runner |
+| E-09 | Upgrade and previous-image compatibility | Partially implemented | Populated CP-01 to CP-02 migration fixture passes in SQL, preserves accounting and reruns idempotently; deploy records prior tasks and refuses incompatible CP-01 rollback. | Rehearse exact prior-image/compatible frontend rollback and native restored-database cutover. Dependencies: B-01, B-02, B-04. | Assistant |
+| E-10 | Database record/audit retention jobs | Locally implemented | History/usage/audit/actions/mail/tasks/heartbeats/tombstone retention implemented; referenced-analysis cleanup and deleted-account purge regression tests pass in actual SQL. | Observe real scheduled RDS/S3 cleanup, backlog and backup deletion handling. Dependencies: B-02. | Assistant; runner for separate production acceptance |
+
+### F · Jobs, worker execution and quotas
+
+| ID | Task | Status | Evidence | What is left | Owner |
+| --- | --- | --- | --- | --- | --- |
+| F-01 | Durable database queue and outbox records | Locally implemented | Transactional durable job/outbox records support database polling locally and configured SQS delivery in the production adapter. | Execute native concurrency and actual SQS publishing/visibility/DLQ acceptance. | Assistant |
+| F-02 | Claims, heartbeats and ownership leases | Locally implemented | Lease/CAS SQL exists and single-backend recovery tests pass; native lock races are not verified. | Pass the native parallel suite before claiming multi-worker concurrency safety. Dependencies: B-04. | Assistant + Runner |
+| F-03 | Interrupted work recovery and retry limit | Locally implemented | Expired leases recover; retries stop after three attempts; exhaustion is tested. | Repeat through actual process termination in a container. | Assistant + Runner |
+| F-04 | Queued/running cancellation | Locally implemented | Queued cancellation and running cancellation requests prevent completion and release quota once in SQL tests. | Exercise user-visible timing against the real worker. | Assistant + Runner |
+| F-05 | UTC daily limits and active-job quota | Locally implemented | Per-account daily jobs/bytes and one active-job checks exist; quota rejection tests pass. | Check native simultaneous submissions and edge abuse limits. | Assistant + Runner |
+| F-06 | Exactly-once quota settlement | Locally implemented | Reservations release once on failure/cancel and settle actual output bytes; repeated failure handling is tested. | Maintain accounting invariants with duplicate queue delivery. | Assistant |
+| F-07 | Bounded progress aggregation | Locally implemented | Fragment totals are aggregated and database writes are flushed periodically. | Measure write pressure and polling load at target concurrency. | Assistant |
+| F-08 | Media track/duration/size/checksum verification | Locally implemented | Real FFmpeg fixture passes; corrupt media fails; ffprobe, path containment and SHA-256 run before ready. | Verify the same path with real selected formats in the target image. | Assistant + Runner |
+| F-09 | Graceful worker/process drain | Locally implemented | Real child-process SIGTERM interrupts active work, drains services and leaves an expired retryable lease; replacement queue state verified with persistent PGlite fixture. | Run native/Docker/ECS deadline and resource-failure drills; local process proof is scoped. Dependencies: B-01, B-04. | Assistant; runner for separate production acceptance |
+| F-10 | SQS dispatcher, consumer and DLQ | Locally implemented | Leased transactional outbox publisher, SQS visibility/ack/consumer, sanitized invalid-envelope DLQ and terminal-failure events implemented; injected SDK/SQL contracts and retry tests pass. | Execute actual SQS/IAM/network/visibility/DLQ checks and alarm delivery. Dependencies: B-02. | Assistant; runner for separate production acceptance |
+| F-11 | Distributed duplicate-delivery acceptance | Partially implemented | Two injected queue consumers demonstrate one SQL claim, deferred active duplicate, terminal duplicate ack, one completion/asset and one settlement. | Execute native multi-client and actual SQS duplicate/retry/DLQ failures. Dependencies: B-02, B-04. | Assistant |
+
+### G · Media storage and download delivery
+
+| ID | Task | Status | Evidence | What is left | Owner |
+| --- | --- | --- | --- | --- | --- |
+| G-01 | Contained local file adapter | Locally implemented | Workers use per-attempt contained paths and verify file size/integrity before asset registration. | Use only a shared filesystem until the object adapter is ready. | Assistant |
+| G-02 | Hashed short-lived bearer tickets | Locally implemented | Tickets are opaque, hashed in the DB and bounded by file expiry; local HTTP tests pass. | Preserve secret-link handling in CDN/object delivery. | Assistant |
+| G-03 | Owner and expiry checks on file access | Locally implemented | Owners must request tickets; expired asset/ticket access fails in SQL/HTTP tests. | Validate expiry through the real public cache/edge path. | Assistant + Runner |
+| G-04 | Attachment streaming, HEAD and byte ranges | Locally implemented | Local HTTP tests check bounded ranges, HEAD and unavailable ranges without buffering whole files. | Repeat for production object/CDN delivery and device resume. | Assistant + Runner |
+| G-05 | Ready-file expiry sweep | Locally implemented | Expired local files are deleted and DB assets/jobs expire; access expiry is enforced before physical deletion. | Add robust retries/alerts and preserve physical-deletion objectives. | Assistant |
+| G-06 | Private S3 upload and object adapter | Locally implemented | Private-object adapter implements bounded multipart upload, SHA/length head verification, abort/delete cleanup and safe keys; SDK transport contracts pass with injected S3. | Verify actual S3 permissions, multipart interruption and physical object integrity. Dependencies: B-02. | Assistant; runner for separate production acceptance |
+| G-07 | CloudFront signed media delivery | Partially implemented | CloudFront signing produces a verifiable RSA signature and exact ticket/asset-bounded expiry; API redirect, key group and private OAC origins authored. | Validate real CloudFront expiry/cache/unsigned rejection and actual signed byte transfer. Dependencies: B-02. | Assistant |
+| G-08 | Crash-orphan file cleanup | Locally implemented | Leased sweeper removes only old unowned attempt directories, preserves live/ready paths and sweeps unreferenced object keys after grace; real local file tests pass. | Execute S3 orphan/failure/restart cleanup and disk-pressure acceptance. Dependencies: B-02. | Assistant; runner for separate production acceptance |
+| G-09 | Independent-task media handoff | Partially implemented | SQL assets can store S3 keys with no worker file path; injected off-worker upload/completion passes; API signs object delivery without a shared disk. | Prove ready media survives actual task replacement and API/worker separation through S3/CloudFront. Dependencies: B-02. | Assistant |
+| G-10 | Object retention/deletion monitoring | Partially implemented | Deletion retries, expired-object count/age gauges, cleanup failures and lifecycle backstops implemented; gauge/retention tests pass locally. | Measure actual S3 physical deletion, overdue alarms and monitoring during failure. Dependencies: B-02. | Assistant |
+
+### H · Build, containers and delivery pipeline
+
+| ID | Task | Status | Evidence | What is left | Owner |
+| --- | --- | --- | --- | --- | --- |
+| H-01 | Dependency locks and installation | Locally implemented | Pinned npm/Python dependencies installed; CP-02 production npm audit reports zero known vulnerabilities. | Recheck dependency/base-image changes and run the actual image scan. | Assistant |
+| H-02 | Non-root container image definition | Prepared, not executed | Dockerfile installs production dependencies and FFmpeg/yt-dlp, uses node user and declares readiness healthcheck; no build/run evidence exists. | Build and smoke-test the image on a Docker-capable host. Dependencies: B-01. | Runner |
+| H-03 | Local database/migration/API/worker stack | Prepared, not executed | Compose definitions, shared volumes, dependency order and loopback binding are authored; YAML/static checks pass only. | Run Compose config/start/readiness/restart with real Docker. Dependencies: B-01. | Runner |
+| H-04 | Hosted CI workflow | Prepared, not executed | GitHub verification source now includes native DB/crash/TLS, Docker, browser/axe, Terraform and image scanning; no remote run is recorded. | Run the prepared workflow in an owner-controlled repository/runner and retain results. Dependencies: B-01. | Runner |
+| H-05 | Source archive and repository checkpoint | Locally implemented | Commit 27c1453 and the 43-file source ZIP were delivered; archive integrity/contents were checked. | Keep later archives/source/report versions aligned. | Assistant |
+| H-06 | Container lifecycle/resource acceptance | Prepared, not executed | Non-root/read-only/resource-bounded task source, worker DB-heartbeat health, Compose lifecycle CI and active-container fault script are prepared; Docker is unavailable here. | Run build/start/stop/restart/active SIGKILL/OOM/disk and peak-RSS/scratch acceptance. Dependencies: B-01. | Assistant + Runner |
+| H-07 | Image scanning, SBOM and provenance | Prepared, not executed | Exact pushed-image Trivy scan, BuildKit SBOM/provenance, immutable ECR and dependency-update workflow authored; production npm audit reports zero known vulnerabilities. | Run image scan/attestation generation and verify exact digest/provenance on the runner. Dependencies: B-01, B-02. | Assistant + Runner |
+
+### I · AWS infrastructure and staging
+
+| ID | Task | Status | Evidence | What is left | Owner |
+| --- | --- | --- | --- | --- | --- |
+| I-01 | Authorized AWS account/role runtime | Externally blocked | No authenticated deployment role, AWS CLI or sufficient infrastructure connection is available. | Owner establishes a scoped authorized AWS runtime without sharing secrets in chat. Dependencies: B-02. | User + Runner |
+| I-02 | Region and availability target confirmation | Externally blocked | The plan proposes one Region plus global delivery; final account/Region/availability inputs are unconfirmed. | Confirm the target against source access, budget and audience. Dependencies: B-02, B-07. | User + Assistant |
+| I-03 | Infrastructure-as-code modules | Prepared, not executed | Pinned Terraform root/module, state bootstrap, variables, outputs, mock-security tests and detailed setup authored. fmt parses; provider startup fails on forbidden local Unix socket. | Run locked init/validate/mock tests, then review an account-specific plan before apply. Dependencies: B-09, B-02, B-07. | Assistant |
+| I-04 | Private networks, security groups and ingress | Prepared, not executed | Two-AZ NAT/private-app/isolated-DB network, scoped security groups and internal ALB/CloudFront VPC-origin ingress definitions authored. | Provider validation and real account routing/direct-origin/security acceptance. Dependencies: B-09, B-02. | Assistant |
+| I-05 | API/worker service and task definitions | Prepared, not executed | Separate API/worker/migration roles/tasks, zero-count safe bootstrap, CPU/memory/scratch, health/drain/circuit breaker and optional API scaling definitions authored. | Validate resource schema; run tasks, writable mounts, health/drain/replacement and load acceptance. Dependencies: B-09, B-02. | Assistant |
+| I-06 | RDS provisioning and recovery configuration | Prepared, not executed | Private encrypted Multi-AZ PostgreSQL 17, managed admin secret, runtime role bootstrap, seven-day backups, deletion protection and isolated restore commands authored. | Confirm Region/minor/class, validate/apply and execute native TLS/role/restore/RTO/RPO checks. Dependencies: B-09, B-02, B-04. | Assistant |
+| I-07 | S3/CloudFront/WAF configuration | Prepared, not executed | Separate private frontend/media buckets, OAC, signed media key group, CloudFront security/cache rules and WAF common/IP-rate rules authored. | Provider/API validation plus actual CDN, WAF, signed media and no-origin-bypass acceptance. Dependencies: B-09, B-02. | Assistant |
+| I-08 | Secrets, encryption and IAM policies | Prepared, not executed | Scoped execution/API/worker/migration/deploy IAM, Secrets Manager/KMS, stable session/media secret bootstrap and rotation procedures authored; injected secret-loader tests pass. | Review real policy simulation/access, existing OIDC provider reuse/import and key-rotation rehearsal. Dependencies: B-09, B-02. | Assistant |
+| I-09 | AWS build/deploy pipeline | Prepared, not executed | GitHub OIDC environment-scoped workflow prepares digest/SBOM/scan, migration, rollout, frontend invalidation, exact-commit production gate and compatible rollback records. | Configure owner repository/environment and run actual authorized staging deployment. Dependencies: B-01, B-02, B-07. | Assistant |
+| I-10 | Actual AWS staging deployment | Externally blocked | No AWS staging resources or full-stack endpoint exist; Terraform/deployment source is prepared but provider validation and account execution remain unpassed. | Run provider validation/plan, establish owner-authorized runtime/budget and provision staging. Dependencies: B-02. | Assistant + Runner |
+
+### J · Testing, reliability and operations
+
+| ID | Task | Status | Evidence | What is left | Owner |
+| --- | --- | --- | --- | --- | --- |
+| J-01 | Unit and local HTTP/fixture tests | Locally implemented | CP-02 npm test: 53 passed, zero failures, one explicit native skip, including new lifecycle/adapters/retention/DOM/process tests. | Execute the separately prepared real-environment checks and fix actual failures. | Assistant |
+| J-02 | Executed single-backend SQL integration | Locally implemented | PGlite executes real PostgreSQL SQL for migrations, rollback, ownership, quotas, sessions, jobs and restart history. | Do not substitute it for native pg/locking/TLS/RDS evidence. | Assistant |
+| J-03 | Executed real local media validation tests | Locally implemented | A local FFmpeg-generated file is accepted and corrupt output rejected; HTTP range/ticket tests pass. | Add actual source/target-image acceptance when available. | Assistant + Runner |
+| J-04 | Full browser end-to-end test suite | Prepared, not executed | Playwright desktop/mobile + axe suite authored for signup/login/logout, selected fixture transfer, history, analysis/job cancel, network failure, reload/session recovery and policy pages. | Install/run browsers on the external runner; keep synthetic fixture proof distinct from live source. Dependencies: B-01. | Assistant + Runner |
+| J-05 | Load, backpressure and capacity acceptance | Partially implemented | 20 concurrent local HTTP submissions accepted exactly 3 and rejected 17 at configured queue cap; local p95 155 ms in single-backend PGlite. Native concurrency path is prepared. | Measure realistic staged load, duration, pool/resource pressure and geography against approved traffic targets. Dependencies: B-02, B-04, B-07. | Assistant + Runner |
+| J-06 | Security/abuse acceptance | Partially implemented | Local SSRF/input/ownership/CSRF/config/account negative tests pass; staging private-bucket/unsigned-media/auth/CORS probes and security acceptance checklist authored. | Run actual WAF/IAM/origin isolation and authenticated cross-user/security/abuse review. Dependencies: B-02. | Assistant + Runner |
+| J-07 | Multi-instance failure and distributed recovery | Partially implemented | Injected duplicate-delivery/upload/outbox failure and stale-lease SQL tests pass; native SIGKILL replacement test and two-worker ECS stop/replace drill authored. | Run actual multi-instance SQS/S3/DB outage, task loss and upload/cancellation fault acceptance. Dependencies: B-02, B-04. | Assistant + Runner |
+| J-08 | Backup restore and rollback automation | Prepared, not executed | Review-first private RDS restore clone, read-only TLS/schema/accounting verification, compatible task rollback and measured RTO/RPO procedure authored. | Execute isolated backup restore and rollback, verify deleted/expired data, retain results and clean up clones deliberately. Dependencies: B-02, B-04. | Assistant + Runner |
+| J-09 | Operational metrics and dashboards | Partially implemented | Bounded EMF counters/gauges/latency batches implemented/tested; CloudWatch dashboard and read-only observation collector authored. | Verify actual metric ingestion/dimensions/dashboard values with real traffic. Dependencies: B-02. | Assistant |
+| J-10 | Failure, backlog and cost alarms | Prepared, not executed | Queue/DLQ/source/cleanup/API/RDS/worker and budget alarms, optional SNS route and alarm-delivery test procedure authored. | Apply and confirm human alert/recovery delivery; tune with measured traffic/cost. Dependencies: B-02, B-07, B-10. | Assistant + User |
+| J-11 | Incident and maintenance runbooks | Locally implemented | Source outage, backlog/DLQ, disk/memory/upload, DB/secrets, retention, upgrade/restore/rollback, signing/session rotation and alert runbooks completed. | Rehearsals remain explicit acceptance tasks; update after measured failures. | Assistant; runner for separate production acceptance |
+| J-12 | Active-job process termination drills | Partially implemented | Real-process active SIGTERM drill passes; native active SIGKILL/lease expiry/replacement, active Compose SIGKILL and staging ECS replacement procedures/scripts authored. | Execute native/container hard-kill/OOM/deadline/cleanup drills and record bounded recovery. Dependencies: B-01, B-02, B-04. | Assistant + Runner |
+
+### K · Release, worldwide rollout and maintenance
+
+| ID | Task | Status | Evidence | What is left | Owner |
+| --- | --- | --- | --- | --- | --- |
+| K-01 | Existing private frontend publication | Locally implemented | Native private frontend version 3 and source archive publication succeeded; backend/AWS are not deployed. | Keep this private frontend checkpoint available; backend/AWS deployment is separate. | Assistant |
+| K-02 | Production terms, privacy and support pages | Partially implemented | Responsive private-beta terms/privacy/support pages now cover identity, retention, export/deletion, authorization, failures and beta contact; draft status is explicit. | Owner supplies public legal entity/contact, eligible markets and final policy/rights/complaint approval. Dependencies: B-08, B-11. | Assistant + User |
+| K-03 | Limited-beta onboarding and support process | Partially implemented | Operator invitations, production email verification, pause/registration controls and user-facing beta help/onboarding implemented and locally SQL/HTTP tested. | Verify SES/operator enrollment and accountable live support before real invitations/public access. Dependencies: B-02, B-10, B-11. | Assistant + User |
+| K-04 | Multi-geography availability probes | Prepared, not executed | Read-only endpoint/latency/security/header probe and independent CodeBuild buildspec authored for Asia/Europe/North America. | Run independent real-geography endpoint and permitted media/device transfer tests. Dependencies: B-02, B-03. | Assistant + Runner |
+| K-05 | Public AWS HTTPS/edge acceptance | Externally blocked | The planned public AWS application entry point does not exist and cloud access is absent. | Deploy after code completion; verify HTTPS, cookies, caches and origin protections. Dependencies: B-02. | Assistant + Runner |
+| K-06 | Monitored limited-beta release | Externally blocked | Required infrastructure/live-media/operational gates have not passed; no staged beta can be operated yet. | Complete mandatory gates, open a capped beta and observe real behavior. Dependencies: B-02, B-03. | Assistant + Runner |
+| K-07 | Capacity, spend and release-gate review | Partially implemented | Concrete quota/pause/budget/alarms defaults, capacity/cost worksheet and fail-closed exact-commit production evidence validator implemented; local admission and gate tests pass. | Owner traffic/budget/policies plus measured target-account costs/capacity and completed external evidence. Dependencies: B-02, B-07, B-08. | Assistant + User |
+| K-08 | Release/rollback runbook completion | Partially implemented | Environment-specific state/secrets/image/migration/frontend rollout, compatible rollback and first-upgrade forward-fix/restore instructions and scripts completed. | Rehearse actual rollout/rollback with matching image/frontend and verify service/account/media recovery. Dependencies: B-01, B-02, B-04. | Assistant + Runner |
+| K-09 | Worldwide public production release | Externally blocked | No public AWS backend exists and mandatory gates remain open; a private frontend is the delivered scope. | Pass the applicable gates and execute the worldwide release with tested limits. Dependencies: B-02, B-03. | Assistant + Runner |
+| K-10 | Post-launch observation and expansion | Externally blocked | Launch/1h/24h/7d observation checklist and read-only service/queue/alarm/metric collector prepared; no beta deployment or real observation period exists. | Operate the capped release, observe elapsed traffic/support/cost/SLO evidence and review expansion. Dependencies: B-12, B-02, B-03. | Assistant + User |
+
+## Optional scopes · excluded from core counts
+
+| ID | Task | If selected | Status |
+| --- | --- | --- | --- |
+| OPT-D01 | Choose/prove domain ownership and DNS access | Custom domain selected | Externally blocked |
+| OPT-D02 | Domain DNS/certificate configuration | Custom domain selected | Not started |
+| OPT-D03 | Custom hostname/certificate acceptance | Custom domain selected | Not started |
+| OPT-P01 | Merchant/provider choice and approval | Paid release selected | Externally blocked |
+| OPT-P02 | Billing/entitlements and verified webhook implementation | Paid release selected | Not started |
+| OPT-P03 | Sandbox payment/idempotency/refund tests | Paid release selected | Not started |
+| OPT-P04 | Explicitly authorized live payment reconciliation | Paid release selected | Externally blocked |
+| OPT-P05 | Paid-release support/failure/refund acceptance | Paid release selected | Not started |
+
+## Ownership and next sequence
+
+Assistant retains all source fixes, local verification and artifact updates. The runner executes only unavailable capabilities; the owner supplies account/spend/source/market/sender/public-contact decisions. Use docs/HANDOFF.md to run existing checks, not to rewrite the application.
+
+Run native/container/provider/browser checks, fix findings, obtain owner inputs, deploy authorized staging, prove real source/object/queue/email/alerts/recovery/geography, then operate a capped beta and record real observation before public expansion.
+
+Source and private Site publication identifiers are recorded below. This report refers to ClipNest only.
+
+## Verified private delivery
+
+Native publication succeeded for **version 3**, preserving existing owner-only access: [https://clipnest-youtube-download.renoukhan39.chatgpt.site](https://clipnest-youtube-download.renoukhan39.chatgpt.site).
+
+Pushed source commit: `92a00a4bb1a2c0ae3de12105f37e129ab5e8df10`. The downloadable source ZIP contains **121 files / 332,028 bytes** and includes all backend, migration, frontend, infrastructure, tests and handoff source. SHA-256: `8353c76f1b4d6083e3f8139d1a7a0732f69f4fd20639f9a0dd9f8a72fd7c9cf6`.
+
+The Node backend, PostgreSQL, workers and AWS production remain **not deployed**. Source snapshots inside the ZIP intentionally omit a self-referential Git commit; this external report records the verified delivery identifier.

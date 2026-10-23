@@ -1,0 +1,781 @@
+{
+  "project": "ClipNest",
+  "checkpoint": "CP-02",
+  "updated_at": "2026-10-22T16:49:08+05:30",
+  "release_decision": "NO_GO",
+  "release_reason": "Core lifecycle/distributed-adapter/retention code and external execution paths are prepared; real native/container/browser/AWS/source/operational/owner gates remain unpassed.",
+  "status_labels": {
+    "implemented": "Implemented",
+    "partial": "Partial",
+    "blocked": "Blocked",
+    "not_started": "What’s left"
+  },
+  "counts": {
+    "implemented": 5,
+    "partial": 10,
+    "blocked": 9
+  },
+  "evidence": {
+    "source_commit": "92a00a4bb1a2c0ae3de12105f37e129ab5e8df10",
+    "baseline_tests": {
+      "passed": 13,
+      "failed": 0,
+      "scope": "Logic, HTTP integration with an injected fixture engine, and simulated extractor subprocess; not real external download/database/payment testing."
+    },
+    "dependency_install": {
+      "venv_created": true,
+      "install_success": true,
+      "exit_code": 0
+    },
+    "real_engine_health": {
+      "timestamp": "2026-10-22T05:50:24.232Z",
+      "health": {
+        "ready": true,
+        "version": "2026.10.21",
+        "ffmpeg": true
+      },
+      "liveExtraction": {
+        "success": false,
+        "aborted": true,
+        "error": "The operation was aborted"
+      },
+      "httpHealth": {
+        "status": 200,
+        "body": {
+          "service": "clipnest",
+          "protocol": 1,
+          "ready": true,
+          "version": "2026.10.21",
+          "ffmpeg": true,
+          "maxBytes": 1073741824,
+          "maxConcurrent": 2
+        }
+      }
+    },
+    "youtube_https_probe": {
+      "target": "https://www.youtube.com/robots.txt",
+      "timeout_seconds": 8,
+      "success": true,
+      "http_status": 200,
+      "elapsed_seconds": 6.08
+    },
+    "default_trust_extraction": {
+      "exit_code": 1,
+      "elapsed_seconds": 9.6,
+      "success": false,
+      "stderr_tail": "WARNING: [youtube] aqz-KE-bpKQ: Unable to download webpage: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate in certificate chain (_ssl.c:1010) (caused by CertificateVerifyError('[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate in certificate chain (_ssl.c:1010)')); please report this issue on  https://github.com/yt-dlp/yt-dlp/issues?q= , filling out the appropriate issue template. Confirm you are on the latest version using  yt-dlp -U\nERROR: [youtube] aqz-KE-bpKQ: Unable to download API page: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate in certificate chain (_ssl.c:1010) (caused by CertificateVerifyError('[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate in certificate chain (_ssl.c:1010)')); please report this issue on  https://github.com/yt-dlp/yt-dlp/issues?q= , filling out the appropriate issue template. Confirm you are on the latest version using  yt-dlp -U\n"
+    },
+    "system_trust_cli_extraction": {
+      "success": true,
+      "exit_code": 0,
+      "elapsed_seconds": 16.54,
+      "change": "Use existing system CA trust store; certificate verification remains enabled.",
+      "stderr_tail": "WARNING: Unknown codec iamf.001.001.Opus\nWARNING: [youtube] aqz-KE-bpKQ: Response data has no m3u header; please report this issue on  https://github.com/yt-dlp/yt-dlp/issues?q= , filling out the appropriate issue template. Confirm you are on the latest version using  yt-dlp -U\n",
+      "video_id": "aqz-KE-bpKQ",
+      "title": "Big Buck Bunny 60fps 4K - Official Blender Foundation Short Film",
+      "formats": 44
+    },
+    "real_application_metadata": {
+      "success": false,
+      "status": 502,
+      "elapsed_seconds": 5.329,
+      "runtime_profile": "Installed engine with existing system CA trust store; no source changes.",
+      "error": "YouTube restricted access to this video from the server. Try an unrestricted public video or a different server network."
+    },
+    "environment": {
+      "node": true,
+      "python": true,
+      "ffmpeg": true,
+      "yt_dlp_installed_in_isolated_audit_venv": true,
+      "docker_cli": false,
+      "docker_socket": false,
+      "aws_cli": false,
+      "aws_credential_source_detected": false,
+      "postgresql_client": false,
+      "terraform": true
+    },
+    "site": {
+      "project_id": "appgprj_6ad8ea922f288191b8b3f85b710b6be0",
+      "url": "https://clipnest-youtube-download.renoukhan39.chatgpt.site",
+      "version": 3,
+      "hosting": "Sites static frontend",
+      "access_mode": "custom",
+      "explicit_allowed_users": 1,
+      "aws_production_verified": false
+    },
+    "source_changes_in_this_checkpoint": true,
+    "source_base_commit": "8123cd5868ecb0d426de2ba5a13b07e40c3e66b1",
+    "cp01_tests": {
+      "total": 27,
+      "passed": 26,
+      "failed": 0,
+      "skipped": 1,
+      "scope": "PGlite actual PostgreSQL SQL (one backend), real local HTTP, real local FFmpeg fixture, unit tests and simulated extractor process. No native driver/concurrent PostgreSQL/RDS/AWS/real source proof.",
+      "skipped_test": "native PostgreSQL parallel idempotency and global worker claim limits"
+    },
+    "cp01_checks": {
+      "syntax_files": 22,
+      "lock_and_entry_assets": "pass",
+      "yaml_static_validation": "pass",
+      "production_npm_audit": {
+        "known_vulnerabilities": 0
+      },
+      "native_pg_probe": "BLOCKED non-root UID mapping EINVAL",
+      "docker": "binary/socket absent",
+      "browser": "Desktop account dialog/register toggle, empty account history, offline engine message and illustrative quality preview; no credential-bearing browser login claim.",
+      "engine_health": {
+        "ready": true,
+        "version": "2026.10.21",
+        "ffmpeg": true
+      }
+    },
+    "delivery": {
+      "site_version": 3,
+      "deployment_status": "succeeded",
+      "url": "https://clipnest-youtube-download.renoukhan39.chatgpt.site",
+      "audience": "Existing owner-only private audience preserved",
+      "source_commit": "92a00a4bb1a2c0ae3de12105f37e129ab5e8df10",
+      "backend_deployed": false,
+      "aws_deployed": false,
+      "source_archive_files": 121,
+      "source_archive_bytes": 332028,
+      "source_archive_sha256": "8353c76f1b4d6083e3f8139d1a7a0732f69f4fd20639f9a0dd9f8a72fd7c9cf6"
+    },
+    "status_audit": {
+      "source_commit": "27c14536112ad7eaff27495f42111c4a532efc40",
+      "code_unchanged": true,
+      "new_tests_run": false,
+      "positive_http_login": "Missing acceptance case found during source inspection; registration/logout and hashing/session checks exist.",
+      "report_date": "2026-10-22T12:51:13.744765+05:30"
+    },
+    "cp02_tests": {
+      "total": 54,
+      "passed": 53,
+      "failed": 0,
+      "skipped": 1,
+      "scope": "Actual PostgreSQL SQL via PGlite single backend; real local HTTP and FFmpeg fixture; AWS SDK transport injection and real RSA signing; actual frontend JavaScript in emulated DOM; actual process SIGTERM. No native PostgreSQL, Docker, real AWS/S3/SQS/SES/CloudFront, automated browser suite or completed real YouTube transfer proof.",
+      "skipped_test": "native PostgreSQL parallel idempotency and global worker claim limits"
+    },
+    "cp02_checks": {
+      "syntax_files": 67,
+      "yaml_static_validation": "pass",
+      "shell_syntax": "pass",
+      "terraform_fmt": "pass",
+      "terraform_validate": "BLOCKED provider Unix socket operation not permitted",
+      "terraform_mock_tests": "Not executed, same provider limitation",
+      "production_npm_audit": {
+        "known_vulnerabilities": 0
+      },
+      "local_load": {
+        "requests": 20,
+        "accepted": 3,
+        "queue_limited": 17,
+        "p95_ms": 155,
+        "scope": "localhost HTTP/PGlite single backend; not AWS capacity/speed"
+      },
+      "browser_suite": "Authored for external runner, not executed",
+      "desktop_browser_qa": "Illustrative quality picker/privacy page rendered; credential-bearing browser journey not performed"
+    }
+  },
+  "items": [
+    {
+      "id": "PLAN-01",
+      "area": "Audited release plan and status tracking",
+      "status": "implemented",
+      "evidence": "CP-00 plan retained; CP-01 checkpoint tracks 20 implementation tasks, exact verification scope and external execution-only handoff.",
+      "whats_left": "Maintain the same status artifacts each checkpoint.",
+      "blocker_ids": []
+    },
+    {
+      "id": "ENV-01",
+      "area": "Dependency installation",
+      "status": "implemented",
+      "evidence": "npm dependencies pg, PGlite and native PostgreSQL binaries installed; isolated Python yt-dlp 2026.10.21 and FFmpeg health succeed.",
+      "whats_left": "Container dependency installation still needs a Docker build.",
+      "blocker_ids": []
+    },
+    {
+      "id": "TEST-01",
+      "area": "Existing automated checks",
+      "status": "implemented",
+      "evidence": "CP-02: 53 pass, 0 fail, 1 native skip; syntax 67 JS, lock, YAML, shell, Terraform fmt and production npm audit pass.",
+      "whats_left": "Prepared browser/native/Docker/provider/AWS/source/operational checks remain unrun.",
+      "blocker_ids": []
+    },
+    {
+      "id": "RUN-01",
+      "area": "Real Node backend readiness",
+      "status": "implemented",
+      "evidence": "Actual HTTP /api/health returned 200 with yt-dlp 2026.10.21 and FFmpeg ready.",
+      "whats_left": "Prove production image health checks and readiness against database/queue dependencies.",
+      "blocker_ids": []
+    },
+    {
+      "id": "RUN-02",
+      "area": "Standalone live metadata extraction",
+      "status": "implemented",
+      "evidence": "Actual yt-dlp CLI request returned 44 formats using the installed system CA trust store.",
+      "whats_left": "Runtime profile reproducibility and application-level reliability; no full media transfer claimed.",
+      "blocker_ids": []
+    },
+    {
+      "id": "UI-01",
+      "area": "Responsive frontend",
+      "status": "partial",
+      "evidence": "Account/privacy/operator flows, async analysis and paginated history implemented; actual JS in emulated DOM passes signup/login/logout/expiry/reset/quality/ready/history.",
+      "whats_left": "Full browser/mobile/axe and real staged transfer acceptance.",
+      "blocker_ids": []
+    },
+    {
+      "id": "API-01",
+      "area": "Node API",
+      "status": "partial",
+      "evidence": "Database account/analyze/job/history/usage routes, idempotency, ownership, ticket expiry and ranges exercised via real local HTTP with fixture metadata.",
+      "whats_left": "Native driver/container and real YouTube/AWS integration.",
+      "blocker_ids": []
+    },
+    {
+      "id": "MEDIA-01",
+      "area": "Media preparation and progress",
+      "status": "partial",
+      "evidence": "Worker validates real FFmpeg-generated fixture and rejects corrupt media; direct engine health ready.",
+      "whats_left": "A complete real authorized source-to-device transfer from the actual target image/network.",
+      "blocker_ids": []
+    },
+    {
+      "id": "AUTH-01",
+      "area": "Access controls",
+      "status": "partial",
+      "evidence": "Verification/reset/export/deletion/operator/invitation controls and positive/disabled login added; HTTP/SQL and emulated DOM checks pass.",
+      "whats_left": "Actual browser/SES/production acceptance.",
+      "blocker_ids": [
+        "B-10"
+      ]
+    },
+    {
+      "id": "IMAGE-01",
+      "area": "Docker packaging source",
+      "status": "partial",
+      "evidence": "Non-root Dockerfile, npm ci, pinned yt-dlp, durable local Compose volumes and migration ordering authored; YAML parses.",
+      "whats_left": "Docker build/start/stop/restart and native PostgreSQL execution.",
+      "blocker_ids": [
+        "B-01"
+      ]
+    },
+    {
+      "id": "DB-01",
+      "area": "PostgreSQL database implementation",
+      "status": "partial",
+      "evidence": "Schema, checksum migrations and pg repository implemented. Genuine PostgreSQL SQL passed through PGlite single backend; native binaries installed.",
+      "whats_left": "Native PostgreSQL multi-client, driver/TLS/RDS and backup/restore tests.",
+      "blocker_ids": []
+    },
+    {
+      "id": "QUEUE-01",
+      "area": "Durable queue and workers",
+      "status": "partial",
+      "evidence": "Durable analysis, SQS/outbox/DLQ and duplicate/transport-failure contracts implemented and locally tested.",
+      "whats_left": "Native concurrent claims and real SQS/DLQ failure acceptance.",
+      "blocker_ids": [
+        "B-02",
+        "B-04"
+      ]
+    },
+    {
+      "id": "STORE-01",
+      "area": "S3 storage and signed CDN downloads",
+      "status": "partial",
+      "evidence": "S3 upload/abort/head/delete, CloudFront signing, object/local orphan sweep and retention/metrics implemented; injected SDK and real RSA/file tests pass.",
+      "whats_left": "Actual S3/CloudFront/task-replacement/physical-retention acceptance.",
+      "blocker_ids": [
+        "B-02"
+      ]
+    },
+    {
+      "id": "IAC-01",
+      "area": "AWS infrastructure and CI definitions",
+      "status": "partial",
+      "evidence": "Terraform modules, scoped roles, secrets/state bootstrap, CI/OIDC image/migration/rollout definitions authored; provider execution blocked.",
+      "whats_left": "Run validate/mock/plan on capable runner, then approved staging apply/deployment.",
+      "blocker_ids": [
+        "B-09",
+        "B-02",
+        "B-07"
+      ]
+    },
+    {
+      "id": "OPS-01",
+      "area": "Monitoring, recovery and capacity proof",
+      "status": "partial",
+      "evidence": "EMF/dashboard/alarms, full incident/release/restore/rollback runbooks, real-process SIGTERM and prepared failure/restore/probe/observation commands.",
+      "whats_left": "Run real AWS alarm, recovery, load/geography and observation acceptance.",
+      "blocker_ids": [
+        "B-02",
+        "B-04",
+        "B-07"
+      ]
+    },
+    {
+      "id": "CHECK-DOCKER",
+      "area": "Real container build/run verification",
+      "status": "blocked",
+      "evidence": "Docker CLI and daemon/socket are absent.",
+      "whats_left": "Execute actual build, startup and container integration tests on an authorised Docker-enabled runner.",
+      "blocker_ids": [
+        "B-01"
+      ]
+    },
+    {
+      "id": "CHECK-DB",
+      "area": "Real PostgreSQL integration verification",
+      "status": "blocked",
+      "evidence": "Native PostgreSQL binaries installed but non-root chown fails EINVAL; /proc/self/uid_map maps only uid 0. PGlite SQL tests pass but do not prove native concurrency.",
+      "whats_left": "Run npm run test:database on non-root-capable runner or explicit disposable TEST_DATABASE_URL.",
+      "blocker_ids": [
+        "B-04"
+      ]
+    },
+    {
+      "id": "CHECK-LIVE",
+      "area": "Real application source lookup and media transfer",
+      "status": "blocked",
+      "evidence": "Application /api/analyze returned HTTP 502 with a source-restriction error after the standalone CLI succeeded. No complete real file transfer verified.",
+      "whats_left": "Diagnose supported application/runtime behaviour and prove a permitted source-to-worker-to-device transfer, including from AWS staging.",
+      "blocker_ids": [
+        "B-03"
+      ]
+    },
+    {
+      "id": "AWS-01",
+      "area": "AWS account deployment",
+      "status": "blocked",
+      "evidence": "No AWS CLI/auth source or suitable connected infrastructure-deployment tool.",
+      "whats_left": "Authorised scoped deployment context, verified identity/Region, resource provisioning and AWS staging logs.",
+      "blocker_ids": [
+        "B-02",
+        "B-07"
+      ]
+    },
+    {
+      "id": "PAY-01",
+      "area": "Live payment testing, conditional",
+      "status": "blocked",
+      "evidence": "No provider selected, integration or merchant/test/live credentials; no transactions performed.",
+      "whats_left": "If paid release: sandbox/webhook/entitlement tests, then authorised live reconciliation. Free beta may keep billing disabled.",
+      "blocker_ids": [
+        "B-05"
+      ]
+    },
+    {
+      "id": "DOMAIN-01",
+      "area": "Custom production domain, conditional",
+      "status": "blocked",
+      "evidence": "Owned domain/DNS access has not been supplied or verified.",
+      "whats_left": "Select and configure a domain and certificates if a custom hostname is required; an AWS-generated hostname can serve staging.",
+      "blocker_ids": [
+        "B-06"
+      ]
+    },
+    {
+      "id": "COST-01",
+      "area": "Account budget and usage approval inputs",
+      "status": "blocked",
+      "evidence": "Target account billing/credits, expected traffic and monthly budget are unverified.",
+      "whats_left": "Price target resources/egress and define application quotas, worker caps, budget alerts and an operator kill switch.",
+      "blocker_ids": [
+        "B-07"
+      ]
+    },
+    {
+      "id": "POLICY-01",
+      "area": "Public source permissions and market scope",
+      "status": "blocked",
+      "evidence": "Public download/automated-access permission and supported-country review have not been established.",
+      "whats_left": "Resolve the authorised workflow and publish the needed terms/privacy/support/takedown process before public launch.",
+      "blocker_ids": [
+        "B-08"
+      ]
+    },
+    {
+      "id": "RELEASE-01",
+      "area": "Worldwide AWS production release",
+      "status": "blocked",
+      "evidence": "CP-01 is an implementation checkpoint, not a public AWS release. No AWS deployment/payment/DNS/public-access change occurred.",
+      "whats_left": "Complete remaining code and real-service/operational gates before worldwide release.",
+      "blocker_ids": [
+        "B-01",
+        "B-02",
+        "B-03",
+        "B-04",
+        "B-07",
+        "B-08"
+      ]
+    }
+  ],
+  "blockers": [
+    {
+      "id": "B-01",
+      "title": "Docker execution unavailable",
+      "scope": "Container verification",
+      "evidence": "docker not on PATH; /var/run/docker.sock absent.",
+      "unblock": "Use a Docker-enabled local machine or authorised CI/CodeBuild runner; retain build/run logs.",
+      "owner": "Execution environment / developer",
+      "hard_release_gate": true
+    },
+    {
+      "id": "B-02",
+      "title": "AWS deployment access unavailable",
+      "scope": "Cloud provisioning and AWS staging",
+      "evidence": "AWS CLI absent; no AWS auth source detected; plugin discovery found analytics functionality, not an infrastructure deployment connection.",
+      "unblock": "Establish a scoped, authorised AWS deployment context and verify account, role, Region and permitted actions. No credentials in chat.",
+      "owner": "Account owner / deployment environment",
+      "hard_release_gate": true
+    },
+    {
+      "id": "B-03",
+      "title": "Application-level live source path has not passed",
+      "scope": "Real lookup and download reliability",
+      "evidence": "CLI returned 44 formats with system CA trust; actual application request returned 502 source-restriction error. Full real file transfer is unverified.",
+      "unblock": "Investigate supported app/runtime behaviour, then pass controlled source-to-worker-to-device tests with authorised media and the actual AWS image/network. Preserve failure details; do not treat a fixture as proof.",
+      "owner": "Developer and source/platform dependencies",
+      "hard_release_gate": true
+    },
+    {
+      "id": "B-04",
+      "title": "Native PostgreSQL execution requires another runtime",
+      "scope": "Database integration verification",
+      "evidence": "Schema/repository implemented and PGlite SQL/HTTP tests passed. Native binaries installed; root-only UID namespace prevents non-root initdb execution (chown EINVAL). No native concurrency/TLS target supplied.",
+      "unblock": "Run the provided native suite in a mapped non-root environment or with a disposable TEST_DATABASE_URL. Preserve the single-backend/native distinction.",
+      "owner": "Docker/non-root runner or disposable database context",
+      "hard_release_gate": true
+    },
+    {
+      "id": "B-05",
+      "title": "Payment provider and live-test prerequisites absent",
+      "scope": "Paid release only",
+      "evidence": "Provider, merchant approval, test/live keys and integration are absent.",
+      "unblock": "Choose a suitable provider, implement and test sandbox/webhooks, then arrange an explicitly authorised live test and reconciliation.",
+      "owner": "Merchant owner / payment provider / developer",
+      "hard_release_gate": false,
+      "required_if": "Paid release selected"
+    },
+    {
+      "id": "B-06",
+      "title": "Custom domain and DNS inputs absent",
+      "scope": "Custom hostname only",
+      "evidence": "No chosen owned domain or authorised DNS management context.",
+      "unblock": "Provide chosen domain/DNS context and validate certificates; staging can use an AWS-generated hostname.",
+      "owner": "Domain owner",
+      "hard_release_gate": false,
+      "required_if": "Custom domain required"
+    },
+    {
+      "id": "B-07",
+      "title": "Traffic and spending bounds undefined",
+      "scope": "Resource provisioning and public capacity",
+      "evidence": "No verified target-account estimate, traffic model or budget.",
+      "unblock": "Estimate compute/database/CDN/egress costs and define tested quota/worker/cost controls before provisioning and public access.",
+      "owner": "Account owner and developer",
+      "hard_release_gate": true
+    },
+    {
+      "id": "B-08",
+      "title": "Permitted source use and market scope unresolved",
+      "scope": "Public service launch",
+      "evidence": "Authorisations and supported-market review not established; YouTube terms restrict download and automated use.",
+      "unblock": "Confirm the allowed workflow and relevant source/rights-holder permissions; complete appropriate public terms, privacy, support and complaint handling.",
+      "owner": "Product owner / appropriate review",
+      "hard_release_gate": true
+    },
+    {
+      "id": "B-09",
+      "title": "Terraform provider execution unavailable here",
+      "scope": "Provider schema validation/mock tests",
+      "evidence": "Official Terraform 1.17.0 and AWS provider 6.70.0 installed; fmt passes; provider listen unix socket fails operation not permitted.",
+      "unblock": "Run the prepared locked-provider validate/mock jobs on a normal CI runner, then fix any real provider/API errors before plan/apply.",
+      "owner": "Runner executes; assistant owns any source fixes",
+      "hard_release_gate": true
+    },
+    {
+      "id": "B-10",
+      "title": "Production sender and notification delivery unverified",
+      "scope": "SES/account verification/recovery and SNS alerts",
+      "evidence": "SES/outbox and alarm source exist; no verified account sender/production access, inbox or alert delivery is recorded.",
+      "unblock": "Owner confirms sender/alert recipient and SES production access; runner verifies actual email and alarm delivery.",
+      "owner": "Owner + authorized AWS runner",
+      "hard_release_gate": true
+    },
+    {
+      "id": "B-11",
+      "title": "Public operator/contact/policy commitments pending",
+      "scope": "Public support, legal identity and retention commitments",
+      "evidence": "Concrete defaults, private-beta policy/help pages and operator enrollment exist; no public operator identity/contact/response commitment approval.",
+      "unblock": "Owner supplies public identity/contact and approves final policy/support/market commitments before opening registration.",
+      "owner": "Product owner",
+      "hard_release_gate": true
+    },
+    {
+      "id": "B-12",
+      "title": "Post-launch observation requires a live capped beta",
+      "scope": "Elapsed operating/expansion evidence",
+      "evidence": "Observation collector/checklist are prepared; the application is not deployed on AWS and no real beta traffic/cost window has elapsed.",
+      "unblock": "First close release gates and operate the capped beta; then gather actual launch/1h/24h/7d evidence.",
+      "owner": "Operator after authorized release",
+      "hard_release_gate": true
+    }
+  ],
+  "release_gates": [
+    {
+      "id": "G-01",
+      "name": "Clean container build/run and real database integration",
+      "passed": false
+    },
+    {
+      "id": "G-02",
+      "name": "User identity, ownership and durable quotas",
+      "passed": false
+    },
+    {
+      "id": "G-03",
+      "name": "Durable queue/retry and private object storage",
+      "passed": false
+    },
+    {
+      "id": "G-04",
+      "name": "Real selected-quality transfer from staged AWS image",
+      "passed": false
+    },
+    {
+      "id": "G-05",
+      "name": "Budget, usage caps and source/market permission inputs",
+      "passed": false
+    },
+    {
+      "id": "G-06",
+      "name": "Public HTTPS entry point and multi-geography tests",
+      "passed": false
+    },
+    {
+      "id": "G-07",
+      "name": "Backup restore, monitoring, load and release rollback proof",
+      "passed": false
+    },
+    {
+      "id": "G-08",
+      "name": "Payment sandbox and authorised live reconciliation",
+      "passed": false,
+      "conditional": "Required only for paid release"
+    }
+  ],
+  "next_checkpoint": {
+    "id": "CP-03",
+    "focus": "Run the prepared real environment checks and fix observed failures, without rewriting completed source.",
+    "independent_work": "Assistant retains source fixes and report updates after actual execution; no further production-completion claim without evidence.",
+    "owner_inputs": "Scoped AWS/account/Region/budget/traffic authorization, sender/alert recipient, public operator/contact/policy/market/source rights inputs. DNS and payments only if selected."
+  },
+  "checkpoint_reporting_policy": {
+    "sections": [
+      "Implemented",
+      "Partial",
+      "Blocked",
+      "What’s left"
+    ],
+    "fields": [
+      "item ID",
+      "status",
+      "evidence",
+      "blocker/unblock action",
+      "next action"
+    ],
+    "implementation_does_not_imply": [
+      "real external service verified",
+      "AWS deployed",
+      "production ready"
+    ],
+    "preserve_file_identity": true
+  },
+  "checkpoint_history": [
+    {
+      "id": "CP-00",
+      "updated_at": "2026-10-22T11:34:20+05:30",
+      "counts": {
+        "implemented": 5,
+        "partial": 5,
+        "not_started": 5,
+        "blocked": 9
+      },
+      "release_decision": "NO_GO"
+    },
+    {
+      "id": "CP-01",
+      "updated_at": "2026-10-22T12:51:13.744765+05:30",
+      "master_counts": {
+        "Locally implemented": 48,
+        "Partially implemented": 16,
+        "Prepared, not executed": 4,
+        "Externally blocked": 9,
+        "Not started": 35
+      },
+      "release_decision": "NO_GO"
+    }
+  ],
+  "batch": {
+    "task_count": 51,
+    "prior_counts": {
+      "Not started": 35,
+      "Partially implemented": 16
+    },
+    "counts": {
+      "Locally implemented": 12,
+      "Partially implemented": 25,
+      "Prepared, not executed": 13,
+      "Externally blocked": 1,
+      "Not started": 0
+    },
+    "task_ids": [
+      "A-07",
+      "B-05",
+      "B-06",
+      "B-07",
+      "B-08",
+      "B-09",
+      "B-10",
+      "B-11",
+      "B-12",
+      "C-09",
+      "C-10",
+      "C-11",
+      "C-12",
+      "C-13",
+      "D-02",
+      "D-09",
+      "E-04",
+      "E-09",
+      "E-10",
+      "F-09",
+      "F-10",
+      "F-11",
+      "G-06",
+      "G-07",
+      "G-08",
+      "G-09",
+      "G-10",
+      "H-06",
+      "H-07",
+      "I-03",
+      "I-04",
+      "I-05",
+      "I-06",
+      "I-07",
+      "I-08",
+      "I-09",
+      "J-04",
+      "J-05",
+      "J-06",
+      "J-07",
+      "J-08",
+      "J-09",
+      "J-10",
+      "J-11",
+      "J-12",
+      "K-02",
+      "K-03",
+      "K-04",
+      "K-07",
+      "K-08",
+      "K-10"
+    ],
+    "note": "All 51 received code, tests, definitions, runbooks or concrete owner/execution preparation. They are not all production-complete. Full task IDs and acceptance scope are preserved."
+  },
+  "ownership": {
+    "assistant": "All feasible code, tests, docs, packaging and subsequent implementation.",
+    "codex_or_runner": "Only Docker/native PostgreSQL and target-network/AWS execution where these capabilities exist.",
+    "user": "Account authorization, spending/traffic/product/source inputs, DNS and merchant setup if required."
+  },
+  "master_register": {
+    "version": 2,
+    "checkpoint": "CP-02",
+    "scope": "Full core free-beta release: initial scope through worldwide AWS rollout and post-launch operation.",
+    "total_core_tasks": 112,
+    "counts": {
+      "Locally implemented": 60,
+      "Partially implemented": 25,
+      "Prepared, not executed": 17,
+      "Externally blocked": 10,
+      "Not started": 0
+    },
+    "report": "ClipNest-End-to-End-Status.md",
+    "machine_register": "ClipNest-End-to-End-Status.json",
+    "conditional_tasks_excluded": 8,
+    "counting_note": "These 112 original task IDs are authoritative; do not add old broad areas/checkpoint batch counts. Counts are not weighted effort or production readiness.",
+    "source_commit": "92a00a4bb1a2c0ae3de12105f37e129ab5e8df10"
+  },
+  "target_batch": {
+    "task_count": 51,
+    "prior_counts": {
+      "Not started": 35,
+      "Partially implemented": 16
+    },
+    "counts": {
+      "Locally implemented": 12,
+      "Partially implemented": 25,
+      "Prepared, not executed": 13,
+      "Externally blocked": 1,
+      "Not started": 0
+    },
+    "task_ids": [
+      "A-07",
+      "B-05",
+      "B-06",
+      "B-07",
+      "B-08",
+      "B-09",
+      "B-10",
+      "B-11",
+      "B-12",
+      "C-09",
+      "C-10",
+      "C-11",
+      "C-12",
+      "C-13",
+      "D-02",
+      "D-09",
+      "E-04",
+      "E-09",
+      "E-10",
+      "F-09",
+      "F-10",
+      "F-11",
+      "G-06",
+      "G-07",
+      "G-08",
+      "G-09",
+      "G-10",
+      "H-06",
+      "H-07",
+      "I-03",
+      "I-04",
+      "I-05",
+      "I-06",
+      "I-07",
+      "I-08",
+      "I-09",
+      "J-04",
+      "J-05",
+      "J-06",
+      "J-07",
+      "J-08",
+      "J-09",
+      "J-10",
+      "J-11",
+      "J-12",
+      "K-02",
+      "K-03",
+      "K-04",
+      "K-07",
+      "K-08",
+      "K-10"
+    ],
+    "note": "All 51 received code, tests, definitions, runbooks or concrete owner/execution preparation. They are not all production-complete. Full task IDs and acceptance scope are preserved."
+  }
+}

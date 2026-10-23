@@ -1,0 +1,8 @@
+import {spawn} from 'node:child_process';
+import {readFile,mkdir,writeFile} from 'node:fs/promises';
+import path from 'node:path';
+export async function deployment(file){const raw=JSON.parse(await readFile(file,'utf8'));const d=raw.deployment?.value||raw.deployment||raw;if(!['staging','production'].includes(d.environment)||!/^\w+-\w+-\d$/.test(d.region)||!d.cluster)throw new Error('Invalid Terraform deployment outputs');return d;}
+export async function privateJson(file,value){await mkdir(path.dirname(file),{recursive:true,mode:0o700});await writeFile(file,JSON.stringify(value,null,2)+'\n',{mode:0o600});}
+export async function aws(region,service,operation,input,{json=true}={}){const args=[service,operation,'--region',region,'--no-cli-pager',...(input?['--cli-input-json',JSON.stringify(input)]:[]),...(json?['--output','json']:[])];return new Promise((resolve,reject)=>{const child=spawn('aws',args,{stdio:['ignore','pipe','pipe'],env:{...process.env,AWS_PAGER:''}});let output='',error='';child.stdout.on('data',b=>output+=b);child.stderr.on('data',b=>error=(error+b).slice(-1000));child.once('error',reject);child.once('close',code=>{if(code)return reject(new Error(`AWS ${service}/${operation} failed (${code}): ${error.replace(/https?:\/\/\S+/g,'[redacted-url]')}`));try{resolve(json&&output.trim()?JSON.parse(output):output);}catch{reject(new Error('AWS CLI returned invalid JSON'));}});});}
+export async function cli(args){return new Promise((resolve,reject)=>{const c=spawn('aws',args,{stdio:'inherit',env:{...process.env,AWS_PAGER:''}});c.once('error',reject);c.once('close',code=>code===0?resolve():reject(new Error('AWS CLI command failed: '+code)));});}
+export const sleep=ms=>new Promise(r=>setTimeout(r,ms));

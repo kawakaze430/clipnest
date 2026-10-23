@@ -1,0 +1,2 @@
+// Display the public retention settings without using or storing account data.
+(async()=>{try{const r=await fetch('/api/config',{credentials:'omit',cache:'no-store',redirect:'error'});if(!r.ok)return;const settings=await r.json();if(settings.service!=='clipnest')return;for(const span of document.querySelectorAll('[data-policy]')){const value=settings[span.dataset.policy];if(Number.isInteger(value)&&value>0&&value<=1440)span.textContent=String(value);}}catch{}})();

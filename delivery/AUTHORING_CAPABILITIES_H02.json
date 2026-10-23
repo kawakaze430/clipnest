@@ -1,0 +1,124 @@
+{
+  "profile": "ClipNest-E01",
+  "started_at": "2026-10-23T16:32:40.764117+00:00",
+  "capabilities": {
+    "profile": "ClipNest-E01",
+    "recorded_at": "2026-10-23T16:32:40.753616+00:00",
+    "platform": "posix",
+    "source_commit": "2f498a9d61a402660386eccd92d912dc1c91e640",
+    "app_test_tree_sha256": "a2cc80e6e796e2f1c09ef23116bd36e28813ae2c96066adbf9a1fc0ffb0b6072",
+    "tools": {
+      "node": {
+        "installed": true,
+        "version": "v24.19.0"
+      },
+      "npm": {
+        "installed": true,
+        "version": "11.9.0"
+      },
+      "ffmpeg": {
+        "installed": true,
+        "version": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers"
+      },
+      "openssl": {
+        "installed": true,
+        "version": "OpenSSL 3.0.13 30 Jan 2024 (Library: OpenSSL 3.0.13 30 Jan 2024)"
+      },
+      "docker": {
+        "installed": false
+      },
+      "terraform": {
+        "installed": true,
+        "version": "Terraform v1.17.0"
+      }
+    },
+    "loopback_tcp": {
+      "available": true
+    },
+    "unix_socket": {
+      "available": false,
+      "reason": "PermissionError: Operation not permitted"
+    },
+    "nonroot_native_user": {
+      "available": false,
+      "reason": "OSError: Invalid argument"
+    },
+    "browser_runtime": {
+      "installed": false,
+      "reason": "Executable existence only; no browser launch in capability probe"
+    },
+    "docker_daemon": {
+      "available": false,
+      "detail": "Docker CLI absent"
+    },
+    "docker_compose": {
+      "available": false
+    },
+    "dependencies_installed": true,
+    "external_test_db_present": false,
+    "scope": "Capability metadata only. Does not prove a suite or production service passed."
+  },
+  "results": [
+    {
+      "group": "native",
+      "task_ids_for_review": [
+        "E-04",
+        "E-08",
+        "E-09",
+        "F-11",
+        "J-07",
+        "J-12"
+      ],
+      "status": "blocked",
+      "commands": [],
+      "reason": "Native PostgreSQL requires mapped non-root identity and permitted Unix sockets"
+    },
+    {
+      "group": "browser",
+      "task_ids_for_review": [
+        "B-05",
+        "B-06",
+        "B-07",
+        "B-09",
+        "B-10",
+        "B-11",
+        "B-12",
+        "J-04"
+      ],
+      "status": "blocked",
+      "commands": [],
+      "reason": "Pinned Playwright Chromium is not installed; run prepared setup once"
+    },
+    {
+      "group": "terraform",
+      "task_ids_for_review": [
+        "I-03",
+        "I-04",
+        "I-05",
+        "I-06",
+        "I-07",
+        "I-08"
+      ],
+      "status": "blocked",
+      "commands": [],
+      "reason": "Provider Unix socket creation is unavailable"
+    },
+    {
+      "group": "containers",
+      "task_ids_for_review": [
+        "H-02",
+        "H-03",
+        "H-06",
+        "E-04"
+      ],
+      "status": "blocked",
+      "commands": [],
+      "reason": "Working Docker daemon and Compose v2 absent; no daemon installation or privilege workaround in this task"
+    }
+  ],
+  "production_release_decision": "NO_GO",
+  "app_edits_allowed": false,
+  "aws_api_calls_or_deployment_allowed": false,
+  "master_statuses_changed": false,
+  "finished_at": "2026-10-23T16:32:40.764177+00:00"
+}
