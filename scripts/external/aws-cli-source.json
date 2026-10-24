@@ -1,0 +1,10 @@
+{
+  "version": "2.38.5",
+  "repository": "aws/aws-cli",
+  "commit": "31563df3204a0215ff9da3b72e4c8f8cf1b80cc6",
+  "sha256": "0b76dcc85780e5b9a4ab8bab28b4fbd2b7e5e8594498c1a7a4c94f1edfc1b2f8",
+  "dependency_locks": {
+    "requirements/download-deps/bootstrap-lock.txt": "942e70949bc6f3b4f02e2c4017cc9006c0cf002221da6e38c90a344fd6de06a2",
+    "requirements/download-deps/system-sandbox-lock.txt": "ae49d3b24bb72037d80a879dbf54803708b8e3b15754d63c21b33d5c51569eea"
+  }
+}

@@ -15,6 +15,7 @@ output "security_posture" {
 output "deployment" {
   value = {
     environment                 = var.environment
+    account_id                  = data.aws_caller_identity.current.account_id
     mail_from                   = var.mail_from
     region                      = var.region
     cluster                     = aws_ecs_cluster.main.name

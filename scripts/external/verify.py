@@ -54,7 +54,9 @@ def redact(text, environ=None):
             parsed = urlsplit(value)
         except ValueError:
             return '[REDACTED_INVALID_URL]'
-        sensitive_query = re.search(r'(?:^|&)(?:signature|token|access_token|code|policy|expires|key-pair-id|x-amz-[^=]+)=', parsed.query, re.I)
+        # GitHub artifact redirects use Azure SAS (sig), while S3/CloudFront
+        # use their own signature names. None belongs in evidence or errors.
+        sensitive_query = re.search(r'(?:^|&)(?:sig|signature|token|access_token|code|policy|expires|key-pair-id|x-amz-[^=]+)=', parsed.query, re.I)
         action_fragment = re.search(r'(?:^|&)(?:reset|verify|invite|token)=', parsed.fragment, re.I)
         return '[REDACTED_SIGNED_OR_ACTION_URL]' if sensitive_query or action_fragment else value
     text = re.sub(r'https?://[^\s\'"<>]+', private_url, text)

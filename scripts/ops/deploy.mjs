@@ -1,17 +1,104 @@
-import {deployment,aws,cli,privateJson} from './aws-cli.mjs';
-const [outputs,image,sha]=process.argv.slice(2).filter(a=>!a.startsWith('--'));const execute=process.argv.includes('--execute');
-if(!outputs||!image||!/^([a-f0-9]{40}|[a-f0-9]{64})$/.test(sha||''))throw new Error('Usage: node scripts/ops/deploy.mjs OUTPUTS_JSON ECR_URI@sha256:DIGEST COMMIT [--execute]');
-const d=await deployment(outputs);if(!image.startsWith(d.image_repository+'@sha256:')||!/sha256:[a-f0-9]{64}$/.test(image))throw new Error('Image must be a digest in this deployment repository');
-if(!execute){console.log(JSON.stringify({mode:'review',environment:d.environment,image,commit:sha,actions:['capture prior tasks','drain pre-CP02 services if needed','register digest-pinned task revisions','run private migration once','wait for successful migration','roll workers then API and wait stable','publish frontend separately after readiness'],requires:'verified CI image/SBOM/scan, owner AWS authorization and release evidence'}));process.exit(0);}
-const region=d.region,services=[d.api_service,d.worker_service];const prior=(await aws(region,'ecs','describe-services',{cluster:d.cluster,services}));if(prior.failures?.length)throw new Error('Services not found');
-const previous={schemaRelease:2,createdAt:new Date().toISOString(),commit:sha,environment:d.environment,cluster:d.cluster,services:prior.services.map(s=>({service:s.serviceName,taskDefinition:s.taskDefinition,desiredCount:s.desiredCount})),compatible:true};
-const allowed=['family','taskRoleArn','executionRoleArn','networkMode','containerDefinitions','volumes','placementConstraints','requiresCompatibilities','cpu','memory','pidMode','ipcMode','proxyConfiguration','inferenceAccelerators','ephemeralStorage','runtimePlatform'];
-for(const item of previous.services){const task=(await aws(region,'ecs','describe-task-definition',{taskDefinition:item.taskDefinition})).taskDefinition;if(!task.containerDefinitions.every(c=>c.environment?.some(e=>e.name==='SCHEMA_RELEASE'&&e.value==='2')))previous.compatible=false;}
-await privateJson('.cache/release/previous-deployment.json',previous);
-if(!previous.compatible){for(const item of previous.services)await aws(region,'ecs','update-service',{cluster:d.cluster,service:item.service,desiredCount:0});await cli(['ecs','wait','services-stable','--region',region,'--cluster',d.cluster,'--services',...services]);}
-async function revision(arn){const old=(await aws(region,'ecs','describe-task-definition',{taskDefinition:arn})).taskDefinition;const input=Object.fromEntries(allowed.filter(k=>old[k]!==undefined).map(k=>[k,old[k]]));input.containerDefinitions=input.containerDefinitions.map(c=>({...c,image,environment:[...(c.environment||[]).filter(e=>!['SOURCE_COMMIT','SCHEMA_RELEASE'].includes(e.name)),{name:'SOURCE_COMMIT',value:sha},{name:'SCHEMA_RELEASE',value:'2'}]}));return(await aws(region,'ecs','register-task-definition',input)).taskDefinition.taskDefinitionArn;}
-const migration=await revision(d.migration_task),worker=await revision(d.worker_task),api=await revision(d.api_task);
-const task=await aws(region,'ecs','run-task',{cluster:d.cluster,taskDefinition:migration,launchType:'FARGATE',networkConfiguration:{awsvpcConfiguration:{subnets:d.application_subnets,securityGroups:[d.application_security_group],assignPublicIp:'DISABLED'}},startedBy:'clipnest-release'});if(task.failures?.length||!task.tasks?.[0])throw new Error('Migration task failed to start');const arn=task.tasks[0].taskArn;
-await cli(['ecs','wait','tasks-stopped','--region',region,'--cluster',d.cluster,'--tasks',arn]);const result=(await aws(region,'ecs','describe-tasks',{cluster:d.cluster,tasks:[arn]})).tasks[0];if(result.containers?.some(c=>c.exitCode!==0))throw new Error('Migration failed. Service rollout stopped; inspect sanitized migration logs.');
-await aws(region,'ecs','update-service',{cluster:d.cluster,service:d.worker_service,taskDefinition:worker,desiredCount:2});await cli(['ecs','wait','services-stable','--region',region,'--cluster',d.cluster,'--services',d.worker_service]);await aws(region,'ecs','update-service',{cluster:d.cluster,service:d.api_service,taskDefinition:api,desiredCount:2});await cli(['ecs','wait','services-stable','--region',region,'--cluster',d.cluster,'--services',d.api_service]);
-const readiness=await fetch(d.public_origin+'/readyz',{signal:AbortSignal.timeout(20000)});if(!readiness.ok)throw new Error('Public readiness failed; use the recorded compatible rollback or forward-fix runbook');await privateJson('.cache/release/deployment.json',{createdAt:new Date().toISOString(),commit:sha,image,migration,worker,api,previousCompatible:previous.compatible});console.log(JSON.stringify({deployed:true,environment:d.environment,origin:d.public_origin,previousCompatible:previous.compatible}));
+import {fileURLToPath} from 'node:url';
+import path from 'node:path';
+import {deployment, aws as awsCommand, cli as awsWait, privateJson} from './aws-cli.mjs';
+import {commitPattern, taskRelease, requireMigrationSuccess, verifyReadiness, requireDeploymentAccount} from './deployment-verification.mjs';
+
+const allowed = ['family', 'taskRoleArn', 'executionRoleArn', 'networkMode', 'containerDefinitions', 'volumes', 'placementConstraints', 'requiresCompatibilities', 'cpu', 'memory', 'pidMode', 'ipcMode', 'proxyConfiguration', 'inferenceAccelerators', 'ephemeralStorage', 'runtimePlatform'];
+
+export async function deployRelease(d, {image, commit, execute = false}, {
+  aws = awsCommand, cli = awsWait, record = privateJson, readiness = verifyReadiness, readinessTimeoutMs = 20000
+} = {}) {
+  if (!commitPattern.test(commit || '') || !image?.startsWith(d.image_repository + '@sha256:') || !/@sha256:[a-f0-9]{64}$/.test(image)) {
+    throw new Error('Release requires a known commit and immutable image in this deployment repository');
+  }
+  if (!execute) return {
+    mode: 'review', environment: d.environment, image, commit,
+    actions: ['capture prior tasks and source provenance', 'drain pre-CP02 services if needed', 'register and verify digest-pinned task revisions', 'run private migration once', 'require successful exact-release migration', 'roll workers then API and wait stable', 'verify healthy matching release', 'publish frontend separately after readiness'],
+    requires: 'verified CI image/SBOM/scan, owner AWS authorization and release evidence'
+  };
+  await requireDeploymentAccount(d, aws);
+  const region = d.region, services = [d.api_service, d.worker_service];
+  const prior = await aws(region, 'ecs', 'describe-services', {cluster: d.cluster, services});
+  if (prior.failures?.length || !Array.isArray(prior.services) || prior.services.length !== services.length ||
+      new Set(prior.services.map(service => service.serviceName)).size !== services.length ||
+      prior.services.some(service => !services.includes(service.serviceName) || !service.taskDefinition || !Number.isInteger(service.desiredCount) || service.desiredCount < 0)) {
+    throw new Error('Current services are missing or ambiguous');
+  }
+  const previous = {
+    provenanceVersion: 1, schemaRelease: 2, createdAt: new Date().toISOString(), requestedCommit: commit,
+    commit: null, sourceCommit: null, environment: d.environment, cluster: d.cluster, services: [], compatible: true
+  };
+  let schemaCompatible = true;
+  for (const service of prior.services) {
+    const task = (await aws(region, 'ecs', 'describe-task-definition', {taskDefinition: service.taskDefinition})).taskDefinition;
+    if (!Array.isArray(task?.containerDefinitions) || !task.containerDefinitions.length ||
+        !task.containerDefinitions.every(container => container.environment?.some(item => item.name === 'SCHEMA_RELEASE' && item.value === '2'))) schemaCompatible = false;
+    let release = null;
+    try {
+      release = taskRelease(task, {repository: d.image_repository, arn: service.taskDefinition,
+        containerName: service.serviceName === d.api_service ? 'api' : 'worker'});
+    } catch {
+      previous.compatible = false;
+    }
+    previous.services.push({service: service.serviceName, taskDefinition: service.taskDefinition,
+      desiredCount: service.desiredCount, sourceCommit: release?.sourceCommit ?? null, image: release?.image ?? null});
+  }
+  const priorSources = new Set(previous.services.map(service => service.sourceCommit));
+  if (previous.compatible && priorSources.size === 1 && !priorSources.has(null)) {
+    previous.sourceCommit = previous.commit = [...priorSources][0];
+  } else {
+    previous.compatible = false;
+    previous.compatibilityReason = 'Prior tasks do not prove a single immutable CP-02 source release';
+  }
+  await record('.cache/release/previous-deployment.json', previous);
+  // Preserve the pre-CP02 drain requirement. Missing rollback provenance does
+  // not fabricate a prior commit or turn a known CP-02 schema into CP-01.
+  if (!schemaCompatible) {
+    for (const service of previous.services) await aws(region, 'ecs', 'update-service', {cluster: d.cluster, service: service.service, desiredCount: 0});
+    await cli(['ecs', 'wait', 'services-stable', '--region', region, '--cluster', d.cluster, '--services', ...services]);
+  }
+  async function revision(arn, containerName) {
+    const old = (await aws(region, 'ecs', 'describe-task-definition', {taskDefinition: arn})).taskDefinition;
+    if (!old || !Array.isArray(old.containerDefinitions) || !old.containerDefinitions.length) throw new Error('Base task definition is incomplete');
+    const input = Object.fromEntries(allowed.filter(key => old[key] !== undefined).map(key => [key, old[key]]));
+    input.containerDefinitions = input.containerDefinitions.map(container => ({...container, image, environment: [
+      ...(container.environment || []).filter(item => !['SOURCE_COMMIT', 'SCHEMA_RELEASE'].includes(item.name)),
+      {name: 'SOURCE_COMMIT', value: commit}, {name: 'SCHEMA_RELEASE', value: '2'}
+    ]}));
+    const registered = (await aws(region, 'ecs', 'register-task-definition', input)).taskDefinition;
+    taskRelease(registered, {repository: d.image_repository, image, commit, containerName});
+    if (registered.family !== old.family) throw new Error('Registered task family differs from the requested release');
+    return registered.taskDefinitionArn;
+  }
+  const migration = await revision(d.migration_task, 'migration');
+  const worker = await revision(d.worker_task, 'worker');
+  const api = await revision(d.api_task, 'api');
+  const started = await aws(region, 'ecs', 'run-task', {
+    cluster: d.cluster, taskDefinition: migration, launchType: 'FARGATE',
+    networkConfiguration: {awsvpcConfiguration: {subnets: d.application_subnets, securityGroups: [d.application_security_group], assignPublicIp: 'DISABLED'}}, startedBy: 'clipnest-release'
+  });
+  if (started.failures?.length || started.tasks?.length !== 1 || !started.tasks[0]?.taskArn) throw new Error('Migration task failed to start');
+  const taskArn = started.tasks[0].taskArn;
+  await cli(['ecs', 'wait', 'tasks-stopped', '--region', region, '--cluster', d.cluster, '--tasks', taskArn]);
+  const result = await aws(region, 'ecs', 'describe-tasks', {cluster: d.cluster, tasks: [taskArn]});
+  requireMigrationSuccess(result, {taskArn, taskDefinitionArn: migration, image});
+  for (const [service, taskDefinition] of [[d.worker_service, worker], [d.api_service, api]]) {
+    await aws(region, 'ecs', 'update-service', {cluster: d.cluster, service, taskDefinition, desiredCount: 2});
+    await cli(['ecs', 'wait', 'services-stable', '--region', region, '--cluster', d.cluster, '--services', service]);
+  }
+  const ready = await readiness(d.public_origin, commit, {timeoutMs: readinessTimeoutMs});
+  const released = {createdAt: new Date().toISOString(), commit, image, migration, worker, api, previousCompatible: previous.compatible, readiness: ready};
+  await record('.cache/release/deployment.json', released);
+  return {deployed: true, environment: d.environment, origin: d.public_origin, previousCompatible: previous.compatible, readiness: ready};
+}
+
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  const [outputs, image, commit] = process.argv.slice(2).filter(argument => !argument.startsWith('--'));
+  try {
+    if (!outputs || !image || !commit) throw new Error('Usage: node scripts/ops/deploy.mjs OUTPUTS_JSON ECR_URI@sha256:DIGEST COMMIT [--execute]');
+    console.log(JSON.stringify(await deployRelease(await deployment(outputs), {image, commit, execute: process.argv.includes('--execute')})));
+  } catch (error) {
+    console.error(JSON.stringify({event: 'deployment_failed', reason: error.message}));
+    process.exitCode = 1;
+  }
+}

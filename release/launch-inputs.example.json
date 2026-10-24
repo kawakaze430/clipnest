@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "accountId": "",
+  "deploymentRoleArn": "",
+  "region": "",
+  "monthlyBudgetUsd": null,
+  "stagingSpendLimitUsd": null,
+  "traffic": {
+    "dailyJobs": null,
+    "peakConcurrentJobs": null,
+    "maxFileMiB": null,
+    "maxDurationSeconds": null
+  },
+  "mailFrom": "",
+  "alertEmail": "",
+  "owner": {
+    "legalEntity": "",
+    "onCall": "",
+    "supportContact": "",
+    "launchMarkets": []
+  },
+  "mediaAuthorization": {
+    "reference": "",
+    "testVideoUrl": ""
+  }
+}

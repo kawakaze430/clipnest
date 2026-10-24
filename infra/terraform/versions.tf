@@ -9,7 +9,8 @@ terraform {
   }
 }
 provider "aws" {
-  region = var.region
+  region              = var.region
+  allowed_account_ids = [var.aws_account_id]
   default_tags {
     tags = {
       Application = "ClipNest", Environment = var.environment, ManagedBy = "Terraform"
@@ -17,8 +18,9 @@ provider "aws" {
   }
 }
 provider "aws" {
-  alias  = "global"
-  region = "us-east-1"
+  alias               = "global"
+  region              = "us-east-1"
+  allowed_account_ids = [var.aws_account_id]
   default_tags {
     tags = {
       Application = "ClipNest", Environment = var.environment, ManagedBy = "Terraform"

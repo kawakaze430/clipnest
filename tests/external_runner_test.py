@@ -41,6 +41,17 @@ class ExternalRunnerTests(unittest.TestCase):
         self.assertFalse(runner.disposable_url_allowed('postgresql://u:p@db.example.com/prod'))
         self.assertFalse(runner.disposable_url_allowed('https://localhost/test'))
 
+    def test_github_azure_artifact_sas_urls_are_not_retained(self):
+        url = ('https://storage.example.test/actions-results/artifact.zip?sv=2025-11-05'
+               '&se=2026-10-24T12%3A00%3A00Z&sig=synthetic-sas-value&sp=r')
+        error = 'error downloading evidence: Get "' + url + '": Forbidden'
+        safe = runner.redact(error, {})
+        self.assertNotIn('synthetic-sas-value', safe)
+        self.assertNotIn(url, safe)
+        self.assertIn('[REDACTED_SIGNED_OR_ACTION_URL]', safe)
+        self.assertEqual(runner.redact('https://api.github.com/repos/owner/repo/actions/artifacts', {}),
+                         'https://api.github.com/repos/owner/repo/actions/artifacts')
+
     def native_capabilities(self, mode='docker', docker=True):
         return {'tools': {'node': {'installed': True, 'version': 'v24.19.0'},
                           'npm': {'installed': True}, 'ffmpeg': {'installed': True},

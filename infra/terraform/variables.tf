@@ -1,3 +1,11 @@
+variable "aws_account_id" {
+  type        = string
+  description = "Expected owner-authorized AWS account. Both providers refuse another authenticated account."
+  validation {
+    condition     = can(regex("^[0-9]{12}$", var.aws_account_id))
+    error_message = "Supply the exact 12-digit owner-authorized AWS account ID."
+  }
+}
 variable "region" {
   type    = string
   default = "ap-south-1"

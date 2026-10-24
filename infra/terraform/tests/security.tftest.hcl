@@ -20,6 +20,7 @@ mock_provider "aws" {
   alias = "global"
 }
 variables {
+  aws_account_id       = "123456789012"
   mail_from            = "owner@example.test"
   media_public_key_pem = <<PEM
 -----BEGIN PUBLIC KEY-----
@@ -49,4 +50,12 @@ run "private_bootstrap" {
     condition     = output.security_posture.initial_api_tasks == 0 && output.security_posture.initial_worker_tasks == 0 && output.security_posture.immutable_images == "IMMUTABLE" && !output.security_posture.public_registration
     error_message = "Bootstrap must not start an unverified image or open registration."
   }
+}
+
+run "refuse_placeholder_account" {
+  command = plan
+  variables {
+    aws_account_id = "REPLACE_WITH_OWNER_ACCOUNT_ID"
+  }
+  expect_failures = [var.aws_account_id]
 }

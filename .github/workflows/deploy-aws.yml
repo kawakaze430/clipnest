@@ -79,7 +79,7 @@ jobs:
         run: node scripts/ops/deploy.mjs .cache/release/outputs.json "$RELEASE_IMAGE" "$GITHUB_SHA" --execute
       - name: Publish matching frontend
         run: |
-          aws s3 sync dist/ "s3://$FRONTEND_BUCKET/" --delete --exclude clipnest-source.zip --cache-control 'public,max-age=300'
+          aws s3 sync dist/ "s3://$FRONTEND_BUCKET/" --delete --exclude '*.zip' --exclude '*.sha256' --cache-control 'public,max-age=300'
           aws cloudfront create-invalidation --distribution-id "$DISTRIBUTION_ID" --paths '/*'
           node scripts/ops/probe.mjs "$PUBLIC_ORIGIN" github-runner .cache/release/probe.json
       - name: Save non-secret release records for compatible rollback
