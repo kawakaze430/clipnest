@@ -1,3 +1,9 @@
+# Update after H04 — remaining 46 tasks and rollout guardrails
+
+See [delivery/CODEX_REMAINING_46_PROMPT.md](delivery/CODEX_REMAINING_46_PROMPT.md) for the complete prioritized 46-task continuation and external prerequisites. The deployment migration now requires a confirmed stopped ECS task with present zero container exits; rollback requires healthy HTTPS readiness before reporting success. Unit regressions are in `tests/release-safety.test.mjs`. This narrow change does NOT close staging restore/rollback, alter the canonical 112 statuses or turn production GO. Run affected source and CI checks on the new commit before trusting its release tooling.
+
+---
+
 # ClipNest continuation — H04
 
 Continue the existing ClipNest CP-02 application, version 1.2.0. Take engineering ownership: implement remaining feasible work, diagnose actual failures, run affected checks, improve CI, and deliver complete source plus separate sanitized evidence. Read AGENTS.md, START_HERE.md, delivery/ENGINEERING_H04.md, delivery/HANDOFF_STATE.json, delivery/LOCAL_VERIFICATION.json, docs/END_TO_END_STATUS.json, docs/NEXT_PATH.md and docs/PRODUCTION_ACCEPTANCE.md first. Preserve the architecture and original 112 core IDs; eight optional domain/payment extras remain separate. Production stays NO_GO until real acceptance passes.
