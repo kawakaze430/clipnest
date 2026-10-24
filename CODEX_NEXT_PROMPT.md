@@ -8,6 +8,14 @@ Work directly on `main`. **Do not create any extra branch, worktree, or pull req
 
 Inspect `git status` and preserve existing user work. Fetch main and integrate concurrent changes safely. Never reset away work or force-push. Stage intended source/tests/workflows/docs only; exclude dependencies, runtime data, credentials, generated archives and evidence logs. After validation, commit and run `git push origin HEAD:refs/heads/main`, then verify the remote main SHA. Inspect push-triggered Actions when access is available. A push is not proof of green CI.
 
+## Current external blocker
+
+Main application commit `6b73b565e054b8be472bbb96e28fc2e99548dffd` was pushed successfully. Hosted run40060732120 rejected every job before any step because GitHub reports failed recent payments or a spending limit requiring attention. The account owner must resolve Billing & plans before retrying hosted execution. Do not repeatedly dispatch unchanged jobs or change payment settings automatically. All four local groups passed; their evidence remains valid on the recorded fingerprint.
+
+## Image security work remains
+
+Security refresh commit `91f5c7b14206669a9c7e0d1f344e794836941c09` is also on main. Current Debian13 image functionality passes, but strict Trivy scanning still fails:228 package findings representing47 unique CVEs (227HIGH/1CRITICAL), down from293/84 on Debian12. Node/Python findings are0 after removing build-only installers. Critical CVE-2026-6653 is in libxml2. No Debian fixed package is recorded, but upstream libxml2v2.15.4/FFmpegn9.0.2 exist; investigate a supported patched package set or verified ABI-consistent build. Do not call remediation impossible or suppress findings. Read the exact image/SBOM/triage artifacts and rerun only affected runtime/media/security checks after corrections.
+
 ## Goal and current source
 
 ClipNest CP-02, application version 1.2.0, engineering handoff H03. Preserve the existing architecture: static frontend, Node 24 API, email/password/session identity, PostgreSQL 17/RDS, durable analysis/download workers, S3/CloudFront, SQS/DLQ and SES. The goal is authorized URL → actual qualities → selected preparation/progress/cancel → final file, with private account history and usage.
@@ -53,3 +61,5 @@ Owner-specific prerequisites include scoped AWS account/deploy role, Region, sta
 ## Required delivery
 
 Report changes, commands/exit codes/test counts, source identity, blockers with owner/next action, and production decision. Update the same 112 IDs with evidence, recompute L/P/R/B/N counts, keep Markdown/compact status/handoff consistent, and increment the handoff for material changes. Return complete source and separate sanitized evidence ZIPs with SHA-256 checksums. State the pushed main commit and actual Actions status, including when remote results could not be inspected. Give the next bounded test/implementation prompt. Continue until feasible work is complete or a concrete external prerequisite blocks it.
+
+The official Alpine image alternative remains unbuilt: dl-cdn.alpinelinux.org package access returned HTTP403. The environment draft now contains that required domain; review/save applicable settings before retrying this affected preparation. Do not treat a bare base-image pull as application validation.

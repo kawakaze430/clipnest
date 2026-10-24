@@ -220,10 +220,10 @@
     }
   ],
   "initial_failures_fixed": [
-    "SplitUTF8 HTTPchunks corrupted Unicodepasswords",
-    "Actualaxe secondarytext contrast failures",
-    "TLS public certificate mode0600 under umask 077 deniedPostgreSQL access",
-    "Root-owned Docker publicmanifests mode0600 deniednon-root runtime access",
+    "Split UTF-8 HTTP chunks corrupted Unicode passwords",
+    "Actual axe secondary text contrast failures",
+    "TLS public certificate mode 0600 under umask 077 denied PostgreSQL access",
+    "Root-owned Docker public manifests mode 0600 denied non-root runtime access",
     "Buildx state under read-only HOME",
     "Trustedpublic proxy CA missing during npm/pip imagebuild"
   ],
@@ -243,9 +243,61 @@
   ],
   "counts": {
     "Locally implemented": 65,
-    "Partially implemented": 27,
-    "Prepared, not executed": 10,
+    "Partially implemented": 28,
+    "Prepared, not executed": 9,
     "Externally blocked": 10,
     "Not started": 0
+  },
+  "tested_application_commit": "6b73b565e054b8be472bbb96e28fc2e99548dffd",
+  "commit_provenance": "Local tests executed on working-tree code subsequently committed unchanged in this application commit. Each raw report retains its original base commit, fingerprint and timestamp.",
+  "hosted_ci": {
+    "url": "https://github.com/kawakaze430/clipnest/actions/runs/40060732120",
+    "application_commit": "6b73b565e054b8be472bbb96e28fc2e99548dffd",
+    "conclusion": "failure",
+    "classification": "account-blocked before execution",
+    "job_count": 7,
+    "jobs_with_steps": 0,
+    "annotation": "Main run 40060732120 on6b73b565e054b8be472bbb96e28fc2e99548dffd:all seven jobs failed before any step. GitHub annotation: The job was not started because recent account payments have failed or your spending limit needs to be increased.",
+    "billing_settings_changed": false,
+    "latest_url": "https://github.com/kawakaze430/clipnest/actions/runs/40061432748",
+    "latest_application_commit": "91f5c7b14206669a9c7e0d1f344e794836941c09",
+    "latest_jobs_with_steps": 0
+  },
+  "runtime_security_refresh": {
+    "application_commit": "91f5c7b14206669a9c7e0d1f344e794836941c09",
+    "files_changed_since_full_combined_run": [
+      "Dockerfile"
+    ],
+    "container_and_media_checks": "passed; separate fresh run, not reused original image evidence",
+    "image_id": "sha256:7ccf6117ea3bc498067b5be51480a0c36682de6ca53d36a1798e1985e6bee82e",
+    "node": "24.22.1",
+    "os": "Debian13.7",
+    "python": "3.13.5",
+    "ffmpeg": "7.1.5",
+    "scan_tool": "Official checksum-verified Trivy0.70.0",
+    "database": "Official ghcr.io/aquasecurity/trivy-db:2; OCI verified download",
+    "scan_exit_code": 1,
+    "high_findings": 227,
+    "critical_findings": 1,
+    "distinct_cves": 47,
+    "baseline_findings": 293,
+    "baseline_distinct_cves": 84,
+    "node_findings": 0,
+    "python_findings": 0,
+    "sbom": "CycloneDX 1.6 generated for exact candidate image",
+    "scope": "Package findings are not all distinct CVEs; no exploitability exception or suppression. Upstream remediation remains to investigate.",
+    "artifacts": [
+      "qa-artifacts/harness-repair/trivy-trixie-report.json",
+      "qa-artifacts/harness-repair/trixie-sbom.cdx.json",
+      "qa-artifacts/harness-repair/security-triage.json",
+      "qa-artifacts/harness-repair/trixie-runtime-media.log",
+      "qa-artifacts/harness-repair/container-trixie-security.log"
+    ],
+    "alternative_candidate": {
+      "base": "Official Node 24 Alpine",
+      "application_built": false,
+      "blocker": "HTTP403 CONNECT denied for dl-cdn.alpinelinux.org before package installation",
+      "network_requirement_saved": true
+    }
   }
 }

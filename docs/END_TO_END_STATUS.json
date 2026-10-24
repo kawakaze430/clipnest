@@ -4,13 +4,13 @@
   "checkpoint": "CP-02",
   "scope": "Full core free-beta release: initial scope through worldwide AWS rollout and post-launch operation.",
   "as_of": "2026-10-24T09:29:33+05:30",
-  "source_commit": "a2de3f3abca40916830b06c6470198ab55479fce",
+  "source_commit": "91f5c7b14206669a9c7e0d1f344e794836941c09",
   "source_unchanged_during_reporting": false,
   "total_core_tasks": 112,
   "counts": {
     "Locally implemented": 65,
-    "Partially implemented": 27,
-    "Prepared, not executed": 10,
+    "Partially implemented": 28,
+    "Prepared, not executed": 9,
     "Externally blocked": 10,
     "Not started": 0
   },
@@ -39,7 +39,7 @@
     "scope": "Local PGlite/HTTP/FFmpeg/emulatedDOM/activeSIGTERM; separate native PostgreSQL 17 suite29/29, real Chromium desktop/mobile8/8, Terraform mock1/1 and full container smoke passed.",
     "skipped_test": "PGlite-only native concurrency case; exercised in separate native PostgreSQL 17 suite"
   },
-  "verification_note": "H03 actual current-machine evidence:68 JS syntax checks;55unit passes+1explicitPGlite skip;20Python controller/CI tests;native PostgreSQL 17.11 29/29;Chromium 154 8/8;Terraform mock1/1;containerfunctional smoke;production npm audit0 known vulnerabilities. CI remote scan/pinnedbrowser and actual AWS/source/device acceptance are separate.",
+  "verification_note": "H03 actual current-machine evidence:68 JS syntax checks;55unit passes+1explicitPGlite skip;20Python controller/CI tests;native PostgreSQL 17.11 29/29;Chromium 154 8/8;Terraform mock1/1;containerfunctional smoke;production npm audit0 known vulnerabilities. CI remote scan/pinnedbrowser and actual AWS/source/device acceptance are separate. Runtime refresh:strict image scan remains FAILED(228package findings/47CVEs), exact-image SBOM generated; GitHub hosted runs blocked before execution by account billing.",
   "phases": [
     {
       "id": "A",
@@ -111,8 +111,7 @@
       "task_count": 7,
       "counts": {
         "L": 4,
-        "P": 2,
-        "R": 1
+        "P": 3
       }
     },
     {
@@ -762,7 +761,7 @@
       "title": "Native multi-client database test harness",
       "status": "L",
       "status_label": "Locally implemented",
-      "evidence": "Disposable PostgreSQL 17.11:29 native SQL/concurrency/upgrade/active SIGKILL/trusted-and-negative TLS tests passed with0 skips; auto mode also passed under umask 077.",
+      "evidence": "Disposable PostgreSQL 17.11: 29 native SQL/concurrency/upgrade/active SIGKILL/trusted-and-negative TLS tests passed with 0 skips; auto mode also passed under umask 077.",
       "whats_left": "Maintain harness compatibility; target RDS acceptance is separate E-04/I-06 work.",
       "owner": "Runner",
       "blocker_ids": [],
@@ -1077,7 +1076,7 @@
       "title": "Non-root container image definition",
       "status": "L",
       "status_label": "Locally implemented",
-      "evidence": "Actual Node24 image built; non-root migrations/API/worker, readable public manifests, writable cache/tmp and absence of build-only CA/trust variables verified.",
+      "evidence": "Actual Node 24 image built; non-root migrations/API/worker, readable public manifests, writable cache/tmp and absence of build-only CA/trust variables verified.",
       "whats_left": "Scan the exact release image and retain its SBOM; perform separate ECS/resource acceptance.",
       "owner": "Runner",
       "blocker_ids": [],
@@ -1090,7 +1089,7 @@
       "title": "Local database/migration/API/worker stack",
       "status": "L",
       "status_label": "Locally implemented",
-      "evidence": "Actual disposable Compose PostgreSQL/migrations/API/worker stack passed readiness, worker restart and real register/usage/CSRFlogout/session-revocation smoke.",
+      "evidence": "Actual disposable Compose PostgreSQL/migrations/API/worker stack passed readiness, worker restart and real register/usage/CSRF logout/session-revocation smoke.",
       "whats_left": "Keep this local development profile private; verify the separately deployed AWS stack.",
       "owner": "Runner",
       "blocker_ids": [],
@@ -1103,10 +1102,12 @@
       "title": "Hosted CI workflow",
       "status": "P",
       "status_label": "Partially implemented",
-      "evidence": "Independent main-push/manual CI groups, verified action pins, actionlint and sanitized failure artifacts implemented; local workflow/controller checks pass. Remote run must be inspected on pushed source.",
-      "whats_left": "Inspect the main-push workflow including pinned browser, exact-image scan and SBOM; fix observed failures.",
+      "evidence": "Independent main-push/manual groups, verified action pins, actionlint and sanitized failure artifacts implemented and locally validated. Both direct main code pushes succeeded; hosted runs40060732120 and40061432748 was rejected before all seven jobs executed due account payment/spending restriction.",
+      "whats_left": "Account owner resolves GitHub billing restriction, then rerun and inspect pinned-browser/image-scan/SBOM/full hosted results.",
       "owner": "Runner",
-      "blocker_ids": [],
+      "blocker_ids": [
+        "B-13"
+      ],
       "previous_status": "R",
       "checkpoint_updated": "H03"
     },
@@ -1138,16 +1139,17 @@
       "id": "H-07",
       "phase": "Build, containers and delivery pipeline",
       "title": "Image scanning, SBOM and provenance",
-      "status": "R",
-      "status_label": "Prepared, not executed",
-      "evidence": "Exact pushed-image Trivy scan, BuildKit SBOM/provenance, immutable ECR and dependency-update workflow authored; production npm audit reports zero known vulnerabilities.",
-      "whats_left": "Run image scan/attestation generation and verify exact digest/provenance on the runner.",
+      "status": "P",
+      "status_label": "Partially implemented",
+      "evidence": "Exact local image Trivy scan and CycloneDX SBOM executed. Supported Node 24/Debian13 update and build-tool removal reduced293 package findings/84CVEs to228 findings/47CVEs; strict gate still fails with227HIGH and1CRITICAL. Node/Python package findings are0. No suppression or severity override.",
+      "whats_left": "Remediate the remaining runtime package findings using a supported patched package/base set or verified ABI-consistent builds; rerun strict scan/media/container checks and generate release provenance.",
       "owner": "Assistant + Runner",
       "blocker_ids": [
-        "B-02"
+        "B-13",
+        "B-14"
       ],
-      "checkpoint_updated": "CP-02",
-      "previous_status": "N"
+      "checkpoint_updated": "H03",
+      "previous_status": "R"
     },
     {
       "id": "I-01",
@@ -1182,7 +1184,7 @@
       "title": "Infrastructure-as-code modules",
       "status": "P",
       "status_label": "Partially implemented",
-      "evidence": "Terraform1.17.0 locked AWS6.70.0 provider init/validate and private_bootstrap mock passed; account backend disabled.",
+      "evidence": "Terraform 1.17.0 locked AWS 6.70.0 provider init/validate and private_bootstrap mock passed; account backend disabled.",
       "whats_left": "Review cost and execute an authorized account-specific plan/apply and real cloud acceptance.",
       "owner": "Assistant",
       "blocker_ids": [
@@ -1302,7 +1304,7 @@
       "title": "Unit and local HTTP/fixture tests",
       "status": "L",
       "status_label": "Locally implemented",
-      "evidence": "CP-02 npm test: 53 passed, zero failures, one explicit native skip, including new lifecycle/adapters/retention/DOM/process tests. H03 npmtest 56 total:55 passed,0 failed,1explicitPGlite native skip; separate native suite executes native coverage.",
+      "evidence": "CP-02 npm test: 53 passed, zero failures, one explicit native skip, including new lifecycle/adapters/retention/DOM/process tests. H03 npmtest 56 total:55 passed, 0 failed,1explicitPGlite native skip; separate native suite executes native coverage.",
       "whats_left": "Execute the separately prepared real-environment checks and fix actual failures.",
       "owner": "Assistant",
       "blocker_ids": []
@@ -1335,7 +1337,7 @@
       "title": "Full browser end-to-end test suite",
       "status": "L",
       "status_label": "Locally implemented",
-      "evidence": "Complete desktop/mobile Chromium synthetic-media Playwright suite:8 passed,0 failed/skipped/flaky. Actual axe contrast failures fixed without weakening assertions. System Chromium 154 is recorded separately from pinned CI.",
+      "evidence": "Complete desktop/mobile Chromium synthetic-media Playwright suite: 8 passed, 0 failed/skipped/flaky. Actual axe contrast failures fixed without weakening assertions. System Chromium 154 is recorded separately from pinned CI.",
       "whats_left": "Keep browser/mobile-emulation evidence separate from real source, physical devices and deployed ingress; run pinned browser in CI.",
       "owner": "Assistant + Runner",
       "blocker_ids": [],
@@ -1799,6 +1801,26 @@
       "unblock": "First close release gates and operate the capped beta; then gather actual launch/1h/24h/7d evidence.",
       "owner": "Operator after authorized release",
       "hard_release_gate": true
+    },
+    {
+      "id": "B-13",
+      "title": "GitHub hosted Actions billing restriction",
+      "scope": "Hosted verification jobs and image-security artifacts",
+      "status": "open",
+      "evidence": "Main run 40060732120 on6b73b565e054b8be472bbb96e28fc2e99548dffd:all seven jobs failed before any step. GitHub annotation: The job was not started because recent account payments have failed or your spending limit needs to be increased.",
+      "unblock": "Account owner reviews Billing & plans and resolves the payment/spending restriction, then reruns the existing workflow. No payment/billing configuration was changed.",
+      "owner": "GitHub account owner",
+      "hard_release_gate": true
+    },
+    {
+      "id": "B-14",
+      "title": "Runtime image fails strict vulnerability gate",
+      "scope": "Release image security and media runtime dependencies",
+      "status": "open",
+      "evidence": "Current Debian13 candidate:228 findings representing47uniqueCVEs,227HIGH/1CRITICAL. Critical CVE-2026-6653 affects packaged libxml2. No fixed Debian13 version is recorded; upstream patched libxml2/FFmpeg releases exist, so this is not a claim that remediation is impossible.",
+      "unblock": "Evaluate a supported patched dependency/base set or verified compatible source builds; validate media and strict scan without exclusions. Keep production NO_GO while unresolved.",
+      "owner": "Engineering owner; package/upstream maintainers where updates are needed",
+      "hard_release_gate": true
     }
   ],
   "ownership": {
@@ -1815,8 +1837,8 @@
     },
     "counts": {
       "Locally implemented": 14,
-      "Partially implemented": 26,
-      "Prepared, not executed": 10,
+      "Partially implemented": 27,
+      "Prepared, not executed": 9,
       "Externally blocked": 1,
       "Not started": 0
     },

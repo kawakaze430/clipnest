@@ -25,7 +25,7 @@ Existing Chromium can be explicitly selected with CLIPNEST_CHROMIUM_EXECUTABLE_P
 
 ## Remaining stages
 
-1. Inspect main-push Actions logs/artifacts, fix actual failures and push directly to main. Rerun affected groups. Unavailable GitHub API access is a monitoring blocker, not a passed/failed CI result.
+1. Main-push run40060732120 was rejected before any job step because GitHub reports failed recent payments or a spending limit. The account owner must resolve Billing & plans; then rerun the existing run and inspect artifacts. Do not repeatedly dispatch unchanged jobs. Fix any actual source failures and push directly to main, rerunning affected groups. Local checks remain separate valid evidence.
 2. Obtain a permitted source-test reference and verify the actual app/image/network transfer before an expensive always-on stack. Preserve source restrictions; no cookies, alternate networks or TLS bypasses to conceal them.
 3. Establish scoped AWS access, Region/availability, approved staging/monthly spend and traffic, sender/alerts, public operator/support and policy/market inputs. Domain/payments remain optional. Inspect existing bindings before requesting secure values.
 4. Review account-specific staging cost/plan and execute only within actual authorization. Deploy matching image/schema/frontend with native DB, separate workers, queue and private signed media delivery.
@@ -33,3 +33,5 @@ Existing Chromium can be explicitly selected with CLIPNEST_CHROMIUM_EXECUTABLE_P
 6. Review gates, operate capped invitation beta and collect actual launch/1h/24h/7d observations before expansion. Elapsed operating evidence cannot be generated in advance.
 
 Preserve112 IDs and all five L/P/R/B/N counts. Update evidence and remaining acceptance instead of promoting a broad task from one local check. Deliver complete source/evidence ZIPs and checksums, updated status/handoff and the next precise prompt. Exclude credentials, private media, database contents, state and account-bearing traces from distributable artifacts.
+
+The official Alpine image alternative remains unbuilt: dl-cdn.alpinelinux.org package access returned HTTP403. The environment draft now contains that required domain; review/save applicable settings before retrying this affected preparation. Do not treat a bare base-image pull as application validation.

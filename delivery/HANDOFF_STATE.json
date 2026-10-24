@@ -10,7 +10,7 @@
     "Codex engineering ownership and verified direct main push workflow, no extra branch/PR",
     "UTF8 JSON/password preservation and realaxe contrast fixes",
     "DockerPG17 native/crash/TLS harness and explicitumaskpermissions",
-    "Verified publicbuild CA injection, writable Buildx state, fullcontainer accountsmoke",
+    "Verified publicbuild CA injection, writable Buildx state, full container accountsmoke",
     "Independent CIgroups, pinnedactions, failureartifacts, scan/SBOM and completepackaging",
     "Current112task evidence/counts and complete nexttesting prompt"
   ],
@@ -30,8 +30,8 @@
   },
   "status_counts": {
     "Locally implemented": 65,
-    "Partially implemented": 27,
-    "Prepared, not executed": 10,
+    "Partially implemented": 28,
+    "Prepared, not executed": 9,
     "Externally blocked": 10,
     "Not started": 0
   },
@@ -126,10 +126,11 @@
     "infra/terraform/README.md"
   ],
   "next_steps": [
-    "Inspect main-pushActions, fix actualfindings and rerunaffectedgroups only",
+    "Resolve runtime image security findings with supported patched dependencies; strict scan remains failed.",
+    "Inspect main-push Actions, fix actual findings and rerun affected groups only",
     "Read CODEX_NEXT_PROMPT.md; commit/pushdirect main withoutbranch/PR",
     "Obtain scopedAWS/Region/spend/source/sender/operator inputs",
-    "Costreviewedstaging and all16 realproduction gates",
+    "Costreviewedstaging and all 16 realproduction gates",
     "Operate cappedbeta and recordelapsedobservation"
   ],
   "blockers": [
@@ -245,6 +246,26 @@
       "unblock": "First close release gates and operate the capped beta; then gather actual launch/1h/24h/7d evidence.",
       "owner": "Operator after authorized release",
       "hard_release_gate": true
+    },
+    {
+      "id": "B-13",
+      "title": "GitHub hosted Actions billing restriction",
+      "scope": "Hosted verification jobs and image-security artifacts",
+      "status": "open",
+      "evidence": "Main run 40060732120 on6b73b565e054b8be472bbb96e28fc2e99548dffd:all seven jobs failed before any step. GitHub annotation: The job was not started because recent account payments have failed or your spending limit needs to be increased.",
+      "unblock": "Account owner reviews Billing & plans and resolves the payment/spending restriction, then reruns the existing workflow. No payment/billing configuration was changed.",
+      "owner": "GitHub account owner",
+      "hard_release_gate": true
+    },
+    {
+      "id": "B-14",
+      "title": "Runtime image fails strict vulnerability gate",
+      "scope": "Release image security and media runtime dependencies",
+      "status": "open",
+      "evidence": "Current Debian13 candidate:228 findings representing47uniqueCVEs,227HIGH/1CRITICAL. Critical CVE-2026-6653 affects packaged libxml2. No fixed Debian13 version is recorded; upstream patched libxml2/FFmpeg releases exist, so this is not a claim that remediation is impossible.",
+      "unblock": "Evaluate a supported patched dependency/base set or verified compatible source builds; validate media and strict scan without exclusions. Keep production NO_GO while unresolved.",
+      "owner": "Engineering owner; package/upstream maintainers where updates are needed",
+      "hard_release_gate": true
     }
   ],
   "ownership": {
@@ -300,5 +321,46 @@
     "drive": "Reported 5 TB, archive backup only",
     "aws": "Reported USD 200 credit, balance/eligibility/spend authorization unverified",
     "azure": "Reported USD 100 credit, backup remote runner only"
+  },
+  "current_application_commit": "91f5c7b14206669a9c7e0d1f344e794836941c09",
+  "git_workflow": {
+    "branch": "main",
+    "extra_branch_or_pr_created": false,
+    "push_verified": true,
+    "application_commit": "91f5c7b14206669a9c7e0d1f344e794836941c09",
+    "ci_run_url": "https://github.com/kawakaze430/clipnest/actions/runs/40061432748",
+    "ci_status": "blocked before job execution:GitHub account payment/spending restriction",
+    "ci_jobs_started": 0
+  },
+  "runtime_security_gate": {
+    "application_commit": "91f5c7b14206669a9c7e0d1f344e794836941c09",
+    "files_changed_since_full_combined_run": [
+      "Dockerfile"
+    ],
+    "container_and_media_checks": "passed; separate fresh run, not reused original image evidence",
+    "image_id": "sha256:7ccf6117ea3bc498067b5be51480a0c36682de6ca53d36a1798e1985e6bee82e",
+    "node": "24.22.1",
+    "os": "Debian13.7",
+    "python": "3.13.5",
+    "ffmpeg": "7.1.5",
+    "scan_tool": "Official checksum-verified Trivy0.70.0",
+    "database": "Official ghcr.io/aquasecurity/trivy-db:2; OCI verified download",
+    "scan_exit_code": 1,
+    "high_findings": 227,
+    "critical_findings": 1,
+    "distinct_cves": 47,
+    "baseline_findings": 293,
+    "baseline_distinct_cves": 84,
+    "node_findings": 0,
+    "python_findings": 0,
+    "sbom": "CycloneDX1.6 generated for exact candidate image",
+    "scope": "Package findings are not all distinct CVEs; no exploitability exception or suppression. Upstream remediation remains to investigate.",
+    "artifacts": [
+      "qa-artifacts/harness-repair/trivy-trixie-report.json",
+      "qa-artifacts/harness-repair/trixie-sbom.cdx.json",
+      "qa-artifacts/harness-repair/security-triage.json",
+      "qa-artifacts/harness-repair/trixie-runtime-media.log",
+      "qa-artifacts/harness-repair/container-trixie-security.log"
+    ]
   }
 }
