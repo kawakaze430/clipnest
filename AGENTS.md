@@ -2,7 +2,18 @@
 
 These project instructions carry the user's requested workflow into another coding environment. Follow the platform's governing instructions and the user's latest authorized scope.
 
-## Limited external execution profile — latest user direction
+## Current engineering ownership — 24 October 2026
+
+The user now assigns Codex implementation, verification, CI improvements and project handoff ownership. Fix observed source and runner defects, execute relevant tests, and continue feasible work. The earlier E01 execution-only restriction applies only when a future task explicitly selects that bounded profile.
+
+- Work directly on the existing `main` branch. Do not create another branch, worktree or pull request.
+- Preserve existing user work. Fetch and integrate concurrent main updates safely; never force-push or discard changes.
+- Commit verified source/docs/workflow changes and push directly with `git push origin HEAD:refs/heads/main`.
+- GitHub Actions verify code and retain artifacts; they must not auto-edit source or auto-push to main to hide failures.
+- Use `CODEX_NEXT_PROMPT.md` and `docs/NEXT_PATH.md` for current continuation and the testing matrix.
+- Separate completed engineering checks from owner-specific AWS inputs and actual production acceptance. Keep production NO_GO until the applicable gates pass.
+
+## Limited external execution profile — only when explicitly assigned
 
 Engineering ownership stays in the original project chat. When assigned E01/CLOUD_TEST_ONLY_PROMPT.md, act only as an executor: read this file and docs/EXTERNAL_EXECUTION.md, run the specified prepared checks, and return sanitized evidence plus complete source ZIP/checksum. Do not perform a full project audit, feature work, source/test/Terraform fixes, dependency upgrades, deployments or broad reruns. This explicit limited assignment narrows the general implementation workflow below; the owner reviews and fixes findings. Heavy Windows laptop work is a last fallback after suitable remote options fail.
 

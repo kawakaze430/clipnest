@@ -1,5 +1,7 @@
 # Paste into Codex Cloud — limited execution only
 
+Historical E01 profile: use this prompt only when explicitly requesting execution without source changes. For the current implementation/CI ownership assignment, use `CODEX_NEXT_PROMPT.md`; work directly on main, without another branch or PR.
+
 You are the **execution-only verifier** for my existing ClipNest project. The engineering owner remains the original ChatGPT project chat. My latest instruction narrows the general AGENTS.md workflow: **do not implement features, fix application/test/Terraform source, redesign, refactor, upgrade dependencies, audit the whole project or deploy anything**. Return findings to the owner.
 
 Read AGENTS.md, then docs/EXTERNAL_EXECUTION.md. Do not consume this task rereading the full 112-task plan. Use the current repository revision. The product goal is an authorized YouTube link → actual qualities → selected prepared download, but this task uses synthetic media and no YouTube/AWS credentials.

@@ -1,5 +1,7 @@
 # E01 — minimal external verification contract
 
+**H03 continuation:** the user's current assignment includes implementation/fixes and direct commits/pushes to `main`, with no extra branch or PR. Use `CODEX_NEXT_PROMPT.md` for that work. This document still defines the bounded execution-only profile when explicitly requested. Native tests now support `CLIPNEST_TEST_DATABASE_MODE=docker` for disposable PostgreSQL 17 and an existing daemon; browser evidence records an explicit `CLIPNEST_CHROMIUM_EXECUTABLE_PATH` override separately from Playwright's pinned browser. The runner never edits source or automatically promotes task statuses.
+
 Handoff H02, 23 October 2026. This is a bounded execution assignment, not a transfer of engineering ownership. The original chat owns implementation, analysis of failures, fixes, status and complete-source packaging. External Codex/CI/cloud runners execute only assigned commands and return evidence.
 
 ## What to run and what it proves

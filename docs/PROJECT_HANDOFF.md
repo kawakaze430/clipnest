@@ -1,5 +1,7 @@
 # Complete project handoff — ClipNest CP-02 / H01
 
+**H03 update, 24 October 2026:** current ownership, direct-main Git rules, code fixes, test evidence and remaining acceptance are in `CODEX_NEXT_PROMPT.md`, `docs/NEXT_PATH.md`, `delivery/LOCAL_VERIFICATION.json` and the refreshed task register. The H01 narrative below is historical; do not treat its old capability blockers/test counts as the latest run.
+
 Prepared 22 October 2026 from the actual repository and canonical 112-task register. Application baseline is commit 92a00a4bb1a2c0ae3de12105f37e129ab5e8df10, package 1.2.0. H01 adds portable handoff instructions, refreshed status snapshots and repeatable verified full-source packaging; it is not a new application release.
 
 ## Main goal and intended user flow

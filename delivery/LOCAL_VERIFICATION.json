@@ -1,46 +1,251 @@
 {
   "project": "ClipNest",
   "checkpoint": "CP-02",
-  "handoff_revision": "H01",
-  "recorded_at": "2026-10-22T11:46:41.362445+00:00",
-  "application_baseline_commit": "92a00a4bb1a2c0ae3de12105f37e129ab5e8df10",
-  "application_sources_changed": false,
+  "handoff_revision": "H03",
+  "recorded_at": "2026-10-24T09:29:33+05:30",
+  "application_version": "1.2.0",
+  "prior_application_baseline_commit": "92a00a4bb1a2c0ae3de12105f37e129ab5e8df10",
+  "source_base_commit": "a2de3f3abca40916830b06c6470198ab55479fce",
+  "application_sources_changed": true,
+  "app_test_tree_sha256": "9bbb87c2c368f1f4575ae02c0ddad67b22fff3ebaeb039b866281684a3354afd",
   "commands": [
     {
       "command": "npm run check",
       "exit_code": 0,
-      "javascript_files": 67,
-      "lock_and_entry_checks": "passed"
+      "syntax_files": 68
     },
     {
       "command": "npm test",
       "exit_code": 0,
-      "tests": 54,
-      "passed": 53,
+      "total": 56,
+      "passed": 55,
       "failed": 0,
-      "skipped": 1,
-      "duration_ms": 10500.087575
+      "skipped": 1
+    },
+    {
+      "command": "python3 -m unittest discover -s tests -p '*_test.py'",
+      "exit_code": 0,
+      "passed": 20
+    },
+    {
+      "command": "actionlint1.7.12",
+      "exit_code": 0
+    },
+    {
+      "command": "npm audit --omit=dev --audit-level=high --json",
+      "exit_code": 0,
+      "known_vulnerabilities": 0
+    },
+    {
+      "command": "node scripts/ops/load.mjs",
+      "exit_code": 0,
+      "requests": 20,
+      "accepted": 3,
+      "queue_full": 17,
+      "p95_ms": 181
+    },
+    {
+      "command": "CLIPNEST_TEST_DATABASE_MODE=docker CLIPNEST_CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium python3 scripts/external/verify.py run --groups native browser terraform containers --budget-minutes 20 --output qa-artifacts/h03-final",
+      "exit_code": 0,
+      "results": [
+        {
+          "group": "native",
+          "task_ids_for_review": [
+            "E-04",
+            "E-08",
+            "E-09",
+            "F-11",
+            "J-07",
+            "J-12"
+          ],
+          "status": "passed",
+          "commands": [
+            {
+              "argv": [
+                "node",
+                "scripts/test-database.mjs",
+                "--with-crash",
+                "--with-tls"
+              ],
+              "exit_code": 0,
+              "timed_out": false,
+              "seconds": 48.02,
+              "log": "native-1.log"
+            }
+          ],
+          "database_mode": "docker",
+          "test_counts": {
+            "tests": 29,
+            "pass": 29,
+            "fail": 0,
+            "skipped": 0
+          },
+          "scope": "Native runner PostgreSQL/concurrency/upgrade/SIGKILL/local trusted-and-negative TLS; not RDS"
+        },
+        {
+          "group": "browser",
+          "task_ids_for_review": [
+            "B-05",
+            "B-06",
+            "B-07",
+            "B-09",
+            "B-10",
+            "B-11",
+            "B-12",
+            "J-04"
+          ],
+          "status": "passed",
+          "commands": [
+            {
+              "argv": [
+                "node",
+                "node_modules/@playwright/test/cli.js",
+                "test",
+                "--reporter=json"
+              ],
+              "exit_code": 0,
+              "timed_out": false,
+              "seconds": 47.53,
+              "log": "browser-1.log"
+            }
+          ],
+          "browser_runtime": {
+            "installed": true,
+            "executable": "/usr/bin/chromium",
+            "selection": "explicit system browser",
+            "reason": "Executable existence only; no browser launch in capability probe",
+            "version": "Chromium 154.0.8037.57 built on Debian GNU/Linux 13 (trixie)"
+          },
+          "test_counts": {
+            "tests": 8,
+            "pass": 8,
+            "fail": 0,
+            "skipped": 0,
+            "flaky": 0,
+            "projects": [
+              "desktop-chromium",
+              "mobile-chromium"
+            ]
+          },
+          "scope": "Real Playwright Chromium desktop/mobile + axe with synthetic media; not real YouTube"
+        },
+        {
+          "group": "terraform",
+          "task_ids_for_review": [
+            "I-03",
+            "I-04",
+            "I-05",
+            "I-06",
+            "I-07",
+            "I-08"
+          ],
+          "status": "passed",
+          "commands": [
+            {
+              "argv": [
+                "/workspace/clipnest/.cache/external/bin/terraform",
+                "-chdir=infra/terraform",
+                "init",
+                "-backend=false",
+                "-input=false",
+                "-lockfile=readonly"
+              ],
+              "exit_code": 0,
+              "timed_out": false,
+              "seconds": 2.32,
+              "log": "terraform-1.log"
+            },
+            {
+              "argv": [
+                "/workspace/clipnest/.cache/external/bin/terraform",
+                "-chdir=infra/terraform",
+                "validate",
+                "-no-color"
+              ],
+              "exit_code": 0,
+              "timed_out": false,
+              "seconds": 3.39,
+              "log": "terraform-2.log"
+            },
+            {
+              "argv": [
+                "/workspace/clipnest/.cache/external/bin/terraform",
+                "-chdir=infra/terraform",
+                "test",
+                "-json",
+                "-no-color"
+              ],
+              "exit_code": 0,
+              "timed_out": false,
+              "seconds": 3.33,
+              "log": "terraform-3.log"
+            }
+          ],
+          "test_counts": {
+            "status": "pass",
+            "passed": 1,
+            "failed": 0,
+            "errored": 0,
+            "skipped": 0
+          },
+          "scope": "Locked real provider schema/mock checks; no account plan/apply"
+        },
+        {
+          "group": "containers",
+          "task_ids_for_review": [
+            "H-02",
+            "H-03",
+            "H-06",
+            "E-04"
+          ],
+          "status": "passed",
+          "commands": [
+            {
+              "argv": [
+                "bash",
+                "scripts/external/containers.sh"
+              ],
+              "exit_code": 0,
+              "timed_out": false,
+              "seconds": 54.74,
+              "log": "containers-1.log"
+            }
+          ],
+          "test_counts": {
+            "scope": "TLS + image/Compose/non-root/readiness/restart smoke only"
+          },
+          "scope": "Docker TLS/image/Compose/non-root/readiness/restart smoke; no active OOM/source/scan/SBOM proof"
+        }
+      ]
     }
   ],
-  "database_scope": "pglite-single-backend",
-  "skip": "native PostgreSQL parallel idempotency and global worker claim limits",
-  "scope": [
-    "Actual local HTTP",
-    "Real PostgreSQL SQL via single-backend PGlite",
-    "Real FFmpeg-generated fixture bytes/range",
-    "Real RSA signature verification",
-    "Injected AWS SDK contracts",
-    "Actual frontend JS in emulated DOM",
-    "Actual active-process SIGTERM"
+  "initial_failures_fixed": [
+    "SplitUTF8 HTTPchunks corrupted Unicodepasswords",
+    "Actualaxe secondarytext contrast failures",
+    "TLS public certificate mode0600 under umask 077 deniedPostgreSQL access",
+    "Root-owned Docker publicmanifests mode0600 deniednon-root runtime access",
+    "Buildx state under read-only HOME",
+    "Trustedpublic proxy CA missing during npm/pip imagebuild"
   ],
   "not_proved": [
-    "Native pg/concurrency/TLS",
-    "Containers",
-    "Terraform provider validation",
-    "Full real browser/device journey",
-    "AWS services",
-    "Full real authorized source transfer",
-    "Worldwide capacity/speed",
-    "Restore/rollback or elapsed operating observation"
-  ]
+    "PinnedCIbrowser and image security scan until remote run completes",
+    "ActualAWS/RDS/S3/SQS/CloudFront/SES/alarms/restore",
+    "Authorized realsource transfer",
+    "Physical devices/multigeography",
+    "ContaineractiveOOM/hardkill/disk/resource measurement",
+    "Owner publicpolicies/budget and elapsedbeta observation"
+  ],
+  "production_release_decision": "NO_GO",
+  "evidence_paths": [
+    "qa-artifacts/h03-final/summary.json",
+    "qa-artifacts/ci/",
+    "qa-artifacts/harness-repair/"
+  ],
+  "counts": {
+    "Locally implemented": 65,
+    "Partially implemented": 27,
+    "Prepared, not executed": 10,
+    "Externally blocked": 10,
+    "Not started": 0
+  }
 }

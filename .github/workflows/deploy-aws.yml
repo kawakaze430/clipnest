@@ -74,7 +74,7 @@ jobs:
           await appendFile(process.env.GITHUB_ENV,`RELEASE_IMAGE=${process.env.IMAGE_REPOSITORY}@${meta['containerimage.digest']}\n`);
           JS
       - name: Scan the exact pushed image
-        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25
+        uses: aquasecurity/trivy-action@a9c7b0f06e461e9d4b4d1711f154ee024b8d7ab8
         with:
           image-ref: ${{ env.RELEASE_IMAGE }}
           severity: HIGH,CRITICAL
@@ -89,7 +89,7 @@ jobs:
           aws cloudfront create-invalidation --distribution-id "$DISTRIBUTION_ID" --paths '/*'
           node scripts/ops/probe.mjs "$PUBLIC_ORIGIN" github-runner .cache/release/probe.json
       - name: Save non-secret release records for compatible rollback
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         if: always()
         with:
           name: release-${{ inputs.environment }}-${{ github.sha }}

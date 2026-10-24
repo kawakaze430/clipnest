@@ -1,9 +1,9 @@
 {
   "project": "ClipNest",
   "checkpoint": "CP-02",
-  "updated_at": "2026-10-22T16:49:08+05:30",
+  "updated_at": "2026-10-24T09:29:33+05:30",
   "release_decision": "NO_GO",
-  "release_reason": "Core lifecycle/distributed-adapter/retention code and external execution paths are prepared; real native/container/browser/AWS/source/operational/owner gates remain unpassed.",
+  "release_reason": "Local/native/browser/container/provider checks passed after observed fixes; actual AWS/source/device/operational/owner gates remain.",
   "status_labels": {
     "implemented": "Implemented",
     "partial": "Partial",
@@ -175,6 +175,257 @@
       },
       "browser_suite": "Authored for external runner, not executed",
       "desktop_browser_qa": "Illustrative quality picker/privacy page rendered; credential-bearing browser journey not performed"
+    },
+    "h03": {
+      "project": "ClipNest",
+      "checkpoint": "CP-02",
+      "handoff_revision": "H03",
+      "recorded_at": "2026-10-24T09:29:33+05:30",
+      "application_version": "1.2.0",
+      "prior_application_baseline_commit": "92a00a4bb1a2c0ae3de12105f37e129ab5e8df10",
+      "source_base_commit": "a2de3f3abca40916830b06c6470198ab55479fce",
+      "application_sources_changed": true,
+      "app_test_tree_sha256": "9bbb87c2c368f1f4575ae02c0ddad67b22fff3ebaeb039b866281684a3354afd",
+      "commands": [
+        {
+          "command": "npm run check",
+          "exit_code": 0,
+          "syntax_files": 68
+        },
+        {
+          "command": "npm test",
+          "exit_code": 0,
+          "total": 56,
+          "passed": 55,
+          "failed": 0,
+          "skipped": 1
+        },
+        {
+          "command": "python3 -m unittest discover -s tests -p '*_test.py'",
+          "exit_code": 0,
+          "passed": 20
+        },
+        {
+          "command": "actionlint1.7.12",
+          "exit_code": 0
+        },
+        {
+          "command": "npm audit --omit=dev --audit-level=high --json",
+          "exit_code": 0,
+          "known_vulnerabilities": 0
+        },
+        {
+          "command": "node scripts/ops/load.mjs",
+          "exit_code": 0,
+          "requests": 20,
+          "accepted": 3,
+          "queue_full": 17,
+          "p95_ms": 181
+        },
+        {
+          "command": "CLIPNEST_TEST_DATABASE_MODE=docker CLIPNEST_CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium python3 scripts/external/verify.py run --groups native browser terraform containers --budget-minutes 20 --output qa-artifacts/h03-final",
+          "exit_code": 0,
+          "results": [
+            {
+              "group": "native",
+              "task_ids_for_review": [
+                "E-04",
+                "E-08",
+                "E-09",
+                "F-11",
+                "J-07",
+                "J-12"
+              ],
+              "status": "passed",
+              "commands": [
+                {
+                  "argv": [
+                    "node",
+                    "scripts/test-database.mjs",
+                    "--with-crash",
+                    "--with-tls"
+                  ],
+                  "exit_code": 0,
+                  "timed_out": false,
+                  "seconds": 48.02,
+                  "log": "native-1.log"
+                }
+              ],
+              "database_mode": "docker",
+              "test_counts": {
+                "tests": 29,
+                "pass": 29,
+                "fail": 0,
+                "skipped": 0
+              },
+              "scope": "Native runner PostgreSQL/concurrency/upgrade/SIGKILL/local trusted-and-negative TLS; not RDS"
+            },
+            {
+              "group": "browser",
+              "task_ids_for_review": [
+                "B-05",
+                "B-06",
+                "B-07",
+                "B-09",
+                "B-10",
+                "B-11",
+                "B-12",
+                "J-04"
+              ],
+              "status": "passed",
+              "commands": [
+                {
+                  "argv": [
+                    "node",
+                    "node_modules/@playwright/test/cli.js",
+                    "test",
+                    "--reporter=json"
+                  ],
+                  "exit_code": 0,
+                  "timed_out": false,
+                  "seconds": 47.53,
+                  "log": "browser-1.log"
+                }
+              ],
+              "browser_runtime": {
+                "installed": true,
+                "executable": "/usr/bin/chromium",
+                "selection": "explicit system browser",
+                "reason": "Executable existence only; no browser launch in capability probe",
+                "version": "Chromium 154.0.8037.57 built on Debian GNU/Linux 13 (trixie)"
+              },
+              "test_counts": {
+                "tests": 8,
+                "pass": 8,
+                "fail": 0,
+                "skipped": 0,
+                "flaky": 0,
+                "projects": [
+                  "desktop-chromium",
+                  "mobile-chromium"
+                ]
+              },
+              "scope": "Real Playwright Chromium desktop/mobile + axe with synthetic media; not real YouTube"
+            },
+            {
+              "group": "terraform",
+              "task_ids_for_review": [
+                "I-03",
+                "I-04",
+                "I-05",
+                "I-06",
+                "I-07",
+                "I-08"
+              ],
+              "status": "passed",
+              "commands": [
+                {
+                  "argv": [
+                    "/workspace/clipnest/.cache/external/bin/terraform",
+                    "-chdir=infra/terraform",
+                    "init",
+                    "-backend=false",
+                    "-input=false",
+                    "-lockfile=readonly"
+                  ],
+                  "exit_code": 0,
+                  "timed_out": false,
+                  "seconds": 2.32,
+                  "log": "terraform-1.log"
+                },
+                {
+                  "argv": [
+                    "/workspace/clipnest/.cache/external/bin/terraform",
+                    "-chdir=infra/terraform",
+                    "validate",
+                    "-no-color"
+                  ],
+                  "exit_code": 0,
+                  "timed_out": false,
+                  "seconds": 3.39,
+                  "log": "terraform-2.log"
+                },
+                {
+                  "argv": [
+                    "/workspace/clipnest/.cache/external/bin/terraform",
+                    "-chdir=infra/terraform",
+                    "test",
+                    "-json",
+                    "-no-color"
+                  ],
+                  "exit_code": 0,
+                  "timed_out": false,
+                  "seconds": 3.33,
+                  "log": "terraform-3.log"
+                }
+              ],
+              "test_counts": {
+                "status": "pass",
+                "passed": 1,
+                "failed": 0,
+                "errored": 0,
+                "skipped": 0
+              },
+              "scope": "Locked real provider schema/mock checks; no account plan/apply"
+            },
+            {
+              "group": "containers",
+              "task_ids_for_review": [
+                "H-02",
+                "H-03",
+                "H-06",
+                "E-04"
+              ],
+              "status": "passed",
+              "commands": [
+                {
+                  "argv": [
+                    "bash",
+                    "scripts/external/containers.sh"
+                  ],
+                  "exit_code": 0,
+                  "timed_out": false,
+                  "seconds": 54.74,
+                  "log": "containers-1.log"
+                }
+              ],
+              "test_counts": {
+                "scope": "TLS + image/Compose/non-root/readiness/restart smoke only"
+              },
+              "scope": "Docker TLS/image/Compose/non-root/readiness/restart smoke; no active OOM/source/scan/SBOM proof"
+            }
+          ]
+        }
+      ],
+      "initial_failures_fixed": [
+        "SplitUTF8 HTTPchunks corrupted Unicodepasswords",
+        "Actualaxe secondarytext contrast failures",
+        "TLS public certificate mode0600 under umask 077 deniedPostgreSQL access",
+        "Root-owned Docker publicmanifests mode0600 deniednon-root runtime access",
+        "Buildx state under read-only HOME",
+        "Trustedpublic proxy CA missing during npm/pip imagebuild"
+      ],
+      "not_proved": [
+        "PinnedCIbrowser and image security scan until remote run completes",
+        "ActualAWS/RDS/S3/SQS/CloudFront/SES/alarms/restore",
+        "Authorized realsource transfer",
+        "Physical devices/multigeography",
+        "ContaineractiveOOM/hardkill/disk/resource measurement",
+        "Owner publicpolicies/budget and elapsedbeta observation"
+      ],
+      "production_release_decision": "NO_GO",
+      "evidence_paths": [
+        "qa-artifacts/h03-final/summary.json",
+        "qa-artifacts/ci/",
+        "qa-artifacts/harness-repair/"
+      ],
+      "counts": {
+        "Locally implemented": 65,
+        "Partially implemented": 27,
+        "Prepared, not executed": 10,
+        "Externally blocked": 10,
+        "Not started": 0
+      }
     }
   },
   "items": [
@@ -417,16 +668,17 @@
       "id": "B-01",
       "title": "Docker execution unavailable",
       "scope": "Container verification",
-      "evidence": "docker not on PATH; /var/run/docker.sock absent.",
-      "unblock": "Use a Docker-enabled local machine or authorised CI/CodeBuild runner; retain build/run logs.",
+      "evidence": "Docker28.4/Compose2.40.3 actual image/stack/native TLS/non-root/readiness/restart/account smoke passed.",
+      "unblock": "No action for this local capability. Separate actual AWS/resource/target acceptance remains in the task register.",
       "owner": "Execution environment / developer",
-      "hard_release_gate": true
+      "hard_release_gate": true,
+      "status": "resolved_local"
     },
     {
       "id": "B-02",
       "title": "AWS deployment access unavailable",
       "scope": "Cloud provisioning and AWS staging",
-      "evidence": "AWS CLI absent; no AWS auth source detected; plugin discovery found analytics functionality, not an infrastructure deployment connection.",
+      "evidence": "Current AWS config/credential paths exist but contain0 profiles; access-key/session-token/role/web-identity bindings absent; AWSCLI unavailable. No authenticated deployment context established.",
       "unblock": "Establish a scoped, authorised AWS deployment context and verify account, role, Region and permitted actions. No credentials in chat.",
       "owner": "Account owner / deployment environment",
       "hard_release_gate": true
@@ -444,10 +696,11 @@
       "id": "B-04",
       "title": "Native PostgreSQL execution requires another runtime",
       "scope": "Database integration verification",
-      "evidence": "Schema/repository implemented and PGlite SQL/HTTP tests passed. Native binaries installed; root-only UID namespace prevents non-root initdb execution (chown EINVAL). No native concurrency/TLS target supplied.",
-      "unblock": "Run the provided native suite in a mapped non-root environment or with a disposable TEST_DATABASE_URL. Preserve the single-backend/native distinction.",
+      "evidence": "Native DockerPostgreSQL 17.11 full29 tests passed; no mapped-UID/embedded-ICU dependency on this route.",
+      "unblock": "No action for this local capability. Separate actual AWS/resource/target acceptance remains in the task register.",
       "owner": "Docker/non-root runner or disposable database context",
-      "hard_release_gate": true
+      "hard_release_gate": true,
+      "status": "resolved_local"
     },
     {
       "id": "B-05",
@@ -491,10 +744,11 @@
       "id": "B-09",
       "title": "Terraform provider execution unavailable here",
       "scope": "Provider schema validation/mock tests",
-      "evidence": "Official Terraform 1.17.0 and AWS provider 6.70.0 installed; fmt passes; provider listen unix socket fails operation not permitted.",
-      "unblock": "Run the prepared locked-provider validate/mock jobs on a normal CI runner, then fix any real provider/API errors before plan/apply.",
+      "evidence": "Terraform1.17/AWS6.70 lockedprovider validate and mock passed.",
+      "unblock": "No action for this local capability. Separate actual AWS/resource/target acceptance remains in the task register.",
       "owner": "Runner executes; assistant owns any source fixes",
-      "hard_release_gate": true
+      "hard_release_gate": true,
+      "status": "resolved_local"
     },
     {
       "id": "B-10",
@@ -689,26 +943,26 @@
   },
   "ownership": {
     "assistant": "All feasible code, tests, docs, packaging and subsequent implementation.",
-    "codex_or_runner": "Only Docker/native PostgreSQL and target-network/AWS execution where these capabilities exist.",
+    "codex_or_runner": "Codex owns current implementation/verification/CI and direct main commits/pushes; no extra branch or PR. User supplies account/spend/source/public-policy inputs.",
     "user": "Account authorization, spending/traffic/product/source inputs, DNS and merchant setup if required."
   },
   "master_register": {
-    "version": 2,
+    "version": 3,
     "checkpoint": "CP-02",
     "scope": "Full core free-beta release: initial scope through worldwide AWS rollout and post-launch operation.",
     "total_core_tasks": 112,
     "counts": {
-      "Locally implemented": 60,
-      "Partially implemented": 25,
-      "Prepared, not executed": 17,
+      "Locally implemented": 65,
+      "Partially implemented": 27,
+      "Prepared, not executed": 10,
       "Externally blocked": 10,
       "Not started": 0
     },
-    "report": "ClipNest-End-to-End-Status.md",
-    "machine_register": "ClipNest-End-to-End-Status.json",
+    "report": "docs/END_TO_END_STATUS.md",
+    "machine_register": "docs/END_TO_END_STATUS.json",
     "conditional_tasks_excluded": 8,
     "counting_note": "These 112 original task IDs are authoritative; do not add old broad areas/checkpoint batch counts. Counts are not weighted effort or production readiness.",
-    "source_commit": "92a00a4bb1a2c0ae3de12105f37e129ab5e8df10"
+    "source_commit": "a2de3f3abca40916830b06c6470198ab55479fce"
   },
   "target_batch": {
     "task_count": 51,
@@ -717,9 +971,9 @@
       "Partially implemented": 16
     },
     "counts": {
-      "Locally implemented": 12,
-      "Partially implemented": 25,
-      "Prepared, not executed": 13,
+      "Locally implemented": 14,
+      "Partially implemented": 26,
+      "Prepared, not executed": 10,
       "Externally blocked": 1,
       "Not started": 0
     },
@@ -777,5 +1031,6 @@
       "K-10"
     ],
     "note": "All 51 received code, tests, definitions, runbooks or concrete owner/execution preparation. They are not all production-complete. Full task IDs and acceptance scope are preserved."
-  }
+  },
+  "handoff_revision": "H03"
 }

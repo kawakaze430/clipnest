@@ -2,22 +2,22 @@
   "schema_version": 1,
   "project": "ClipNest",
   "checkpoint": "CP-02",
-  "handoff_revision": "H02",
-  "prepared_date": "2026-10-23",
+  "handoff_revision": "H03",
+  "prepared_date": "2026-10-24",
   "application_version": "1.2.0",
   "application_baseline_commit": "92a00a4bb1a2c0ae3de12105f37e129ab5e8df10",
   "handoff_changes": [
-    "Minimal execution-only Codex Cloud prompt and retained engineering ownership",
-    "Capability probe and bounded external native/browser/provider/container controller",
-    "One disposable native database run with optional SIGKILL and local TLS coverage",
-    "Remote setup, targeted manual Actions workflow and CodeBuild fallback definitions",
-    "Resource/dependency routing prioritizing remote work and the Windows laptop last",
-    "Complete source ZIP with updated guides, status and verification records"
+    "Codex engineering ownership and verified direct main push workflow, no extra branch/PR",
+    "UTF8 JSON/password preservation and realaxe contrast fixes",
+    "DockerPG17 native/crash/TLS harness and explicitumaskpermissions",
+    "Verified publicbuild CA injection, writable Buildx state, fullcontainer accountsmoke",
+    "Independent CIgroups, pinnedactions, failureartifacts, scan/SBOM and completepackaging",
+    "Current112task evidence/counts and complete nexttesting prompt"
   ],
-  "application_source_changed_in_handoff": false,
+  "application_source_changed_in_handoff": true,
   "release_decision": "NO_GO",
   "aws_backend_deployed": false,
-  "main_goal": "Authenticated authorized YouTube/Shorts link \u2192 actual available video/audio qualities \u2192 selected durable preparation/progress/cancel \u2192 final file download, private account history/usage; complete bounded AWS service for approved worldwide markets.",
+  "main_goal": "Authenticated authorized YouTube/Shorts link → actual available video/audio qualities → selected durable preparation/progress/cancel → final file download, private account history/usage; complete bounded AWS service for approved worldwide markets.",
   "scope": {
     "initial_release": "Free capped invitation beta",
     "core_task_total": 112,
@@ -29,9 +29,9 @@
     "no_guaranteed_download_speed": true
   },
   "status_counts": {
-    "Locally implemented": 60,
-    "Partially implemented": 25,
-    "Prepared, not executed": 17,
+    "Locally implemented": 65,
+    "Partially implemented": 27,
+    "Prepared, not executed": 10,
     "Externally blocked": 10,
     "Not started": 0
   },
@@ -68,21 +68,17 @@
     "availability": "Single primary application Region with Multi-AZ target and global CDN; no multi-Region failover proof"
   },
   "current_local_run": {
-    "commands": [
-      "npm run check",
-      "npm test"
-    ],
-    "result": "passed with one explicit native skip",
-    "tests_total": 54,
-    "passed": 53,
+    "record": "delivery/LOCAL_VERIFICATION.json",
+    "tests_total": 56,
+    "passed": 55,
     "failed": 0,
     "skipped": 1,
-    "syntax_files": 67,
-    "scope": "Actual PostgreSQL SQL via PGlite single backend; real local HTTP and FFmpeg fixture; AWS SDK transport injection and real RSA signing; actual frontend JavaScript in emulated DOM; actual process SIGTERM. No native PostgreSQL, Docker, real AWS/S3/SQS/SES/CloudFront, automated browser suite or completed real YouTube transfer proof.",
-    "skipped_test": "native PostgreSQL parallel idempotency and global worker claim limits",
-    "record": "delivery/LOCAL_VERIFICATION.json",
-    "executed_on": "2026-10-22",
-    "is_h02_rerun": false
+    "native_pg17_passed": 29,
+    "browser_passed": 8,
+    "python_helper_passed": 20,
+    "terraform_mock_passed": 1,
+    "container_smoke": "passed",
+    "production_accepted": false
   },
   "prior_evidence": {
     "local_burst": {
@@ -105,7 +101,7 @@
     "Terraform provider validate/mock and account plan/apply",
     "Full real desktop/mobile browser and device journey",
     "Actual AWS S3/SQS/CloudFront/SES/IAM/WAF",
-    "Full real authorized YouTube app\u2192worker\u2192device transfer",
+    "Full real authorized YouTube app→worker→device transfer",
     "Multi-instance active loss/outages and physical object deletion",
     "Real RDS restore/RTO/RPO and compatible image/frontend rollback",
     "Actual multi-geography load/speed/cost",
@@ -114,6 +110,7 @@
     "Elapsed capped-beta observation"
   ],
   "first_read": [
+    "CODEX_NEXT_PROMPT.md",
     "docs/NEXT_PATH.md",
     "START_HERE.md",
     "AGENTS.md",
@@ -129,31 +126,28 @@
     "infra/terraform/README.md"
   ],
   "next_steps": [
-    "Use verified same-source CI results if already available; avoid duplicate cloud runs",
-    "Run bounded E01 in prepared Codex Cloud only for native/browser/provider and optional existing-Docker checks",
-    "Return full source and separate sanitized evidence ZIP to original chat",
-    "Original chat reviews/fixes findings and requests only affected checks",
-    "Use targeted Actions, then approved CodeBuild/other remote runner for concrete remaining environment blockers",
-    "Review actual source feasibility before costly always-on AWS provisioning",
-    "Confirm owner account/role/Region/spend/traffic/sender/alerts/operator/source/market inputs",
-    "Review/deploy authorized staging and close actual 16 production gates",
-    "Operate capped beta and review elapsed observations before expansion"
+    "Inspect main-pushActions, fix actualfindings and rerunaffectedgroups only",
+    "Read CODEX_NEXT_PROMPT.md; commit/pushdirect main withoutbranch/PR",
+    "Obtain scopedAWS/Region/spend/source/sender/operator inputs",
+    "Costreviewedstaging and all16 realproduction gates",
+    "Operate cappedbeta and recordelapsedobservation"
   ],
   "blockers": [
     {
       "id": "B-01",
       "title": "Docker execution unavailable",
       "scope": "Container verification",
-      "evidence": "docker not on PATH; /var/run/docker.sock absent.",
-      "unblock": "Use a Docker-enabled local machine or authorised CI/CodeBuild runner; retain build/run logs.",
+      "evidence": "Docker28.4/Compose2.40.3 actual image/stack/native TLS/non-root/readiness/restart/account smoke passed.",
+      "unblock": "No action for this local capability. Separate actual AWS/resource/target acceptance remains in the task register.",
       "owner": "Execution environment / developer",
-      "hard_release_gate": true
+      "hard_release_gate": true,
+      "status": "resolved_local"
     },
     {
       "id": "B-02",
       "title": "AWS deployment access unavailable",
       "scope": "Cloud provisioning and AWS staging",
-      "evidence": "AWS CLI absent; no AWS auth source detected; plugin discovery found analytics functionality, not an infrastructure deployment connection.",
+      "evidence": "Current AWS config/credential paths exist but contain0 profiles; access-key/session-token/role/web-identity bindings absent; AWSCLI unavailable. No authenticated deployment context established.",
       "unblock": "Establish a scoped, authorised AWS deployment context and verify account, role, Region and permitted actions. No credentials in chat.",
       "owner": "Account owner / deployment environment",
       "hard_release_gate": true
@@ -171,10 +165,11 @@
       "id": "B-04",
       "title": "Native PostgreSQL execution requires another runtime",
       "scope": "Database integration verification",
-      "evidence": "Schema/repository implemented and PGlite SQL/HTTP tests passed. Native binaries installed; root-only UID namespace prevents non-root initdb execution (chown EINVAL). No native concurrency/TLS target supplied.",
-      "unblock": "Run the provided native suite in a mapped non-root environment or with a disposable TEST_DATABASE_URL. Preserve the single-backend/native distinction.",
+      "evidence": "Native DockerPostgreSQL 17.11 full29 tests passed; no mapped-UID/embedded-ICU dependency on this route.",
+      "unblock": "No action for this local capability. Separate actual AWS/resource/target acceptance remains in the task register.",
       "owner": "Docker/non-root runner or disposable database context",
-      "hard_release_gate": true
+      "hard_release_gate": true,
+      "status": "resolved_local"
     },
     {
       "id": "B-05",
@@ -218,10 +213,11 @@
       "id": "B-09",
       "title": "Terraform provider execution unavailable here",
       "scope": "Provider schema validation/mock tests",
-      "evidence": "Official Terraform 1.17.0 and AWS provider 6.70.0 installed; fmt passes; provider listen unix socket fails operation not permitted.",
-      "unblock": "Run the prepared locked-provider validate/mock jobs on a normal CI runner, then fix any real provider/API errors before plan/apply.",
+      "evidence": "Terraform1.17/AWS6.70 lockedprovider validate and mock passed.",
+      "unblock": "No action for this local capability. Separate actual AWS/resource/target acceptance remains in the task register.",
       "owner": "Runner executes; assistant owns any source fixes",
-      "hard_release_gate": true
+      "hard_release_gate": true,
+      "status": "resolved_local"
     },
     {
       "id": "B-10",
@@ -253,7 +249,7 @@
   ],
   "ownership": {
     "assistant": "All feasible implementation, local tests, documentation, source packaging and fixes after external execution evidence. The 51 targeted IDs remain traceable.",
-    "codex_or_runner": "Execution only where required: Docker/native PostgreSQL/TLS, provider validation, browser suite and actual AWS/source/restore/failure/geography checks. The prepared handoff minimizes rewriting.",
+    "codex_or_runner": "Codex owns current implementation/verification/CI and direct main commits/pushes; no extra branch or PR. User supplies account/spend/source/public-policy inputs.",
     "user": "Scoped AWS/account/Region/budget/traffic authorization, sender/alert recipient, public operator/contact/policy/market/source rights inputs. DNS and payments only if selected."
   },
   "packaging": {
@@ -293,7 +289,8 @@
     "return_evidence_and_full_source_separately": true,
     "automatic_master_promotion": false,
     "docker_if_working_daemon_only": true,
-    "windows_local_heavy_setup": "Last fallback only"
+    "windows_local_heavy_setup": "Last fallback only",
+    "current_direction": "Engineeringownership supersedes oldexecution-only profile unless explicitlyselected; direct main, no extra branch/PR."
   },
   "user_reported_resources": {
     "codex_cloud": "Limited Plus access; actual quota not verified",

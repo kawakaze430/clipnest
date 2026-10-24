@@ -1,5 +1,7 @@
 # ClipNest · CP-02
 
+**Current engineering handoff H03 (24 October 2026):** Codex owns the current implementation/CI work and commits verified changes directly to `main`; no extra branch or PR. See [the continuation prompt](CODEX_NEXT_PROMPT.md) and [testing/remaining gates](docs/NEXT_PATH.md). Earlier H02 execution-only instructions are historical unless that profile is explicitly assigned.
+
 **H02 / next step:** [Minimal external verification and ownership](docs/NEXT_PATH.md), [Codex Cloud test-only prompt](CLOUD_TEST_ONLY_PROMPT.md), and [execution contract](docs/EXTERNAL_EXECUTION.md). The original project chat owns implementation/fixes; external runners execute only assigned unavailable checks. No heavy Windows setup is required now.
 
 **New model or complete project handoff:** read [START_HERE.md](START_HERE.md), [the complete handoff](docs/COMPLETE_HANDOFF.md) and [the continuation prompt](NEXT_MODEL_PROMPT.md). H01 adds handoff/packaging instructions; application status remains CP-02. The complete ZIP includes the original 112-task register, remaining work and real production-test checklist.
@@ -36,6 +38,16 @@ node scripts/ops/load.mjs
 npm run package
 python3 scripts/package.py --verify dist/clipnest-source.zip
 ```
+
+On a machine with an existing Docker daemon, the native PostgreSQL 17/concurrency/upgrade/crash/TLS checks can run without the embedded package's host-library requirements:
+
+```sh
+CLIPNEST_TEST_DATABASE_MODE=docker node scripts/test-database.mjs --with-crash --with-tls
+```
+
+The harness uses a disposable loopback-only database, retains sanitized startup errors, and removes its own container and certificates. `auto` mode uses embedded PostgreSQL when its runtime works and otherwise tries an existing Docker daemon; it never starts a nested daemon. Production remains PostgreSQL 17/RDS and needs separate acceptance.
+
+CI installs Playwright's pinned Chromium. A prepared environment with an existing Chromium can explicitly run `CLIPNEST_CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium npm run test:browser`; record the actual browser version and keep that result separate from the pinned CI browser. No browser security flags or axe assertions are disabled.
 
 - `npm test`: unit tests, actual local HTTP, real FFmpeg fixture, PostgreSQL SQL through PGlite by default, AWS SDK contract injection, actual RSA signing, emulated-DOM frontend and real-process SIGTERM. Native concurrency is explicitly skipped without a native target.
 - `test:database`: disposable native PostgreSQL or explicit `TEST_DATABASE_URL`; expands accounting/leases/upgrade tests to native connections. Needs a mapped non-root runtime if starting embedded PostgreSQL.

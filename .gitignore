@@ -16,3 +16,5 @@ qa-artifacts/
 !terraform.tfvars.example
 playwright-report/
 test-results/
+dist/clipnest-source.zip
+dist/clipnest-source.zip.sha256

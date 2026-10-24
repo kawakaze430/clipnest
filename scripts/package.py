@@ -17,7 +17,7 @@ MANIFEST = PREFIX + 'delivery/FILE_MANIFEST.json'
 SOURCE_DIRS = ('backend', 'dist', 'tests', 'scripts', 'docs', '.github', 'infra', 'certs', 'release', 'delivery')
 ROOT_FILES = ('package.json', 'package-lock.json', 'requirements.txt', '.env.example',
               'Dockerfile', 'compose.yaml', '.dockerignore', '.gitignore',
-              'playwright.config.mjs', '.openai/hosting.json')
+              'playwright.config.mjs', '.openai/hosting.json', 'ClipNest-H02-Delivery-Receipt.json')
 REQUIRED = ('README.md', 'START_HERE.md', 'NEXT_MODEL_PROMPT.md', 'AGENTS.md',
             'backend/server.mjs', 'backend/worker.mjs', 'dist/index.html',
             'package-lock.json', 'docs/END_TO_END_STATUS.json', 'delivery/HANDOFF_STATE.json')

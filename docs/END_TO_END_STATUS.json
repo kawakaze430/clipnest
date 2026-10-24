@@ -1,16 +1,16 @@
 {
   "project": "ClipNest",
-  "register_version": 2,
+  "register_version": 3,
   "checkpoint": "CP-02",
   "scope": "Full core free-beta release: initial scope through worldwide AWS rollout and post-launch operation.",
-  "as_of": "2026-10-22T16:49:08+05:30",
-  "source_commit": "92a00a4bb1a2c0ae3de12105f37e129ab5e8df10",
+  "as_of": "2026-10-24T09:29:33+05:30",
+  "source_commit": "a2de3f3abca40916830b06c6470198ab55479fce",
   "source_unchanged_during_reporting": false,
   "total_core_tasks": 112,
   "counts": {
-    "Locally implemented": 60,
-    "Partially implemented": 25,
-    "Prepared, not executed": 17,
+    "Locally implemented": 65,
+    "Partially implemented": 27,
+    "Prepared, not executed": 10,
     "Externally blocked": 10,
     "Not started": 0
   },
@@ -32,14 +32,14 @@
   "production_aws_live": false,
   "private_frontend_version": 3,
   "tests": {
-    "total": 54,
-    "passed": 53,
+    "total": 56,
+    "passed": 55,
     "failed": 0,
     "skipped": 1,
-    "scope": "Actual PostgreSQL SQL via PGlite single backend; real local HTTP and FFmpeg fixture; AWS SDK transport injection and real RSA signing; actual frontend JavaScript in emulated DOM; actual process SIGTERM. No native PostgreSQL, Docker, real AWS/S3/SQS/SES/CloudFront, automated browser suite or completed real YouTube transfer proof.",
-    "skipped_test": "native PostgreSQL parallel idempotency and global worker claim limits"
+    "scope": "Local PGlite/HTTP/FFmpeg/emulatedDOM/activeSIGTERM; separate native PostgreSQL 17 suite29/29, real Chromium desktop/mobile8/8, Terraform mock1/1 and full container smoke passed.",
+    "skipped_test": "PGlite-only native concurrency case; exercised in separate native PostgreSQL 17 suite"
   },
-  "verification_note": "CP-02 newly executed checks. 67 JavaScript syntax checks, lock/entry checks, YAML parsing, shell syntax, Terraform fmt and production npm audit passed. Terraform validate/mock tests cannot execute because the provider socket is forbidden. Browser QA covered desktop illustrative picker/privacy rendering only; no credential-bearing browser journey is claimed.",
+  "verification_note": "H03 actual current-machine evidence:68 JS syntax checks;55unit passes+1explicitPGlite skip;20Python controller/CI tests;native PostgreSQL 17.11 29/29;Chromium 154 8/8;Terraform mock1/1;containerfunctional smoke;production npm audit0 known vulnerabilities. CI remote scan/pinnedbrowser and actual AWS/source/device acceptance are separate.",
   "phases": [
     {
       "id": "A",
@@ -56,8 +56,8 @@
       "name": "Consumer frontend",
       "task_count": 12,
       "counts": {
-        "L": 4,
-        "P": 8
+        "L": 5,
+        "P": 7
       }
     },
     {
@@ -83,9 +83,8 @@
       "name": "Database persistence and migrations",
       "task_count": 10,
       "counts": {
-        "L": 7,
-        "P": 2,
-        "R": 1
+        "L": 8,
+        "P": 2
       }
     },
     {
@@ -111,8 +110,9 @@
       "name": "Build, containers and delivery pipeline",
       "task_count": 7,
       "counts": {
-        "L": 2,
-        "R": 5
+        "L": 4,
+        "P": 2,
+        "R": 1
       }
     },
     {
@@ -121,7 +121,8 @@
       "task_count": 10,
       "counts": {
         "B": 3,
-        "R": 7
+        "P": 1,
+        "R": 6
       }
     },
     {
@@ -129,9 +130,9 @@
       "name": "Testing, reliability and operations",
       "task_count": 12,
       "counts": {
-        "L": 4,
-        "R": 3,
-        "P": 5
+        "L": 5,
+        "P": 5,
+        "R": 2
       }
     },
     {
@@ -283,11 +284,10 @@
       "title": "Mobile layouts and device acceptance",
       "status": "P",
       "status_label": "Partially implemented",
-      "evidence": "Responsive account/operator/policy layouts added; desktop picker/privacy browser review completed; desktop/mobile Playwright overflow/download suite prepared.",
+      "evidence": "Responsive account/operator/policy layouts added; desktop picker/privacy browser review completed; desktop/mobile Playwright overflow/download suite prepared. H03 desktop/mobile emulation overflow/file journeys passed; physical hardware remains untested.",
       "whats_left": "Execute mobile browser/device/touch/file-save acceptance against the deployed API.",
       "owner": "Assistant + Runner",
       "blocker_ids": [
-        "B-01",
         "B-02"
       ],
       "checkpoint_updated": "CP-02",
@@ -297,15 +297,13 @@
       "id": "B-06",
       "phase": "Consumer frontend",
       "title": "Account sign-up/sign-in/sign-out interface",
-      "status": "P",
-      "status_label": "Partially implemented",
-      "evidence": "Actual frontend JS passed registration, login, logout and account-state checks against real HTTP/SQL in an emulated DOM; expiry-registration mode defect fixed.",
-      "whats_left": "Run credential-bearing desktop/mobile browser suite; DOM emulation is not real browser acceptance.",
+      "status": "L",
+      "status_label": "Locally implemented",
+      "evidence": "Credential-bearing desktop/mobile Chromium signup/login/logout, private history clearing and relogin passed in the full synthetic-media suite.",
+      "whats_left": "Repeat against intended HTTPS ingress as part of separate production routing/cookie acceptance.",
       "owner": "Assistant + Runner",
-      "blocker_ids": [
-        "B-01"
-      ],
-      "checkpoint_updated": "CP-02",
+      "blocker_ids": [],
+      "checkpoint_updated": "H03",
       "previous_status": "P"
     },
     {
@@ -314,12 +312,10 @@
       "title": "Session expiry and signed-out recovery UI",
       "status": "P",
       "status_label": "Partially implemented",
-      "evidence": "Actual frontend handles revoked sessions, clears private history, reopens sign-in and relogs in; emulated-DOM test passed; one-use reset form also passed.",
+      "evidence": "Actual frontend handles revoked sessions, clears private history, reopens sign-in and relogs in; emulated-DOM test passed; one-use reset form also passed. H03 actual browser interrupted-progress/reload/session-loss/relogin passed.",
       "whats_left": "Execute actual device/browser expiry, reload and recovery acceptance.",
       "owner": "Assistant + Runner",
-      "blocker_ids": [
-        "B-01"
-      ],
+      "blocker_ids": [],
       "checkpoint_updated": "CP-02",
       "previous_status": "P"
     },
@@ -333,8 +329,7 @@
       "whats_left": "Verify real CloudFront/ALB Origin, forwarded-hop, secure-cookie and routing behavior.",
       "owner": "Assistant + Runner",
       "blocker_ids": [
-        "B-02",
-        "B-09"
+        "B-02"
       ],
       "checkpoint_updated": "CP-02",
       "previous_status": "P"
@@ -345,11 +340,10 @@
       "title": "Account history and usage display",
       "status": "P",
       "status_label": "Partially implemented",
-      "evidence": "Account history/usage and load-more UI implemented; emulated-DOM test loads 20 then 22 owned items; logout/expiry clears private data.",
+      "evidence": "Account history/usage and load-more UI implemented; emulated-DOM test loads 20 then 22 owned items; logout/expiry clears private data. H03 real browser history/account flow passed; multi-account switching/staging restart remains.",
       "whats_left": "Complete browser account switching and running-job restart/resume against staging.",
       "owner": "Assistant + Runner",
       "blocker_ids": [
-        "B-01",
         "B-02"
       ],
       "checkpoint_updated": "CP-02",
@@ -361,11 +355,10 @@
       "title": "Progress, cancellation and network errors",
       "status": "P",
       "status_label": "Partially implemented",
-      "evidence": "Durable analysis cancel/poll, job cancel/progress and network recovery UI exist; HTTP/SQL cancellation tests pass; browser cancel/offline/reload cases authored.",
+      "evidence": "Durable analysis cancel/poll, job cancel/progress and network recovery UI exist; HTTP/SQL cancellation tests pass; browser cancel/offline/reload cases authored. H03 browser analysis/job cancel and interrupted progress/reload passed.",
       "whats_left": "Run browser interrupted-network/cancel cases and actual staged worker cancellation.",
       "owner": "Assistant + Runner",
       "blocker_ids": [
-        "B-01",
         "B-02"
       ],
       "checkpoint_updated": "CP-02",
@@ -392,12 +385,10 @@
       "title": "Accessibility acceptance",
       "status": "P",
       "status_label": "Partially implemented",
-      "evidence": "Keyboard radio navigation passes actual-JS DOM test; labeled account/privacy forms, focus treatment and contrast changes added; axe desktop/mobile suite authored.",
-      "whats_left": "Execute axe, keyboard/screen-reader/contrast checks and fix actual findings.",
+      "evidence": "Keyboard radio navigation passes actual-JS DOM test; labeled account/privacy forms, focus treatment and contrast changes added; axe desktop/mobile suite authored. H03 fixed real low-contrast text and passed desktop/mobile axe; manual screen-reader/device acceptance remains.",
+      "whats_left": "Complete manual keyboard/screen-reader/device and deployed-page accessibility acceptance; local axe now passes.",
       "owner": "Assistant + Runner",
-      "blocker_ids": [
-        "B-01"
-      ],
+      "blocker_ids": [],
       "checkpoint_updated": "CP-02",
       "previous_status": "P"
     },
@@ -407,7 +398,7 @@
       "title": "Email normalization and password policy",
       "status": "L",
       "status_label": "Locally implemented",
-      "evidence": "Normalization, length/byte limits and negative validation tests exist.",
+      "evidence": "Normalization, length/byte limits and negative validation tests exist. H03 fixed split-UTF8 HTTP JSON decoding with every-byte-boundary/byte-limit regressions.",
       "whats_left": "Maintain policy and input handling.",
       "owner": "Assistant",
       "blocker_ids": []
@@ -542,8 +533,7 @@
       "whats_left": "Verify retention/deletion on actual RDS/S3 and ensure restore reapplies deletion requests.",
       "owner": "Assistant; runner for separate production acceptance",
       "blocker_ids": [
-        "B-02",
-        "B-04"
+        "B-02"
       ],
       "checkpoint_updated": "CP-02",
       "previous_status": "N"
@@ -724,12 +714,11 @@
       "title": "Native pg pool and TLS integration",
       "status": "P",
       "status_label": "Partially implemented",
-      "evidence": "Native pg pool uses verified TLS/CA and runtime secret resolution; disposable Docker TLS/negative-CA/hostname test and native race/crash suites authored.",
-      "whats_left": "Execute native pooling, contention, TLS and RDS tests; PGlite cannot prove them.",
+      "evidence": "Native pg pool uses verified TLS/CA and runtime secret resolution; disposable Docker TLS/negative-CA/hostname test and native race/crash suites authored. H03 PostgreSQL 17.11 pool/concurrency/TLS positive and negative tests passed; real RDS is unverified.",
+      "whats_left": "Execute target RDS verifiedTLS/roles/failover and recovery acceptance; local native PostgreSQL 17 evidence is passed.",
       "owner": "Assistant + Runner",
       "blocker_ids": [
-        "B-01",
-        "B-04"
+        "B-02"
       ],
       "checkpoint_updated": "CP-02",
       "previous_status": "P"
@@ -771,14 +760,14 @@
       "id": "E-08",
       "phase": "Database persistence and migrations",
       "title": "Native multi-client database test harness",
-      "status": "R",
-      "status_label": "Prepared, not executed",
-      "evidence": "scripts/test-database.mjs and the conditional parallel idempotency/worker-limit test are authored; execution is blocked by root-only UID mapping.",
-      "whats_left": "Run the supplied suite as a mapped non-root user or against a disposable TEST_DATABASE_URL.",
+      "status": "L",
+      "status_label": "Locally implemented",
+      "evidence": "Disposable PostgreSQL 17.11:29 native SQL/concurrency/upgrade/active SIGKILL/trusted-and-negative TLS tests passed with0 skips; auto mode also passed under umask 077.",
+      "whats_left": "Maintain harness compatibility; target RDS acceptance is separate E-04/I-06 work.",
       "owner": "Runner",
-      "blocker_ids": [
-        "B-04"
-      ]
+      "blocker_ids": [],
+      "previous_status": "R",
+      "checkpoint_updated": "H03"
     },
     {
       "id": "E-09",
@@ -786,13 +775,11 @@
       "title": "Upgrade and previous-image compatibility",
       "status": "P",
       "status_label": "Partially implemented",
-      "evidence": "Populated CP-01 to CP-02 migration fixture passes in SQL, preserves accounting and reruns idempotently; deploy records prior tasks and refuses incompatible CP-01 rollback.",
+      "evidence": "Populated CP-01 to CP-02 migration fixture passes in SQL, preserves accounting and reruns idempotently; deploy records prior tasks and refuses incompatible CP-01 rollback. H03 populated migration/upgrade tests also passed on native PostgreSQL 17.",
       "whats_left": "Rehearse exact prior-image/compatible frontend rollback and native restored-database cutover.",
       "owner": "Assistant",
       "blocker_ids": [
-        "B-01",
-        "B-02",
-        "B-04"
+        "B-02"
       ],
       "checkpoint_updated": "CP-02",
       "previous_status": "N"
@@ -832,9 +819,7 @@
       "evidence": "Lease/CAS SQL exists and single-backend recovery tests pass; native lock races are not verified.",
       "whats_left": "Pass the native parallel suite before claiming multi-worker concurrency safety.",
       "owner": "Assistant + Runner",
-      "blocker_ids": [
-        "B-04"
-      ]
+      "blocker_ids": []
     },
     {
       "id": "F-03",
@@ -911,10 +896,7 @@
       "evidence": "Real child-process SIGTERM interrupts active work, drains services and leaves an expired retryable lease; replacement queue state verified with persistent PGlite fixture.",
       "whats_left": "Run native/Docker/ECS deadline and resource-failure drills; local process proof is scoped.",
       "owner": "Assistant; runner for separate production acceptance",
-      "blocker_ids": [
-        "B-01",
-        "B-04"
-      ],
+      "blocker_ids": [],
       "checkpoint_updated": "CP-02",
       "previous_status": "P"
     },
@@ -939,12 +921,11 @@
       "title": "Distributed duplicate-delivery acceptance",
       "status": "P",
       "status_label": "Partially implemented",
-      "evidence": "Two injected queue consumers demonstrate one SQL claim, deferred active duplicate, terminal duplicate ack, one completion/asset and one settlement.",
+      "evidence": "Two injected queue consumers demonstrate one SQL claim, deferred active duplicate, terminal duplicate ack, one completion/asset and one settlement. H03 native parallel idempotency/global claim-limit and active replacement tests passed; real SQS/DLQ acceptance remains.",
       "whats_left": "Execute native multi-client and actual SQS duplicate/retry/DLQ failures.",
       "owner": "Assistant",
       "blocker_ids": [
-        "B-02",
-        "B-04"
+        "B-02"
       ],
       "checkpoint_updated": "CP-02",
       "previous_status": "N"
@@ -1094,40 +1075,40 @@
       "id": "H-02",
       "phase": "Build, containers and delivery pipeline",
       "title": "Non-root container image definition",
-      "status": "R",
-      "status_label": "Prepared, not executed",
-      "evidence": "Dockerfile installs production dependencies and FFmpeg/yt-dlp, uses node user and declares readiness healthcheck; no build/run evidence exists.",
-      "whats_left": "Build and smoke-test the image on a Docker-capable host.",
+      "status": "L",
+      "status_label": "Locally implemented",
+      "evidence": "Actual Node24 image built; non-root migrations/API/worker, readable public manifests, writable cache/tmp and absence of build-only CA/trust variables verified.",
+      "whats_left": "Scan the exact release image and retain its SBOM; perform separate ECS/resource acceptance.",
       "owner": "Runner",
-      "blocker_ids": [
-        "B-01"
-      ]
+      "blocker_ids": [],
+      "previous_status": "R",
+      "checkpoint_updated": "H03"
     },
     {
       "id": "H-03",
       "phase": "Build, containers and delivery pipeline",
       "title": "Local database/migration/API/worker stack",
-      "status": "R",
-      "status_label": "Prepared, not executed",
-      "evidence": "Compose definitions, shared volumes, dependency order and loopback binding are authored; YAML/static checks pass only.",
-      "whats_left": "Run Compose config/start/readiness/restart with real Docker.",
+      "status": "L",
+      "status_label": "Locally implemented",
+      "evidence": "Actual disposable Compose PostgreSQL/migrations/API/worker stack passed readiness, worker restart and real register/usage/CSRFlogout/session-revocation smoke.",
+      "whats_left": "Keep this local development profile private; verify the separately deployed AWS stack.",
       "owner": "Runner",
-      "blocker_ids": [
-        "B-01"
-      ]
+      "blocker_ids": [],
+      "previous_status": "R",
+      "checkpoint_updated": "H03"
     },
     {
       "id": "H-04",
       "phase": "Build, containers and delivery pipeline",
       "title": "Hosted CI workflow",
-      "status": "R",
-      "status_label": "Prepared, not executed",
-      "evidence": "GitHub verification source now includes native DB/crash/TLS, Docker, browser/axe, Terraform and image scanning; no remote run is recorded.",
-      "whats_left": "Run the prepared workflow in an owner-controlled repository/runner and retain results.",
+      "status": "P",
+      "status_label": "Partially implemented",
+      "evidence": "Independent main-push/manual CI groups, verified action pins, actionlint and sanitized failure artifacts implemented; local workflow/controller checks pass. Remote run must be inspected on pushed source.",
+      "whats_left": "Inspect the main-push workflow including pinned browser, exact-image scan and SBOM; fix observed failures.",
       "owner": "Runner",
-      "blocker_ids": [
-        "B-01"
-      ]
+      "blocker_ids": [],
+      "previous_status": "R",
+      "checkpoint_updated": "H03"
     },
     {
       "id": "H-05",
@@ -1144,16 +1125,14 @@
       "id": "H-06",
       "phase": "Build, containers and delivery pipeline",
       "title": "Container lifecycle/resource acceptance",
-      "status": "R",
-      "status_label": "Prepared, not executed",
-      "evidence": "Non-root/read-only/resource-bounded task source, worker DB-heartbeat health, Compose lifecycle CI and active-container fault script are prepared; Docker is unavailable here.",
-      "whats_left": "Run build/start/stop/restart/active SIGKILL/OOM/disk and peak-RSS/scratch acceptance.",
+      "status": "P",
+      "status_label": "Partially implemented",
+      "evidence": "Actual image/start/readiness/non-root/work/tmp/restart smoke passed. Explicit permissions fix umask 077 failures; failure diagnostics and verified build-CA injection executed.",
+      "whats_left": "Active container SIGKILL/OOM/disk/deadline and measured peak RSS/scratch acceptance remain unrun.",
       "owner": "Assistant + Runner",
-      "blocker_ids": [
-        "B-01"
-      ],
-      "checkpoint_updated": "CP-02",
-      "previous_status": "P"
+      "blocker_ids": [],
+      "checkpoint_updated": "H03",
+      "previous_status": "R"
     },
     {
       "id": "H-07",
@@ -1165,7 +1144,6 @@
       "whats_left": "Run image scan/attestation generation and verify exact digest/provenance on the runner.",
       "owner": "Assistant + Runner",
       "blocker_ids": [
-        "B-01",
         "B-02"
       ],
       "checkpoint_updated": "CP-02",
@@ -1202,18 +1180,17 @@
       "id": "I-03",
       "phase": "AWS infrastructure and staging",
       "title": "Infrastructure-as-code modules",
-      "status": "R",
-      "status_label": "Prepared, not executed",
-      "evidence": "Pinned Terraform root/module, state bootstrap, variables, outputs, mock-security tests and detailed setup authored. fmt parses; provider startup fails on forbidden local Unix socket.",
-      "whats_left": "Run locked init/validate/mock tests, then review an account-specific plan before apply.",
+      "status": "P",
+      "status_label": "Partially implemented",
+      "evidence": "Terraform1.17.0 locked AWS6.70.0 provider init/validate and private_bootstrap mock passed; account backend disabled.",
+      "whats_left": "Review cost and execute an authorized account-specific plan/apply and real cloud acceptance.",
       "owner": "Assistant",
       "blocker_ids": [
-        "B-09",
         "B-02",
         "B-07"
       ],
-      "checkpoint_updated": "CP-02",
-      "previous_status": "N"
+      "checkpoint_updated": "H03",
+      "previous_status": "R"
     },
     {
       "id": "I-04",
@@ -1225,7 +1202,6 @@
       "whats_left": "Provider validation and real account routing/direct-origin/security acceptance.",
       "owner": "Assistant",
       "blocker_ids": [
-        "B-09",
         "B-02"
       ],
       "checkpoint_updated": "CP-02",
@@ -1241,7 +1217,6 @@
       "whats_left": "Validate resource schema; run tasks, writable mounts, health/drain/replacement and load acceptance.",
       "owner": "Assistant",
       "blocker_ids": [
-        "B-09",
         "B-02"
       ],
       "checkpoint_updated": "CP-02",
@@ -1257,9 +1232,7 @@
       "whats_left": "Confirm Region/minor/class, validate/apply and execute native TLS/role/restore/RTO/RPO checks.",
       "owner": "Assistant",
       "blocker_ids": [
-        "B-09",
-        "B-02",
-        "B-04"
+        "B-02"
       ],
       "checkpoint_updated": "CP-02",
       "previous_status": "N"
@@ -1274,7 +1247,6 @@
       "whats_left": "Provider/API validation plus actual CDN, WAF, signed media and no-origin-bypass acceptance.",
       "owner": "Assistant",
       "blocker_ids": [
-        "B-09",
         "B-02"
       ],
       "checkpoint_updated": "CP-02",
@@ -1290,7 +1262,6 @@
       "whats_left": "Review real policy simulation/access, existing OIDC provider reuse/import and key-rotation rehearsal.",
       "owner": "Assistant",
       "blocker_ids": [
-        "B-09",
         "B-02"
       ],
       "checkpoint_updated": "CP-02",
@@ -1306,7 +1277,6 @@
       "whats_left": "Configure owner repository/environment and run actual authorized staging deployment.",
       "owner": "Assistant",
       "blocker_ids": [
-        "B-01",
         "B-02",
         "B-07"
       ],
@@ -1332,7 +1302,7 @@
       "title": "Unit and local HTTP/fixture tests",
       "status": "L",
       "status_label": "Locally implemented",
-      "evidence": "CP-02 npm test: 53 passed, zero failures, one explicit native skip, including new lifecycle/adapters/retention/DOM/process tests.",
+      "evidence": "CP-02 npm test: 53 passed, zero failures, one explicit native skip, including new lifecycle/adapters/retention/DOM/process tests. H03 npmtest 56 total:55 passed,0 failed,1explicitPGlite native skip; separate native suite executes native coverage.",
       "whats_left": "Execute the separately prepared real-environment checks and fix actual failures.",
       "owner": "Assistant",
       "blocker_ids": []
@@ -1363,16 +1333,14 @@
       "id": "J-04",
       "phase": "Testing, reliability and operations",
       "title": "Full browser end-to-end test suite",
-      "status": "R",
-      "status_label": "Prepared, not executed",
-      "evidence": "Playwright desktop/mobile + axe suite authored for signup/login/logout, selected fixture transfer, history, analysis/job cancel, network failure, reload/session recovery and policy pages.",
-      "whats_left": "Install/run browsers on the external runner; keep synthetic fixture proof distinct from live source.",
+      "status": "L",
+      "status_label": "Locally implemented",
+      "evidence": "Complete desktop/mobile Chromium synthetic-media Playwright suite:8 passed,0 failed/skipped/flaky. Actual axe contrast failures fixed without weakening assertions. System Chromium 154 is recorded separately from pinned CI.",
+      "whats_left": "Keep browser/mobile-emulation evidence separate from real source, physical devices and deployed ingress; run pinned browser in CI.",
       "owner": "Assistant + Runner",
-      "blocker_ids": [
-        "B-01"
-      ],
-      "checkpoint_updated": "CP-02",
-      "previous_status": "N"
+      "blocker_ids": [],
+      "checkpoint_updated": "H03",
+      "previous_status": "R"
     },
     {
       "id": "J-05",
@@ -1380,12 +1348,11 @@
       "title": "Load, backpressure and capacity acceptance",
       "status": "P",
       "status_label": "Partially implemented",
-      "evidence": "20 concurrent local HTTP submissions accepted exactly 3 and rejected 17 at configured queue cap; local p95 155 ms in single-backend PGlite. Native concurrency path is prepared.",
+      "evidence": "20 concurrent local HTTP submissions accepted exactly 3 and rejected 17 at configured queue cap; local p95 155 ms in single-backend PGlite. Native concurrency path is prepared. H03 bounded local20request burst:3accepted/17QUEUE_FULL,p95=181ms; notAWS throughput.",
       "whats_left": "Measure realistic staged load, duration, pool/resource pressure and geography against approved traffic targets.",
       "owner": "Assistant + Runner",
       "blocker_ids": [
         "B-02",
-        "B-04",
         "B-07"
       ],
       "checkpoint_updated": "CP-02",
@@ -1412,12 +1379,11 @@
       "title": "Multi-instance failure and distributed recovery",
       "status": "P",
       "status_label": "Partially implemented",
-      "evidence": "Injected duplicate-delivery/upload/outbox failure and stale-lease SQL tests pass; native SIGKILL replacement test and two-worker ECS stop/replace drill authored.",
+      "evidence": "Injected duplicate-delivery/upload/outbox failure and stale-lease SQL tests pass; native SIGKILL replacement test and two-worker ECS stop/replace drill authored. H03 real native active SIGKILL/lease expiry/replacement passed; actual AWS multi-instance outage remains.",
       "whats_left": "Run actual multi-instance SQS/S3/DB outage, task loss and upload/cancellation fault acceptance.",
       "owner": "Assistant + Runner",
       "blocker_ids": [
-        "B-02",
-        "B-04"
+        "B-02"
       ],
       "checkpoint_updated": "CP-02",
       "previous_status": "N"
@@ -1432,8 +1398,7 @@
       "whats_left": "Execute isolated backup restore and rollback, verify deleted/expired data, retain results and clean up clones deliberately.",
       "owner": "Assistant + Runner",
       "blocker_ids": [
-        "B-02",
-        "B-04"
+        "B-02"
       ],
       "checkpoint_updated": "CP-02",
       "previous_status": "N"
@@ -1489,13 +1454,11 @@
       "title": "Active-job process termination drills",
       "status": "P",
       "status_label": "Partially implemented",
-      "evidence": "Real-process active SIGTERM drill passes; native active SIGKILL/lease expiry/replacement, active Compose SIGKILL and staging ECS replacement procedures/scripts authored.",
+      "evidence": "Real-process active SIGTERM drill passes; native active SIGKILL/lease expiry/replacement, active Compose SIGKILL and staging ECS replacement procedures/scripts authored. H03 active nativeSIGKILL/replacement passed; containerOOM/hardkill and ECS drills remain.",
       "whats_left": "Execute native/container hard-kill/OOM/deadline/cleanup drills and record bounded recovery.",
       "owner": "Assistant + Runner",
       "blocker_ids": [
-        "B-01",
-        "B-02",
-        "B-04"
+        "B-02"
       ],
       "checkpoint_updated": "CP-02",
       "previous_status": "N"
@@ -1614,9 +1577,7 @@
       "whats_left": "Rehearse actual rollout/rollback with matching image/frontend and verify service/account/media recovery.",
       "owner": "Assistant + Runner",
       "blocker_ids": [
-        "B-01",
-        "B-02",
-        "B-04"
+        "B-02"
       ],
       "checkpoint_updated": "CP-02",
       "previous_status": "P"
@@ -1730,16 +1691,17 @@
       "id": "B-01",
       "title": "Docker execution unavailable",
       "scope": "Container verification",
-      "evidence": "docker not on PATH; /var/run/docker.sock absent.",
-      "unblock": "Use a Docker-enabled local machine or authorised CI/CodeBuild runner; retain build/run logs.",
+      "evidence": "Docker28.4/Compose2.40.3 actual image/stack/native TLS/non-root/readiness/restart/account smoke passed.",
+      "unblock": "No action for this local capability. Separate actual AWS/resource/target acceptance remains in the task register.",
       "owner": "Execution environment / developer",
-      "hard_release_gate": true
+      "hard_release_gate": true,
+      "status": "resolved_local"
     },
     {
       "id": "B-02",
       "title": "AWS deployment access unavailable",
       "scope": "Cloud provisioning and AWS staging",
-      "evidence": "AWS CLI absent; no AWS auth source detected; plugin discovery found analytics functionality, not an infrastructure deployment connection.",
+      "evidence": "Current AWS config/credential paths exist but contain0 profiles; access-key/session-token/role/web-identity bindings absent; AWSCLI unavailable. No authenticated deployment context established.",
       "unblock": "Establish a scoped, authorised AWS deployment context and verify account, role, Region and permitted actions. No credentials in chat.",
       "owner": "Account owner / deployment environment",
       "hard_release_gate": true
@@ -1757,10 +1719,11 @@
       "id": "B-04",
       "title": "Native PostgreSQL execution requires another runtime",
       "scope": "Database integration verification",
-      "evidence": "Schema/repository implemented and PGlite SQL/HTTP tests passed. Native binaries installed; root-only UID namespace prevents non-root initdb execution (chown EINVAL). No native concurrency/TLS target supplied.",
-      "unblock": "Run the provided native suite in a mapped non-root environment or with a disposable TEST_DATABASE_URL. Preserve the single-backend/native distinction.",
+      "evidence": "Native DockerPostgreSQL 17.11 full29 tests passed; no mapped-UID/embedded-ICU dependency on this route.",
+      "unblock": "No action for this local capability. Separate actual AWS/resource/target acceptance remains in the task register.",
       "owner": "Docker/non-root runner or disposable database context",
-      "hard_release_gate": true
+      "hard_release_gate": true,
+      "status": "resolved_local"
     },
     {
       "id": "B-05",
@@ -1804,10 +1767,11 @@
       "id": "B-09",
       "title": "Terraform provider execution unavailable here",
       "scope": "Provider schema validation/mock tests",
-      "evidence": "Official Terraform 1.17.0 and AWS provider 6.70.0 installed; fmt passes; provider listen unix socket fails operation not permitted.",
-      "unblock": "Run the prepared locked-provider validate/mock jobs on a normal CI runner, then fix any real provider/API errors before plan/apply.",
+      "evidence": "Terraform1.17/AWS6.70 lockedprovider validate and mock passed.",
+      "unblock": "No action for this local capability. Separate actual AWS/resource/target acceptance remains in the task register.",
       "owner": "Runner executes; assistant owns any source fixes",
-      "hard_release_gate": true
+      "hard_release_gate": true,
+      "status": "resolved_local"
     },
     {
       "id": "B-10",
@@ -1839,7 +1803,7 @@
   ],
   "ownership": {
     "assistant": "All feasible implementation, local tests, documentation, source packaging and fixes after external execution evidence. The 51 targeted IDs remain traceable.",
-    "codex_or_runner": "Execution only where required: Docker/native PostgreSQL/TLS, provider validation, browser suite and actual AWS/source/restore/failure/geography checks. The prepared handoff minimizes rewriting.",
+    "codex_or_runner": "Codex owns current implementation/verification/CI and direct main commits/pushes; no extra branch or PR. User supplies account/spend/source/public-policy inputs.",
     "user": "Scoped AWS/account/Region/budget/traffic authorization, sender/alert recipient, public operator/contact/policy/market/source rights inputs. DNS and payments only if selected."
   },
   "source_base_commit": "27c14536112ad7eaff27495f42111c4a532efc40",
@@ -1850,9 +1814,9 @@
       "Partially implemented": 16
     },
     "counts": {
-      "Locally implemented": 12,
-      "Partially implemented": 25,
-      "Prepared, not executed": 13,
+      "Locally implemented": 14,
+      "Partially implemented": 26,
+      "Prepared, not executed": 10,
       "Externally blocked": 1,
       "Not started": 0
     },
@@ -1922,5 +1886,6 @@
     "source_archive_files": 121,
     "source_archive_bytes": 332028,
     "source_archive_sha256": "8353c76f1b4d6083e3f8139d1a7a0732f69f4fd20639f9a0dd9f8a72fd7c9cf6"
-  }
+  },
+  "handoff_revision": "H03"
 }

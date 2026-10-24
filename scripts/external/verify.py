@@ -48,6 +48,16 @@ def redact(text, environ=None):
     text = re.sub(r'-----BEGIN (?:[A-Z0-9]+ )*PRIVATE KEY-----.*?-----END (?:[A-Z0-9]+ )*PRIVATE KEY-----',
                   '[REDACTED_PRIVATE_KEY]', text, flags=re.S)
     text = re.sub(r'(?im)^(\s*(?:authorization|cookie|set-cookie)\s*:).+$', r'\1 [REDACTED]', text)
+    def private_url(match):
+        value = match.group(0)
+        try:
+            parsed = urlsplit(value)
+        except ValueError:
+            return '[REDACTED_INVALID_URL]'
+        sensitive_query = re.search(r'(?:^|&)(?:signature|token|access_token|code|policy|expires|key-pair-id|x-amz-[^=]+)=', parsed.query, re.I)
+        action_fragment = re.search(r'(?:^|&)(?:reset|verify|invite|token)=', parsed.fragment, re.I)
+        return '[REDACTED_SIGNED_OR_ACTION_URL]' if sensitive_query or action_fragment else value
+    text = re.sub(r'https?://[^\s\'"<>]+', private_url, text)
     text = re.sub(r'\b(?:AKIA|ASIA)[A-Z0-9]{16}\b', '[REDACTED_ACCESS_KEY]', text)
     return text
 
@@ -133,12 +143,21 @@ def probe():
     if versions['node']['installed'] and (ROOT / 'node_modules/@playwright/test/package.json').is_file():
         result = read_command(['node', '--input-type=module', '-e',
                                "import {chromium} from '@playwright/test'; console.log(chromium.executablePath())"])
-        binary = result['text'].strip()
-        browser = {'installed': result['exit_code'] == 0 and Path(binary).is_file(),
+        selected = os.environ.get('CLIPNEST_CHROMIUM_EXECUTABLE_PATH')
+        binary = selected or result['text'].strip()
+        installed = bool(binary) and Path(binary).is_file() and os.access(binary, os.X_OK)
+        browser = {'installed': installed, 'executable': binary,
+                   'selection': 'explicit system browser' if selected else 'Playwright-pinned browser',
                    'reason': 'Executable existence only; no browser launch in capability probe'}
+        if installed:
+            version = read_command([binary, '--version'])
+            browser['version'] = version['text'].strip()
     git = read_command(['git', 'rev-parse', 'HEAD'])
+    changed = any(read_command(command)['exit_code'] != 0 for command in
+                  (['git', 'diff', '--quiet'], ['git', 'diff', '--cached', '--quiet']))
     return {'profile': 'ClipNest-E01', 'recorded_at': now(), 'platform': os.name,
             'source_commit': git['text'].strip() if git['exit_code'] == 0 else None,
+            'tracked_source_changes': changed,
             'app_test_tree_sha256': fingerprint(), 'tools': versions,
             'loopback_tcp': socket_probe(socket.AF_INET),
             'unix_socket': socket_probe(socket.AF_UNIX) if hasattr(socket, 'AF_UNIX') else {'available': False},
@@ -146,6 +165,7 @@ def probe():
             'docker_daemon': {'available': docker.get('exit_code') == 0, 'detail': docker.get('text', 'Docker CLI absent')},
             'docker_compose': {'available': compose.get('exit_code') == 0},
             'dependencies_installed': (ROOT / 'node_modules/pg/package.json').is_file(),
+            'native_database_mode': os.environ.get('CLIPNEST_TEST_DATABASE_MODE', 'auto'),
             'external_test_db_present': bool(os.environ.get('TEST_DATABASE_URL')),
             'scope': 'Capability metadata only. Does not prove a suite or production service passed.'}
 
@@ -172,10 +192,16 @@ def unmet(group, caps):
                 return 'Refused supplied DB target: require explicit disposable acknowledgement and loopback host'
             if not os.environ.get('TEST_DB_CA_FILE'):
                 return 'Explicit DB supplied without its trusted disposable TLS CA file'
-        elif not caps['nonroot_native_user']['available'] or not caps['unix_socket']['available']:
-            return 'Native PostgreSQL requires mapped non-root identity and permitted Unix sockets'
+        else:
+            mode = caps.get('native_database_mode', 'auto')
+            docker = caps['docker_daemon']['available']
+            if mode == 'docker' and not docker:
+                return 'Docker PostgreSQL mode requires an already working daemon; do not start a nested daemon'
+            if mode == 'embedded' or (mode == 'auto' and not docker):
+                if not caps['nonroot_native_user']['available'] or not caps['unix_socket']['available']:
+                    return 'Embedded PostgreSQL requires mapped non-root identity and permitted Unix sockets; an existing Docker daemon can provide a disposable alternative'
     if group == 'browser' and not caps['browser_runtime']['installed']:
-        return 'Pinned Playwright Chromium is not installed; run prepared setup once'
+        return 'Chromium is not installed; prepare the pinned browser or explicitly configure an installed executable'
     if group == 'terraform':
         if not tools['terraform']['installed']:
             return 'Pinned Terraform is missing'
@@ -344,6 +370,10 @@ def main():
             report['results'].append({**prior, 'carried_from': str(args.resume)})
             continue
         row = {'group': group, 'task_ids_for_review': TASKS[group], 'status': 'blocked', 'commands': []}
+        if group == 'browser':
+            row['browser_runtime'] = caps['browser_runtime']
+        if group == 'native':
+            row['database_mode'] = caps['native_database_mode']
         report['results'].append(row)
         reason = unmet(group, caps)
         if reason or time.monotonic() >= deadline:
@@ -366,6 +396,9 @@ def main():
             row['commands'].append({'argv': argv, **result, 'log': log_name})
             combined = raw
             if result['exit_code'] != 0 or result['timed_out']:
+                _, stats = accepted(group, raw)
+                if stats:
+                    row['test_counts'] = stats
                 row['reason'] = 'Execution failed or timed out; inspect sanitized log and return findings without app edits'
                 break
         else:

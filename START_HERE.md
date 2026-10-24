@@ -1,5 +1,7 @@
 # ClipNest — start here
 
+**Current direction: H03, 24 October 2026.** Codex owns the current implementation and verification work. Work directly on `main`, commit and push verified changes, and do not create branches or PRs. Read [CODEX_NEXT_PROMPT.md](CODEX_NEXT_PROMPT.md), [docs/NEXT_PATH.md](docs/NEXT_PATH.md), and the refreshed verification/status records first. The H02/H01 sections below preserve historical context. Production remains NO_GO.
+
 **Current next step: H02, 23 October 2026.** Read docs/NEXT_PATH.md. For limited Codex Cloud execution use CLOUD_TEST_ONLY_PROMPT.md and docs/EXTERNAL_EXECUTION.md; the original project chat retains implementation/fix ownership. The H01 overview below remains historical application context. Core counts and NO_GO are unchanged.
 
 This is the complete ClipNest project handoff, application checkpoint CP-02, handoff revision H01, dated 22 October 2026. It continues the existing YouTube quality-selection/download project. It is not StreamAtlas.

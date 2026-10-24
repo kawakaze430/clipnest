@@ -1,10 +1,15 @@
+# syntax=docker/dockerfile:1
 FROM node:24-bookworm-slim
 WORKDIR /app
-COPY package.json package-lock.json ./
-RUN npm ci --omit=dev --ignore-scripts --no-audit --no-fund && npm cache clean --force
-COPY requirements.txt ./
+COPY --chmod=0644 package.json package-lock.json ./
+RUN --mount=type=secret,id=build_ca \
+    if [ -f /run/secrets/build_ca ]; then export NODE_EXTRA_CA_CERTS=/run/secrets/build_ca; fi; \
+    npm ci --omit=dev --ignore-scripts --no-audit --no-fund && npm cache clean --force
+COPY --chmod=0644 requirements.txt ./
 COPY --chown=node:node certs ./certs
-RUN apt-get update && apt-get install -y --no-install-recommends python3 python3-venv ffmpeg ca-certificates \
+RUN --mount=type=secret,id=build_ca \
+    if [ -f /run/secrets/build_ca ]; then export PIP_CERT=/run/secrets/build_ca; fi; \
+    apt-get update && apt-get install -y --no-install-recommends python3 python3-venv ffmpeg ca-certificates \
     && python3 -m venv /opt/ytdlp \
     && /opt/ytdlp/bin/pip install --no-cache-dir -r requirements.txt \
     && rm -rf /var/lib/apt/lists/*

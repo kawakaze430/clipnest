@@ -4,7 +4,13 @@ import path from 'node:path';
 import { ApiError } from './core.mjs';
 export const types={'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'text/javascript; charset=utf-8','.svg':'image/svg+xml','.zip':'application/zip','.mp4':'video/mp4','.webm':'video/webm','.mkv':'video/x-matroska','.mp3':'audio/mpeg','.m4a':'audio/mp4'};
 export function json(res,status,body){res.writeHead(status,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store'});res.end(JSON.stringify(body));}
-export async function readJson(req){if(!String(req.headers['content-type']||'').toLowerCase().startsWith('application/json'))throw new ApiError(415,'Send JSON request data.','UNSUPPORTED_MEDIA_TYPE');let text='',bytes=0;for await(const chunk of req){bytes+=chunk.length;if(bytes>8192)throw new ApiError(413,'Request too large.','PAYLOAD_TOO_LARGE');text+=chunk;}try{const value=JSON.parse(text);if(!value||typeof value!=='object'||Array.isArray(value))throw new Error();return value;}catch{throw new ApiError(400,'Send a valid JSON object.','INVALID_JSON');}}
+export async function readJson(req){
+ if(!String(req.headers['content-type']||'').toLowerCase().startsWith('application/json'))throw new ApiError(415,'Send JSON request data.','UNSUPPORTED_MEDIA_TYPE');
+ const chunks=[];let bytes=0;
+ for await(const chunk of req){const data=Buffer.isBuffer(chunk)?chunk:Buffer.from(chunk);bytes+=data.length;if(bytes>8192)throw new ApiError(413,'Request too large.','PAYLOAD_TOO_LARGE');chunks.push(data);}
+ // Decode once: HTTP chunks can split a multibyte UTF-8 password or other value.
+ try{const value=JSON.parse(Buffer.concat(chunks,bytes).toString('utf8'));if(!value||typeof value!=='object'||Array.isArray(value))throw new Error();return value;}catch{throw new ApiError(400,'Send a valid JSON object.','INVALID_JSON');}
+}
 export async function serveStatic(req,res,url,directory){
  if(!['GET','HEAD'].includes(req.method))throw new ApiError(405,'Method not allowed.','METHOD_NOT_ALLOWED');
  const relative=url.pathname==='/'?'index.html':decodeURIComponent(url.pathname).slice(1),file=path.resolve(directory,relative);

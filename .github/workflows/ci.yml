@@ -1,14 +1,67 @@
 name: Verify ClipNest
 on:
   push:
-  pull_request:
+    branches: [main]
+    paths-ignore:
+      - '**/*.md'
+      - docs/**
+      - delivery/**
+      - ClipNest-H02-Delivery-Receipt.json
   workflow_dispatch:
+    inputs:
+      group:
+        description: Run all checks, or only the group affected by a reviewed correction
+        type: choice
+        options: [all, unit, native, browser, terraform, containers, security]
+        default: all
+        required: true
   workflow_call:
+    inputs:
+      group:
+        description: Checks required by a calling workflow; deployment defaults to the full suite
+        type: string
+        required: false
+        default: all
 permissions:
   contents: read
+concurrency:
+  group: clipnest-verify-${{ github.event_name }}-${{ github.ref }}-${{ inputs.group || 'all' }}
+  cancel-in-progress: true
+defaults:
+  run:
+    shell: bash
 jobs:
-  verify:
-    runs-on: ubuntu-latest
+  unit:
+    if: github.event_name != 'workflow_dispatch' || inputs.group == 'all' || inputs.group == 'unit'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with: {node-version: 24, cache: npm}
+      - run: sudo apt-get update && sudo apt-get install -y --no-install-recommends ffmpeg
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Validate all workflow syntax and expressions
+        run: python3 scripts/ci/check.py --name workflow-lint -- bash scripts/ci/lint-workflows.sh
+      - name: Syntax, lockfile and frontend assets
+        run: python3 scripts/ci/check.py --name syntax -- npm run check
+      - name: Unit, SQL, HTTP, fixture media, UI and security contracts
+        run: python3 scripts/ci/check.py --name unit -- npm test
+      - name: Evidence controller and CI failure handling
+        if: success() || failure()
+        run: python3 scripts/ci/check.py --name evidence-controller -- python3 -m unittest discover -s tests -p '*_test.py'
+      - name: Retain sanitized check evidence
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: unit-evidence-${{ github.sha }}
+          path: qa-artifacts/ci/
+          retention-days: 7
+          if-no-files-found: warn
+  native:
+    if: github.event_name != 'workflow_dispatch' || inputs.group == 'all' || inputs.group == 'native'
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     services:
       postgres:
@@ -26,88 +79,151 @@ jobs:
         with: {persist-credentials: false}
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with: {node-version: 24, cache: npm}
-      - run: sudo apt-get update && sudo apt-get install -y ffmpeg
+      - run: sudo apt-get update && sudo apt-get install -y --no-install-recommends ffmpeg openssl
       - run: npm ci --ignore-scripts --no-audit --no-fund
-      - run: npm run check
-      - run: npm test
-      - name: Native PostgreSQL pooling, transactions, races and upgrade
-        run: npm run test:database
+      - name: PostgreSQL 17 pooling, transactions, races, upgrade and active SIGKILL
         env:
           TEST_DATABASE_URL: postgresql://clipnest_test:disposable-ci-password@127.0.0.1:5432/clipnest_test
-      - name: Native active-job SIGKILL and replacement
-        run: node --test tests/crash.native.mjs
-        env:
-          TEST_DATABASE_URL: postgresql://clipnest_test:disposable-ci-password@127.0.0.1:5432/clipnest_test
-      - run: npm audit --omit=dev --audit-level=high
-      - run: python3 scripts/package.py
-  browser:
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-        with: {persist-credentials: false}
-      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1
-        with: {node-version: 24, cache: npm}
-      - run: sudo apt-get update && sudo apt-get install -y ffmpeg
-      - run: npm ci --ignore-scripts --no-audit --no-fund
-      - run: npx playwright install --with-deps chromium
-      - name: Desktop/mobile positive journey and axe (synthetic media only)
-        run: npm run test:browser
-      - uses: actions/upload-artifact@v7
+        run: python3 scripts/ci/check.py --name native-pg17 -- node scripts/test-database.mjs --with-crash
+      - name: Trusted native TLS and negative hostname/CA checks
+        if: success() || failure()
+        run: python3 scripts/ci/check.py --name native-tls -- bash scripts/ops/native-tls.sh
+      - name: Retain sanitized native evidence
         if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
-          name: browser-report
-          path: playwright-report/
+          name: native-evidence-${{ github.sha }}
+          path: qa-artifacts/ci/
           retention-days: 7
-  container:
-    runs-on: ubuntu-latest
+          if-no-files-found: warn
+  browser:
+    if: github.event_name != 'workflow_dispatch' || inputs.group == 'all' || inputs.group == 'browser'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      PLAYWRIGHT_BROWSERS_PATH: ${{ github.workspace }}/.cache/ms-playwright
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with: {node-version: 24, cache: npm}
+      - run: sudo apt-get update && sudo apt-get install -y --no-install-recommends ffmpeg
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Prepare pinned browser and system libraries
+        run: python3 scripts/ci/check.py --name browser-install -- node node_modules/@playwright/test/cli.js install --with-deps chromium
+      - name: Desktop/mobile Chromium journeys and axe; synthetic media only
+        run: python3 scripts/external/verify.py run --groups browser --budget-minutes 10 --output qa-artifacts/browser
+      - name: Retain sanitized browser evidence without credential-bearing traces
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: browser-evidence-${{ github.sha }}
+          path: qa-artifacts/
+          retention-days: 7
+          if-no-files-found: warn
+  terraform:
+    if: github.event_name != 'workflow_dispatch' || inputs.group == 'all' || inputs.group == 'terraform'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      AWS_EC2_METADATA_DISABLED: "true"
+      TF_IN_AUTOMATION: "1"
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with: {node-version: 24, cache: npm}
+      - name: Prepare checksum-verified Terraform and locked provider
+        env:
+          CLIPNEST_SKIP_SYSTEM_PACKAGES: "1"
+        run: python3 scripts/ci/check.py --name terraform-install -- bash scripts/external/setup.sh terraform
+      - name: Terraform format
+        run: python3 scripts/ci/check.py --name terraform-format -- .cache/external/bin/terraform -chdir=infra/terraform fmt -check -recursive
+      - name: Locked provider initialization, schema validation and mock security test
+        if: success() || failure()
+        run: python3 scripts/external/verify.py run --groups terraform --budget-minutes 8 --output qa-artifacts/terraform
+      - name: Retain sanitized provider evidence
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: terraform-evidence-${{ github.sha }}
+          path: qa-artifacts/
+          retention-days: 7
+          if-no-files-found: warn
+  containers:
+    if: github.event_name != 'workflow_dispatch' || inputs.group == 'all' || inputs.group == 'containers'
+    runs-on: ubuntu-24.04
     timeout-minutes: 25
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with: {persist-credentials: false}
-      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with: {node-version: 24, cache: npm}
       - run: npm ci --ignore-scripts --no-audit --no-fund
-      - name: Native certificate verification
-        run: bash scripts/ops/native-tls.sh
-      - run: node scripts/init-local.mjs && docker compose config --quiet
-      - run: docker compose up --build -d --wait
-      - run: curl --fail http://localhost:8787/readyz
-      - name: Non-root identity, writable work directory and graceful worker restart
-        run: |
-          docker compose exec -T worker sh -c 'test "$(id -u)" != 0 && test -w /app/.cache'
-          docker compose restart worker
-          docker compose up -d --wait
-          curl --fail http://localhost:8787/readyz
+      - name: Disposable TLS, image, Compose, non-root, readiness and worker restart
+        id: smoke
+        run: python3 scripts/external/verify.py run --groups containers --budget-minutes 15 --output qa-artifacts/containers
       - name: Image vulnerability gate
-        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
+        if: success() && steps.smoke.outcome == 'success'
+        uses: aquasecurity/trivy-action@a9c7b0f06e461e9d4b4d1711f154ee024b8d7ab8 # v0.36.0
         with:
           image-ref: clipnest:local
           severity: HIGH,CRITICAL
           exit-code: '1'
           format: json
-          output: trivy-report.json
-      - uses: actions/upload-artifact@v7
+          output: qa-artifacts/trivy-report.json
+      - name: Retain image software bill of materials
+        if: always() && steps.smoke.outcome == 'success'
+        uses: aquasecurity/trivy-action@a9c7b0f06e461e9d4b4d1711f154ee024b8d7ab8 # v0.36.0
+        with:
+          image-ref: clipnest:local
+          format: spdx-json
+          output: qa-artifacts/image.sbom.spdx.json
+      - name: Retain sanitized container evidence and image reports
         if: always()
-        with: {name: container-scan, path: trivy-report.json, retention-days: 7}
-      - if: always()
-        run: docker compose down
-  terraform:
-    runs-on: ubuntu-latest
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: container-evidence-${{ github.sha }}
+          path: qa-artifacts/
+          retention-days: 7
+          if-no-files-found: warn
+  security:
+    if: github.event_name != 'workflow_dispatch' || inputs.group == 'all' || inputs.group == 'security'
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with: {persist-credentials: false}
-      - name: Install checksum-verified Terraform 1.17.0 from HashiCorp
-        run: |
-          curl --fail --silent --show-error --output /tmp/terraform.zip https://releases.hashicorp.com/terraform/1.17.0/terraform_1.17.0_linux_amd64.zip
-          curl --fail --silent --show-error --output /tmp/SHA256SUMS https://releases.hashicorp.com/terraform/1.17.0/terraform_1.17.0_SHA256SUMS
-          EXPECTED=$(awk '$2=="terraform_1.17.0_linux_amd64.zip" {print $1}' /tmp/SHA256SUMS)
-          test -n "$EXPECTED"
-          printf '%s  /tmp/terraform.zip\n' "$EXPECTED" | sha256sum --check --status
-          unzip /tmp/terraform.zip -d /tmp/clipnest-terraform
-          echo /tmp/clipnest-terraform >> "$GITHUB_PATH"
-      - run: terraform -chdir=infra/terraform fmt -check -recursive
-      - run: terraform -chdir=infra/terraform init -backend=false -input=false -lockfile=readonly
-      - run: terraform -chdir=infra/terraform validate
-      - run: terraform -chdir=infra/terraform test -no-color
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with: {node-version: 24, cache: npm}
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Production dependency vulnerability gate
+        run: python3 scripts/ci/check.py --name production-audit -- npm audit --omit=dev --audit-level=high --json
+      - name: Retain dependency audit evidence
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: dependency-evidence-${{ github.sha }}
+          path: qa-artifacts/ci/
+          retention-days: 7
+          if-no-files-found: warn
+  package:
+    # Independent of test success so the exact checked source can always be returned.
+    if: always()
+    needs: [unit, native, browser, terraform, containers, security]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with: {persist-credentials: false}
+      - name: Build and verify complete source
+        run: python3 scripts/package.py && python3 scripts/package.py --verify dist/clipnest-source.zip
+      - name: Return complete source and checksum
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: clipnest-source-${{ github.sha }}
+          path: |
+            dist/clipnest-source.zip
+            dist/clipnest-source.zip.sha256
+          retention-days: 7
+          if-no-files-found: error

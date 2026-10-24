@@ -1,5 +1,8 @@
 # Current H02 next step — 23 October 2026
 
+**H03 current direction (24 October 2026):** Codex owns implementation and verification, with verified commits pushed directly to main and no extra branch/PR. Current results/counts are in delivery/LOCAL_VERIFICATION.json and docs/END_TO_END_STATUS.json; CODEX_NEXT_PROMPT.md contains the complete continuation/testing prompt. Older capability/test claims below are historical. Actual production gates remain NO_GO.
+
+
 Read docs/NEXT_PATH.md and CLOUD_TEST_ONLY_PROMPT.md for the current minimal external execution assignment. The original chat retains implementation and fix ownership. H02 adds execution tooling/guidance, with no application feature changes or external production acceptance. The H01 report below is retained as historical application context; counts remain 60 L / 25 P / 17 R / 10 B / 0 N, total 112. The current whole-ZIP hash and delivery commit are in the external delivery receipt.
 
 ---

@@ -1,6 +1,7 @@
 """Evidence-controller tests only; these do not execute PostgreSQL, browsers, Docker or AWS."""
 import importlib.util
 import json
+import os
 from pathlib import Path
 import sys
 import tempfile
@@ -25,11 +26,42 @@ class ExternalRunnerTests(unittest.TestCase):
         marker = '-----BEGIN ' + 'PRIVATE KEY-----\nSYNTHETIC-TEST-ONLY\n-----END ' + 'PRIVATE KEY-----'
         self.assertEqual(runner.redact(marker, {}), '[REDACTED_PRIVATE_KEY]')
 
+    def test_redacts_signed_download_and_account_action_urls(self):
+        for value in ['https://example.test/logs?filename=logs.zip&signature=synthetic',
+                      'https://example.test/media/file?Expires=123&Signature=synthetic&Key-Pair-Id=test',
+                      'https://example.test/account.html#reset=synthetic']:
+            self.assertEqual(runner.redact(value, {}), '[REDACTED_SIGNED_OR_ACTION_URL]')
+        self.assertEqual(runner.redact('https://github.com/owner/repo/actions/runs/123', {}),
+                         'https://github.com/owner/repo/actions/runs/123')
+        self.assertEqual(runner.redact('https://[invalid?token=synthetic', {}), '[REDACTED_INVALID_URL]')
+
     def test_only_explicit_loopback_database_targets_qualify(self):
         self.assertTrue(runner.disposable_url_allowed('postgresql://u:p@127.0.0.1:5432/disposable'))
         self.assertTrue(runner.disposable_url_allowed('postgresql://u:p@[::1]:5432/disposable'))
         self.assertFalse(runner.disposable_url_allowed('postgresql://u:p@db.example.com/prod'))
         self.assertFalse(runner.disposable_url_allowed('https://localhost/test'))
+
+    def native_capabilities(self, mode='docker', docker=True):
+        return {'tools': {'node': {'installed': True, 'version': 'v24.19.0'},
+                          'npm': {'installed': True}, 'ffmpeg': {'installed': True},
+                          'openssl': {'installed': True}},
+                'dependencies_installed': True, 'loopback_tcp': {'available': True},
+                'nonroot_native_user': {'available': False}, 'unix_socket': {'available': False},
+                'native_database_mode': mode, 'docker_daemon': {'available': docker}}
+
+    def test_docker_native_path_does_not_require_embedded_uid_or_sockets(self):
+        with patch.dict(os.environ, {}, clear=True):
+            self.assertIsNone(runner.unmet('native', self.native_capabilities()))
+            self.assertIsNone(runner.unmet('native', self.native_capabilities('auto')))
+            self.assertIn('mapped non-root', runner.unmet('native', self.native_capabilities('embedded')))
+
+    def test_docker_native_path_stops_when_daemon_is_unavailable(self):
+        with patch.dict(os.environ, {}, clear=True):
+            self.assertIn('already working daemon', runner.unmet('native', self.native_capabilities(docker=False)))
+
+    def test_docker_native_path_still_refuses_unacknowledged_database(self):
+        with patch.dict(os.environ, {'TEST_DATABASE_URL': 'postgresql://localhost/disposable'}, clear=True):
+            self.assertIn('Refused supplied DB target', runner.unmet('native', self.native_capabilities()))
 
     def native_text(self, skipped=0):
         return ('Real PostgreSQL 18.4 is ready\nDatabase scope: native-postgresql\n'
