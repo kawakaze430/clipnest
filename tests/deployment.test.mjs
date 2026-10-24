@@ -4,6 +4,7 @@ import {createServer} from 'node:http';
 import {once} from 'node:events';
 import {deployRelease} from '../scripts/ops/deploy.mjs';
 import {rollbackRelease} from '../scripts/ops/rollback.mjs';
+import {verifyReadiness} from '../scripts/ops/deployment-verification.mjs';
 
 const oldCommit = '2'.repeat(40), newCommit = '1'.repeat(40);
 const repository = '123456789012.dkr.ecr.ap-south-1.amazonaws.com/clipnest-staging';
@@ -207,4 +208,10 @@ test('mixed target account or Region is rejected before making an AWS call', asy
     await assert.rejects(deployRelease(d,{image,commit:newCommit,execute:true},h.deps),/one expected AWS account/);
     assert.equal(h.calls.length,0);
   }
+});
+
+test('public readiness never follows an unencrypted endpoint', async () => {
+  let requested=false;
+  await assert.rejects(verifyReadiness('http://public.example.test',newCommit,{fetchImpl:async()=>{requested=true;}}),/requires HTTPS/);
+  assert.equal(requested,false);
 });

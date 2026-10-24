@@ -1,4 +1,5 @@
 // Release identity checks shared by deployment and compatible rollback.
+import {assertMigrationSucceeded, assertHealthyRollbackResponse} from './release-safety.mjs';
 export const commitPattern = /^(?:[a-f0-9]{40}|[a-f0-9]{64})$/;
 const taskArnPattern = /^arn:aws(?:-[a-z]+)*:ecs:[a-z0-9-]+:[0-9]{12}:task-definition\/[A-Za-z0-9_-]+:[0-9]+$/;
 
@@ -45,9 +46,7 @@ export function taskRelease(task, {repository, arn, image, commit, containerName
 }
 
 export function requireMigrationSuccess(response, {taskArn, taskDefinitionArn, image}) {
-  if (!response || response.failures?.length || !Array.isArray(response.tasks) || response.tasks.length !== 1) {
-    throw new Error('Migration result is missing or ambiguous; service rollout stopped');
-  }
+  assertMigrationSucceeded(response, taskArn);
   const task = response.tasks[0];
   if (!task || task.taskArn !== taskArn || task.taskDefinitionArn !== taskDefinitionArn ||
       task.lastStatus !== 'STOPPED' || task.stopCode !== 'EssentialContainerExited' ||
@@ -61,12 +60,17 @@ export function requireMigrationSuccess(response, {taskArn, taskDefinitionArn, i
 export async function verifyReadiness(origin, expectedCommit, {timeoutMs = 20000, fetchImpl = fetch} = {}) {
   if (!commitPattern.test(expectedCommit || '')) throw new Error('Readiness requires a known release commit');
   if (!Number.isInteger(timeoutMs) || timeoutMs < 1) throw new Error('Readiness requires a positive timeout');
+  const target = new URL('/readyz', origin);
+  if (target.protocol !== 'https:' && !(target.protocol === 'http:' && ['127.0.0.1', 'localhost', '[::1]'].includes(target.hostname))) {
+    throw new Error('Release readiness requires HTTPS outside a disposable loopback test');
+  }
   let response, result;
   try {
-    response = await fetchImpl(new URL('/readyz', origin), {
+    response = await fetchImpl(target, {
       redirect: 'manual', signal: AbortSignal.timeout(timeoutMs), headers: {Accept: 'application/json'}
     });
     if (response.status !== 200) throw new Error('Release readiness returned HTTP ' + response.status);
+    assertHealthyRollbackResponse(response);
     result = await response.json();
   } catch (error) {
     if (error.name === 'TimeoutError' || error.name === 'AbortError') throw new Error('Release readiness timed out');
