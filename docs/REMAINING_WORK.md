@@ -1,4 +1,4 @@
-# Remaining ClipNest core acceptance — H04
+# Remaining ClipNest core acceptance — H05
 
 46 of the original 112 core tasks are not classified locally implemented. Counts are not effort/production percentages. Production remains NO_GO.
 
@@ -22,7 +22,7 @@
 | G-07 | CloudFront signed media delivery | Partially implemented | Validate real CloudFront expiry/cache/unsigned rejection and actual signed byte transfer. | Assistant |
 | G-09 | Independent-task media handoff | Partially implemented | Prove ready media survives actual task replacement and API/worker separation through S3/CloudFront. | Assistant |
 | G-10 | Object retention/deletion monitoring | Partially implemented | Measure actual S3 physical deletion, overdue alarms and monitoring during failure. | Assistant |
-| H-06 | Container lifecycle/resource acceptance | Partially implemented | Active container SIGKILL/OOM/disk/deadline and measured peak RSS/scratch acceptance remain unrun. | Assistant + Runner |
+| H-06 | Container lifecycle/resource acceptance | Partially implemented | Verify the actual release ECS lifecycle and measure admitted real-media peak RSS/scratch/CPU/deadline behavior against approved workload/capacity bounds. | Assistant + Runner |
 | H-07 | Image scanning, SBOM and provenance | Partially implemented | Hosted image scan/SBOM job passed. Scan the actual release ECR digest and retain build provenance/attestations and real production acceptance. | Assistant + Runner |
 | I-01 | Authorized AWS account/role runtime | Externally blocked | Owner establishes a scoped authorized AWS runtime without sharing secrets in chat. | User + Runner |
 | I-02 | Region and availability target confirmation | Externally blocked | Confirm the target against source access, budget and audience. | User + Assistant |
@@ -40,7 +40,7 @@
 | J-08 | Backup restore and rollback automation | Prepared, not executed | Execute isolated backup restore and rollback, verify deleted/expired data, retain results and clean up clones deliberately. | Assistant + Runner |
 | J-09 | Operational metrics and dashboards | Partially implemented | Verify actual metric ingestion/dimensions/dashboard values with real traffic. | Assistant |
 | J-10 | Failure, backlog and cost alarms | Prepared, not executed | Apply and confirm human alert/recovery delivery; tune with measured traffic/cost. | Assistant + User |
-| J-12 | Active-job process termination drills | Partially implemented | Execute native/container hard-kill/OOM/deadline/cleanup drills and record bounded recovery. | Assistant + Runner |
+| J-12 | Active-job process termination drills | Partially implemented | Execute actual staged ECS task loss/replacement and distributed SQS/S3/source recovery; local synthetic process/container fault evidence is complete. | Assistant + Runner |
 | K-02 | Production terms, privacy and support pages | Partially implemented | Owner supplies public legal entity/contact, eligible markets and final policy/rights/complaint approval. | Assistant + User |
 | K-03 | Limited-beta onboarding and support process | Partially implemented | Verify SES/operator enrollment and accountable live support before real invitations/public access. | Assistant + User |
 | K-04 | Multi-geography availability probes | Prepared, not executed | Run independent real-geography endpoint and permitted media/device transfer tests. | Assistant + Runner |

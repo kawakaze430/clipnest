@@ -1,6 +1,6 @@
 # AWS deployment source · CP-02
 
-This module is prepared for a private, capped staging/beta environment. **No resources were applied.** Terraform 1.17.0 formatting parses locally. The installed AWS 6.70.0 provider cannot start here (`listen unix ... socket: operation not permitted`); validate, mock tests and an account-specific plan must pass on a normal runner before apply. Do not interpret formatting as provider-schema or AWS validation.
+This module is prepared for a private, capped staging/beta environment. **No resources were applied.** Terraform 1.17.0, locked AWS provider 6.70.0 schema validation and two actual mock tests pass in the current runner. The previous provider-socket restriction was historical. Both regional/global providers require the expected owner `aws_account_id` and refuse another authenticated account. Actual account-specific plan/cost/apply and service acceptance remain pending. See [the ordered launch plan](../../docs/AWS_LAUNCH_PLAN.md).
 
 ## Resources and boundaries
 
@@ -14,7 +14,7 @@ Two NAT gateways, Multi-AZ RDS, ALB, tasks and data transfer have ongoing charge
 
 The owner must supply a scoped AWS context, intended account/Region, sender identity, alert recipient, budget/traffic bounds, permitted media/markets and repository environment. Never place credentials/private PEM keys in chat, Git or tfvars. Use a local AWS profile or GitHub OIDC. SES identity verification and production access/delivery are separate external checks.
 
-1. Run all CI jobs, including provider validation/mock tests, Docker and native TLS. Confirm target-Region support for the exact PostgreSQL 17 minor and instance class:
+1. Prepare the official pinned CLI locally with `bash scripts/external/install-aws-cli.sh` when needed, and add `.cache/external/bin` to the task PATH. Supply the actual `aws_account_id` in private tfvars. Validate the private owner input record with `scripts/ops/launch-readiness.mjs --probe-account`; it never provisions. Run all CI jobs, including provider validation/mock tests, Docker and native TLS. Confirm target-Region support for the exact PostgreSQL 17 minor and instance class:
 
 ```sh
 aws sts get-caller-identity

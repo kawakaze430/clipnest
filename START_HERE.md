@@ -1,21 +1,24 @@
 # ClipNest — start here
 
-ClipNest CP-02, application version 1.2.0, engineering handoff **H04**, 24 October 2026. Production is **NO_GO**; the AWS backend is not deployed. The existing owner-only Site is a static frontend checkpoint. Codex owns implementation and testing, with verified commits pushed directly to main and no branch, worktree or PR.
+ClipNest CP-02, application version 1.2.0, engineering handoff **H05**, 24 October 2026. Production is **NO_GO**; the AWS backend is not deployed. The existing owner-only Site is a static frontend checkpoint. Codex owns implementation and testing, with verified commits pushed directly to main and no branch, worktree or PR.
 
 The goal is an authenticated authorized YouTube/Shorts URL → actual available qualities → selected durable preparation/progress/cancel → final file, with private account history and usage. The existing source includes the frontend, Node API, email/password/session lifecycle, PostgreSQL migrations, independent workers, queue/storage adapters, deployment, monitoring and recovery tooling. Continue this project from its files.
 
 Read in this order:
 
 1. [AGENTS.md](AGENTS.md) — continuation and delivery rules.
-2. [Current engineering delivery](delivery/ENGINEERING_H04.md) and [verification](delivery/LOCAL_VERIFICATION.json) — changes, checks, failures and limits.
+2. [Current engineering delivery](delivery/ENGINEERING_H05.md) and [verification](delivery/LOCAL_VERIFICATION.json) — changes, checks, failures and limits.
 3. [Handoff state](delivery/HANDOFF_STATE.json) — exact current source/image and blockers.
 4. [Complete status](docs/END_TO_END_STATUS.md) and [remaining acceptance](docs/REMAINING_WORK.md) — the original 112 core task IDs.
 5. [Continuation prompt](CODEX_NEXT_PROMPT.md) and [testing path](docs/NEXT_PATH.md) — complete instructions for the next Codex session.
-6. [Production acceptance](docs/PRODUCTION_ACCEPTANCE.md), [operations](docs/OPERATIONS.md), [release](docs/RELEASE.md) and [Terraform instructions](infra/terraform/README.md).
+6. [Ordered AWS launch plan](docs/AWS_LAUNCH_PLAN.md) — target inputs, plan/cost, staging, real gates and beta/expansion.
+7. [Production acceptance](docs/PRODUCTION_ACCEPTANCE.md), [operations](docs/OPERATIONS.md), [release](docs/RELEASE.md) and [Terraform instructions](infra/terraform/README.md).
 
 Counts are **66 L / 27 P / 9 R / 10 B / 0 N**. Eight conditional domain/payment extras are outside the 112 core tasks. Counts describe bounded implementation and evidence, not production readiness or effort percentages.
 
-The patched local runtime now passes the strict image gate with zero HIGH/CRITICAL/secret findings. It uses coherently built libxml2 2.15.4 and FFmpeg 9.0.2 with pinned source hashes. Actual release digest/provenance and all applicable real production gates remain separate. Read the current verification record for hosted CI results; historical H01/H02/H03 capability failures are not current evidence.
+The patched local runtime now passes the strict image gate with zero HIGH/CRITICAL/secret findings. It uses coherently built libxml2 2.15.4 and FFmpeg 9.0.2 with pinned source hashes. Actual release digest/provenance and all applicable real production gates remain separate. Read the current verification record for hosted CI results; historical H01/H02/H03/H04 capability failures are not current evidence.
+
+H05 adds strict release/account/readiness guards, official AWS CLI preparation and five actual local container fault scenarios. AWS authentication and owner launch inputs remain absent; deployment-environment setup is denied by the current GitHub integration.
 
 To reproduce local application checks with Node 24, Python and FFmpeg/OpenSSL:
 

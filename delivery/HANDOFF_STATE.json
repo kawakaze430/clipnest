@@ -2,17 +2,17 @@
   "schema_version": 1,
   "project": "ClipNest",
   "checkpoint": "CP-02",
-  "handoff_revision": "H04",
+  "handoff_revision": "H05",
   "prepared_date": "2026-10-24",
   "application_version": "1.2.0",
   "application_baseline_commit": "92a00a4bb1a2c0ae3de12105f37e129ab5e8df10",
   "handoff_changes": [
-    "Pinned ABI-consistent upstream media build fixes remaining observed local image vulnerabilities",
-    "Fail-closed immutable image scan/SBOM/source gate shared by local, CI and deployment",
-    "Secret-bearing unused non-YouTube extractor removed without scanner suppression",
-    "Permanent five-format media/runtime checks and source-integrity/security negative tests",
-    "Cold build budgets and complete-source packaging updated for build directory",
-    "Fresh complete applicable local matrix, retained failures and deterministic browser pending-state test"
+    "Merged concurrent release-safety update normally and preserved its helpers/tests/46-task prompt",
+    "Fail-closed exact migration/image/task/source/account and bounded HTTPS deployment/rollback checks",
+    "Actual five-scenario non-root container recovery/resource evidence and CI integration",
+    "Official pinned/hash-locked AWS CLI v2 source installer and integrity tests",
+    "Explicit Terraform account guards and planning-only launch input/STS checker",
+    "Hosted artifact download/hash verification and Azure SAS redaction; exact remaining ordered AWS launch plan"
   ],
   "application_source_changed_in_handoff": true,
   "release_decision": "NO_GO",
@@ -69,19 +69,22 @@
   },
   "current_local_run": {
     "record": "delivery/LOCAL_VERIFICATION.json",
-    "tests_total": 56,
-    "passed": 55,
+    "tests_total": 102,
+    "passed": 101,
     "failed": 0,
     "skipped": 1,
     "native_pg17_passed": 29,
     "browser_passed": 8,
-    "python_helper_passed": 32,
-    "terraform_mock_passed": 1,
+    "python_helper_passed": 37,
+    "terraform_mock_passed": 2,
     "container_smoke": "passed",
     "production_accepted": false,
     "image_scan": "passed: 0 HIGH/CRITICAL/secret findings",
     "source_integrity": "passed",
-    "browser_initial_failure_retained": true
+    "browser_initial_failure_retained": true,
+    "container_fault_scenarios_passed": 5,
+    "aws_cli": "2.38.5 verified source install",
+    "aws_identity": "blocked: unavailable profile"
   },
   "prior_evidence": {
     "local_burst": {
@@ -100,19 +103,20 @@
     "note": "Historical CP-02/H01 capability failures below are superseded locally by current_local_run; real external acceptance remains separate."
   },
   "evidence_not_yet_passed": [
-    "Download hosted evidence after saved artifact-storage host requirement is applied",
-    "Actual release ECR digest scan/build provenance and staged deployment",
-    "Authorized real application source-to-device transfer",
-    "Actual AWS/RDS/S3/SQS/CloudFront/SES/IAM/WAF, alarms, restore and compatible rollback",
-    "Physical devices and independent transfer geographies",
-    "Active container OOM/hard-kill/disk/deadline and measured peak resources",
-    "Owner account/Region/budget/traffic/source/sender/operator/policy inputs",
-    "Elapsed capped-beta operating observation"
+    "Authenticated expected AWS target/profile/role (actual STS attempt exits 255 at unavailable profile); owner Region and approved staging/monthly spend/traffic inputs",
+    "GitHub protected main-only deployment environments/OIDC variables: this integration returns HTTP 403 on environment creation; owner/admin setup or scoped permission required",
+    "Authorized real source-to-device transfer and approved source/market/operator/support/policy inputs",
+    "Actual release ECR digest scan/build attestations and target ECS/RDS TLS/roles/services",
+    "Real S3/SQS/CloudFront/SES/email/alarms/security and distributed outage/physical deletion evidence",
+    "Physical device and independent geography transfer/accessibility acceptance",
+    "Admitted-workload peak resources/load/cost and real restore/compatible rollback/RTO/RPO",
+    "Actual capped-beta operating observation and reviewed worldwide expansion"
   ],
   "first_read": [
     "CODEX_NEXT_PROMPT.md",
     "docs/NEXT_PATH.md",
-    "delivery/ENGINEERING_H04.md",
+    "delivery/ENGINEERING_H05.md",
+    "docs/AWS_LAUNCH_PLAN.md",
     "START_HERE.md",
     "AGENTS.md",
     "delivery/HANDOFF_STATE.json",
@@ -127,12 +131,12 @@
     "infra/terraform/README.md"
   ],
   "next_steps": [
-    "Inspect successful hosted artifacts; apply saved artifact-storage host setting and retry only the blocked cloud artifact download",
-    "Establish scoped AWS deployment context, Region, approved spend/traffic, permitted source and sender/operator inputs",
-    "Review account-specific staging cost/plan and deploy matching release image/schema/frontend only within authorization",
-    "Scan actual release digest and retain build attestations; execute all 16 real acceptance gates",
-    "Measure active container/resource recovery and real source/device/geography/restore/email/alarm behavior",
-    "Operate capped beta only after acceptance; collect actual elapsed observation"
+    "Owner configures scoped secure AWS identity, account/Region, approved stage/monthly spend and traffic; complete private launch-input record",
+    "Owner/admin configures main-only GitHub deployment environments/OIDC variables or grants required scoped integration access",
+    "Codex runs launch-readiness STS account probe and discovers real Region/RDS availability and actual costs/quotas",
+    "Review full target-account state/bootstrap/plan/cost, then apply only within established authorization with initial task counts zero",
+    "Deploy exact scanned ECR digest/schema/frontend to private staging and execute all 16 real acceptance gates",
+    "Operate approved capped invitation beta; collect actual elapsed evidence before worldwide expansion"
   ],
   "blockers": [
     {
@@ -149,8 +153,8 @@
       "id": "B-02",
       "title": "AWS deployment access unavailable",
       "scope": "Cloud provisioning and AWS staging",
-      "evidence": "AWS CLI unavailable; config and credential files have 0 profiles. AWS_PROFILE is present but no access-key/session-token/role/web-identity binding or authenticated context is established. GitHub deployment environments are empty; variable/secret-name APIs return 403, so their contents are unknown.",
-      "unblock": "Establish a scoped, authorised AWS deployment context and verify account, role, Region and permitted actions. No credentials in chat.",
+      "evidence": "AWS CLI 2.38.5 official pinned-source installation and offline v2 parsing passed. Actual read-only STS identity attempt exits 255 at unavailable configured profile; no authenticated account/role established. Owner account/Region/spend and secure binding still absent. GitHub environment creation returns integration HTTP 403.",
+      "unblock": "Owner connects scoped AWS profile/role securely and supplies expected account, Region, approved spend/traffic and launch inputs. Owner/admin configures GitHub protected environments/OIDC variables or grants scoped permission; Codex then verifies identity and reviews the real plan/cost.",
       "owner": "Account owner / deployment environment",
       "hard_release_gate": true
     },
@@ -253,8 +257,8 @@
       "title": "GitHub hosted Actions billing restriction",
       "scope": "Hosted verification jobs and image-security artifacts",
       "status": "resolved_hosted",
-      "evidence": "H04 source-push run 40069202760: hosted verification passed. 7 successful jobs, 7 jobs with steps. Earlier billing failures are historical.",
-      "unblock": "No current billing block: all seven H04 hosted jobs executed and passed. Inspect retained artifacts; this cloud runtime needs its saved artifact-storage host setting applied to download them.",
+      "evidence": "Hosted H05 run 40118655022 passed all seven jobs on a4529b44e3b752039433575509576185e866935e. Earlier billing failures are historical; actual jobs and artifacts are retained.",
+      "unblock": "No current hosted-CI billing/execution block. Maintain checks on future changes. Actual AWS release remains separate.",
       "owner": "GitHub account owner",
       "hard_release_gate": true
     },
@@ -263,7 +267,7 @@
       "title": "Local runtime image vulnerability gate remediated",
       "scope": "Release image security and media runtime dependencies",
       "status": "resolved_local",
-      "evidence": "H04 exact Compose image sha256:1e03721bfd9086e928e721a2813747fb572bcd56d545bf7c4b095040a5bdcd94: strict Trivy HIGH/CRITICAL OS/library and secret gate passed with 0 findings. Pinned upstream libxml2 2.15.4 and FFmpeg 9.0.2 built together; source identity/hash checks and five-format runtime passed. Vendor feed alone is insufficient.",
+      "evidence": "H04 exact Compose image sha256:1e03721bfd9086e928e721a2813747fb572bcd56d545bf7c4b095040a5bdcd94: strict Trivy HIGH/CRITICAL OS/library and secret gate passed with 0 findings. Pinned upstream libxml2 2.15.4 and FFmpeg 9.0.2 built together; source identity/hash checks and five-format runtime passed. Vendor feed alone is insufficient. H04 hosted artifact bytes have now been retrieved and original strict-report/SBOM hashes verified; H05 hosted exact-image gate also passed.",
       "unblock": "No remaining local vulnerability fix from this scan. Scan the actual release digest again with current database, SBOM and provenance before accepting production.",
       "owner": "Engineering owner; package/upstream maintainers where updates are needed",
       "hard_release_gate": true
@@ -297,7 +301,7 @@
     "intermediate_updates": "Brief progress updates do not require repackaging",
     "external_test_only": "No feature/source fixes; return both evidence ZIP and complete unchanged/latest source ZIP plus checksums"
   },
-  "prior_handoff_source_commit": "e795ebb37227a6d65e79355fdcd5da6989829d5e",
+  "prior_handoff_source_commit": "670ac96328ea24e820e5a593ba27f092b2480394",
   "h02_verification_record": "delivery/EXTERNAL_PREPARATION_H02.json",
   "external_execution": {
     "profile": "E01",
@@ -323,15 +327,17 @@
     "aws": "Reported USD 200 credit, balance/eligibility/spend authorization unverified",
     "azure": "Reported USD 100 credit, backup remote runner only"
   },
-  "current_application_commit": "36f744d352af47ffc399395abdf6d9e46fb4bc99",
+  "current_application_commit": "a4529b44e3b752039433575509576185e866935e",
   "git_workflow": {
     "branch": "main",
     "extra_branch_or_pr_created": false,
     "push_verified": true,
-    "application_commit": "36f744d352af47ffc399395abdf6d9e46fb4bc99",
-    "ci_run_url": "https://github.com/kawakaze430/clipnest/actions/runs/40069202760",
-    "ci_status": "hosted verification passed",
-    "ci_jobs_started": 7
+    "application_commit": "a4529b44e3b752039433575509576185e866935e",
+    "ci_run_url": "https://github.com/kawakaze430/clipnest/actions/runs/40118655022",
+    "ci_status": "all seven hosted jobs passed",
+    "ci_jobs_started": 7,
+    "concurrent_main_commit": "66b112584ef482bab6ca04652d4ae4211bd0d95a",
+    "integration": "normal merge; no force-push"
   },
   "runtime_security_gate": {
     "application_commit": "36f744d352af47ffc399395abdf6d9e46fb4bc99",
@@ -381,20 +387,30 @@
     "scope": "Exact local Compose image only. Source-built components added explicitly to SBOM; release ECR digest/provenance/hosted acceptance remain unproved. Local SOURCE_COMMIT is development, not a deployed release."
   },
   "environment_configuration": {
-    "draft_id": "b6294b15-ec89-4a82-af9d-7541fd391671~cecfgdraft_6adb9714a8b0819db9625de6060882e5",
-    "revision": 9,
+    "revision": 11,
     "status": "saved",
     "requires_publish": true,
-    "install_script_unchanged": true,
-    "custom_network_domains": [
-      "api.github.com",
-      "cdn.playwright.dev",
-      "dl-cdn.alpinelinux.org",
-      "productionresultssa17.blob.core.windows.net",
-      "results-receiver.actions.githubusercontent.com",
-      "storage.googleapis.com"
+    "includes_verified_aws_cli_source_setup": true,
+    "secret_binding_count": 0,
+    "runtime_authentication_established": false,
+    "hosted_h04_artifact_download_passed": true,
+    "hosted_h05_artifact_download_passed": false,
+    "additional_artifact_host": "productionresultssa19.blob.core.windows.net",
+    "fresh_task_restoration_tested": false
+  },
+  "current_implementation_commit": "a4529b44e3b752039433575509576185e866935e",
+  "runtime_source_baseline_commit": "36f744d352af47ffc399395abdf6d9e46fb4bc99",
+  "current_hosted_artifact_download": {
+    "run_id": 40118655022,
+    "exit_code": 1,
+    "diagnostic": "error downloading browser-evidence-a4529b44e3b752039433575509576185e866935e: Get \"[REDACTED_SIGNED_OR_ACTION_URL]\": Forbidden",
+    "observed_redirect_hosts": [
+      "productionresultssa19.blob.core.windows.net"
     ],
-    "fresh_task_restoration_tested": false,
-    "hosted_artifact_download_runtime_access": false
-  }
+    "signed_redirect_urls_retained": false,
+    "downloaded_files": []
+  },
+  "delivery_limitations": [
+    "H05 hosted jobs all passed; raw artifact retrieval returned HTTP 403 at productionresultssa19.blob.core.windows.net. That exact host requirement is saved in environment draft revision 11 for review/application. H04 artifact bytes and original scan/SBOM hashes were retrieved/verified."
+  ]
 }

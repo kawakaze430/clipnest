@@ -1,6 +1,6 @@
 # Real execution and production acceptance — CP-02 / H01
 
-**H04 current direction (24 October 2026):** Codex owns implementation and verification, with verified commits pushed directly to main and no extra branch/PR. Current results/counts are in delivery/LOCAL_VERIFICATION.json and docs/END_TO_END_STATUS.json; CODEX_NEXT_PROMPT.md contains the complete continuation/testing prompt. Older capability/test claims below are historical. Actual production gates remain NO_GO.
+**H05 current direction (24 October 2026):** Codex owns implementation and verification, with verified commits pushed directly to main and no extra branch/PR. Current results/counts are in delivery/LOCAL_VERIFICATION.json and docs/END_TO_END_STATUS.json; CODEX_NEXT_PROMPT.md contains the complete continuation/testing prompt. Older capability/test claims below are historical. Actual production gates remain NO_GO.
 
 
 **Release decision: NO_GO.** This checklist describes work that still needs real execution; it is not a record of passed production tests. Read docs/OPERATIONS.md and infra/terraform/README.md before running cloud/fault/restore scripts. Use disposable targets for destructive/fault tests.

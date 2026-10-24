@@ -1,6 +1,6 @@
 # External execution handoff · CP-02
 
-**Current H04 engineering route:** read [CODEX_NEXT_PROMPT.md](../CODEX_NEXT_PROMPT.md), [current verification](../delivery/LOCAL_VERIFICATION.json) and [ENGINEERING_H04.md](../delivery/ENGINEERING_H04.md). Codex owns fixes/testing and direct-main commits/pushes, with no branch/worktree/PR. Local Docker/native/provider/browser/image-security capabilities now pass; historical unavailable-capability statements below are superseded locally. Actual AWS/source/device/resource acceptance remains pending. The H02 limited route below applies only if explicitly selected.
+**Current H05 engineering route:** read [CODEX_NEXT_PROMPT.md](../CODEX_NEXT_PROMPT.md), [current verification](../delivery/LOCAL_VERIFICATION.json) and [ENGINEERING_H05.md](../delivery/ENGINEERING_H05.md). Codex owns fixes/testing and direct-main commits/pushes, with no branch/worktree/PR. Local Docker/native/provider/browser/image-security capabilities now pass; historical unavailable-capability statements below are superseded locally. Actual AWS/source/device/resource acceptance remains pending. The H02 limited route below applies only if explicitly selected.
 
 **H02 minimal route:** Start with docs/NEXT_PATH.md, docs/EXTERNAL_EXECUTION.md and CLOUD_TEST_ONLY_PROMPT.md. E01 is execution-only and uses prepared native/browser/provider checks plus Docker smoke if available. The broad sequence below describes later stages, not a request to spend one Codex Cloud task implementing/deploying everything.
 

@@ -3,8 +3,8 @@
   "register_version": 3,
   "checkpoint": "CP-02",
   "scope": "Full core free-beta release: initial scope through worldwide AWS rollout and post-launch operation.",
-  "as_of": "2026-10-24T11:53:55+05:30",
-  "source_commit": "36f744d352af47ffc399395abdf6d9e46fb4bc99",
+  "as_of": "2026-10-24T23:42:29+05:30",
+  "source_commit": "a4529b44e3b752039433575509576185e866935e",
   "source_unchanged_during_reporting": false,
   "total_core_tasks": 112,
   "counts": {
@@ -32,14 +32,14 @@
   "production_aws_live": false,
   "private_frontend_version": 3,
   "tests": {
-    "total": 56,
-    "passed": 55,
+    "total": 102,
+    "passed": 101,
     "failed": 0,
     "skipped": 1,
-    "scope": "Local PGlite/HTTP/FFmpeg/emulated DOM/active SIGTERM: 55 pass and one native skip. Separate fresh native PostgreSQL 17 29/29, Chromium desktop/mobile rerun 8/8, Python helpers 32/32, Terraform mock 1/1, patched container/media and exact-image strict scan passed.",
+    "scope": "Local application/PGlite/HTTP/UI/fixture media plus injected AWS release orchestration, actual loopback readiness and owner-input security tests. Native/real browser/container/provider hosted groups are separately retained; no real AWS acceptance.",
     "skipped_test": "PGlite-only native concurrency case; exercised in separate native PostgreSQL 17 suite"
   },
-  "verification_note": "H04 fresh checks: 68 JS syntax files; 55 application passes + 1 explicit PGlite-native skip; 32 Python helper/source/gate tests; native PostgreSQL 17 suite 29/29; browser initial 7/8, corrected rerun 8/8; Terraform locked init/validate/mock 1/1; patched Compose and five-format media passed; production npm audit 0. Exact local image strict scan passed with 0 HIGH/CRITICAL/secret findings. Historical failures retained. Actual AWS/release/source/device gates remain pending. Hosted CI: hosted verification passed.",
+  "verification_note": "H05 merged-source local checks: 76 JavaScript files parse; 101 application/release/launch tests pass with one explicit PGlite-native skip; 37 Python tests; locked provider init/validate and 2 Terraform mocks; 5 actual constrained-container fault scenarios; official AWS CLI source install/offline parse. All seven hosted groups passed on merged source. AWS identity unavailable (profile error 255), owner inputs absent and deployment-environment API 403; no AWS deployment or production gate promotion.",
   "phases": [
     {
       "id": "A",
@@ -774,13 +774,13 @@
       "title": "Upgrade and previous-image compatibility",
       "status": "P",
       "status_label": "Partially implemented",
-      "evidence": "Populated CP-01 to CP-02 migration fixture passes in SQL, preserves accounting and reruns idempotently; deploy records prior tasks and refuses incompatible CP-01 rollback. H03 populated migration/upgrade tests also passed on native PostgreSQL 17.",
+      "evidence": "Populated CP-01 to CP-02 migration fixture passes in SQL, preserves accounting and reruns idempotently; deploy records prior tasks and refuses incompatible CP-01 rollback. H03 populated migration/upgrade tests also passed on native PostgreSQL 17. H05 offline release tests reject incomplete migrations, wrong account/image/source, ambiguous prior provenance, unhealthy/mismatched/timed-out readiness and unencrypted public readiness; actual prior source is saved separately. Real service restore/rollback is still pending.",
       "whats_left": "Rehearse exact prior-image/compatible frontend rollback and native restored-database cutover.",
       "owner": "Assistant",
       "blocker_ids": [
         "B-02"
       ],
-      "checkpoint_updated": "CP-02",
+      "checkpoint_updated": "H05",
       "previous_status": "N"
     },
     {
@@ -1102,12 +1102,12 @@
       "title": "Hosted CI workflow",
       "status": "L",
       "status_label": "Locally implemented",
-      "evidence": "Independent hosted jobs, immutable scan/SBOM helper, checksum-verified tooling, actionlint, failure retention and cold-build budgets implemented and locally tested. Latest source-push CI: https://github.com/kawakaze430/clipnest/actions/runs/40069202760; hosted verification passed.",
+      "evidence": "All seven hosted H05 jobs passed on a4529b44e3b752039433575509576185e866935e: https://github.com/kawakaze430/clipnest/actions/runs/40118655022. CI includes active container resource/fault acceptance and retains sanitized failures/artifacts.",
       "whats_left": "Maintain hosted checks on future source changes; real release/AWS acceptance remains in separate task IDs.",
       "owner": "Runner",
       "blocker_ids": [],
       "previous_status": "P",
-      "checkpoint_updated": "H04"
+      "checkpoint_updated": "H05"
     },
     {
       "id": "H-05",
@@ -1126,11 +1126,11 @@
       "title": "Container lifecycle/resource acceptance",
       "status": "P",
       "status_label": "Partially implemented",
-      "evidence": "H04 patched image/Compose/TLS/migrations/non-root/work/tmp/readiness/restart and account HTTP smoke passed. Five media formats encoded/probed. Earlier disk-exhaustion failure retained and environment cache storage corrected.",
-      "whats_left": "Active container SIGKILL/OOM/disk/deadline and measured peak RSS/scratch acceptance remain unrun.",
+      "evidence": "H05 actual generated-media constrained containers + real PostgreSQL 17: active SIGTERM/SIGKILL/kernel OOM, tmpfs ENOSPC and deadline drills passed, with cgroup/RSS/scratch, lease replacement, exactly-one asset/accounting and cleanup evidence. Non-root runner UID mapping supports private CI bind mounts; default image user is separately checked by Compose.",
+      "whats_left": "Verify the actual release ECS lifecycle and measure admitted real-media peak RSS/scratch/CPU/deadline behavior against approved workload/capacity bounds.",
       "owner": "Assistant + Runner",
       "blocker_ids": [],
-      "checkpoint_updated": "H04",
+      "checkpoint_updated": "H05",
       "previous_status": "R"
     },
     {
@@ -1139,11 +1139,11 @@
       "title": "Image scanning, SBOM and provenance",
       "status": "P",
       "status_label": "Partially implemented",
-      "evidence": "H04 exact local immutable image strict Trivy scan passed: 0 HIGH/CRITICAL/secret findings. CycloneDX inventory includes pinned source-built FFmpeg 9.0.2/libxml2 2.15.4 archive hashes. Vendor-feed-only old-media candidate rejected. Common fail-closed local/CI/deploy gate tested with negative cases; no exclusions. The hosted patched-container image scan/SBOM job also executed and passed on the H04 source commit.",
+      "evidence": "H04 exact local immutable image strict Trivy scan passed: 0 HIGH/CRITICAL/secret findings. CycloneDX inventory includes pinned source-built FFmpeg 9.0.2/libxml2 2.15.4 archive hashes. Vendor-feed-only old-media candidate rejected. Common fail-closed local/CI/deploy gate tested with negative cases; no exclusions. The hosted patched-container image scan/SBOM job also executed and passed on the H04 source commit. H04 hosted artifact scan/SBOM hashes now verify from downloaded bytes; H05 exact-image security/SBOM job also passed.",
       "whats_left": "Hosted image scan/SBOM job passed. Scan the actual release ECR digest and retain build provenance/attestations and real production acceptance.",
       "owner": "Assistant + Runner",
       "blocker_ids": [],
-      "checkpoint_updated": "H04",
+      "checkpoint_updated": "H05",
       "previous_status": "R"
     },
     {
@@ -1179,14 +1179,14 @@
       "title": "Infrastructure-as-code modules",
       "status": "P",
       "status_label": "Partially implemented",
-      "evidence": "Terraform 1.17.0 locked AWS 6.70.0 provider init/validate and private_bootstrap mock passed; account backend disabled.",
+      "evidence": "Terraform 1.17.0 locked AWS 6.70.0 provider init/validate and private_bootstrap mock passed; account backend disabled. H05 both Terraform providers require explicit expected account ID; placeholder refusal mock passed. Deploy/rollback verify actual STS account before service operations. Real IAM/account acceptance remains pending.",
       "whats_left": "Review cost and execute an authorized account-specific plan/apply and real cloud acceptance.",
       "owner": "Assistant",
       "blocker_ids": [
         "B-02",
         "B-07"
       ],
-      "checkpoint_updated": "H03",
+      "checkpoint_updated": "H05",
       "previous_status": "R"
     },
     {
@@ -1255,13 +1255,13 @@
       "title": "Secrets, encryption and IAM policies",
       "status": "R",
       "status_label": "Prepared, not executed",
-      "evidence": "Scoped execution/API/worker/migration/deploy IAM, Secrets Manager/KMS, stable session/media secret bootstrap and rotation procedures authored; injected secret-loader tests pass.",
+      "evidence": "Scoped execution/API/worker/migration/deploy IAM, Secrets Manager/KMS, stable session/media secret bootstrap and rotation procedures authored; injected secret-loader tests pass. H05 both Terraform providers require explicit expected account ID; placeholder refusal mock passed. Deploy/rollback verify actual STS account before service operations. Real IAM/account acceptance remains pending.",
       "whats_left": "Review real policy simulation/access, existing OIDC provider reuse/import and key-rotation rehearsal.",
       "owner": "Assistant",
       "blocker_ids": [
         "B-02"
       ],
-      "checkpoint_updated": "CP-02",
+      "checkpoint_updated": "H05",
       "previous_status": "N"
     },
     {
@@ -1270,14 +1270,14 @@
       "title": "AWS build/deploy pipeline",
       "status": "R",
       "status_label": "Prepared, not executed",
-      "evidence": "GitHub OIDC environment-scoped workflow prepares digest/SBOM/scan, migration, rollout, frontend invalidation, exact-commit production gate and compatible rollback records.",
+      "evidence": "GitHub OIDC environment-scoped workflow prepares digest/SBOM/scan, migration, rollout, frontend invalidation, exact-commit production gate and compatible rollback records. H05 release orchestration gained exact task/image/source/account and readiness guards; GitHub deployment-environment creation was attempted and rejected with integration HTTP 403.",
       "whats_left": "Configure owner repository/environment and run actual authorized staging deployment.",
       "owner": "Assistant",
       "blocker_ids": [
         "B-02",
         "B-07"
       ],
-      "checkpoint_updated": "CP-02",
+      "checkpoint_updated": "H05",
       "previous_status": "N"
     },
     {
@@ -1391,13 +1391,13 @@
       "title": "Backup restore and rollback automation",
       "status": "R",
       "status_label": "Prepared, not executed",
-      "evidence": "Review-first private RDS restore clone, read-only TLS/schema/accounting verification, compatible task rollback and measured RTO/RPO procedure authored.",
+      "evidence": "Review-first private RDS restore clone, read-only TLS/schema/accounting verification, compatible task rollback and measured RTO/RPO procedure authored. H05 offline release tests reject incomplete migrations, wrong account/image/source, ambiguous prior provenance, unhealthy/mismatched/timed-out readiness and unencrypted public readiness; actual prior source is saved separately. Real service restore/rollback is still pending.",
       "whats_left": "Execute isolated backup restore and rollback, verify deleted/expired data, retain results and clean up clones deliberately.",
       "owner": "Assistant + Runner",
       "blocker_ids": [
         "B-02"
       ],
-      "checkpoint_updated": "CP-02",
+      "checkpoint_updated": "H05",
       "previous_status": "N"
     },
     {
@@ -1451,13 +1451,13 @@
       "title": "Active-job process termination drills",
       "status": "P",
       "status_label": "Partially implemented",
-      "evidence": "Real-process active SIGTERM drill passes; native active SIGKILL/lease expiry/replacement, active Compose SIGKILL and staging ECS replacement procedures/scripts authored. H03 active nativeSIGKILL/replacement passed; containerOOM/hardkill and ECS drills remain.",
-      "whats_left": "Execute native/container hard-kill/OOM/deadline/cleanup drills and record bounded recovery.",
+      "evidence": "H05 five active local container drills passed: SIGTERM, SIGKILL, actual OOMKilled=true, ENOSPC and deadline. Native PG leases recover; replacement commits one asset/settlement, failed work releases reservations and cleans scratch. Initial setup failure retained. Hosted resource step executes the same harness.",
+      "whats_left": "Execute actual staged ECS task loss/replacement and distributed SQS/S3/source recovery; local synthetic process/container fault evidence is complete.",
       "owner": "Assistant + Runner",
       "blocker_ids": [
         "B-02"
       ],
-      "checkpoint_updated": "CP-02",
+      "checkpoint_updated": "H05",
       "previous_status": "N"
     },
     {
@@ -1570,13 +1570,13 @@
       "title": "Release/rollback runbook completion",
       "status": "P",
       "status_label": "Partially implemented",
-      "evidence": "Environment-specific state/secrets/image/migration/frontend rollout, compatible rollback and first-upgrade forward-fix/restore instructions and scripts completed.",
+      "evidence": "Environment-specific state/secrets/image/migration/frontend rollout, compatible rollback and first-upgrade forward-fix/restore instructions and scripts completed. H05 offline release tests reject incomplete migrations, wrong account/image/source, ambiguous prior provenance, unhealthy/mismatched/timed-out readiness and unencrypted public readiness; actual prior source is saved separately. Real service restore/rollback is still pending.",
       "whats_left": "Rehearse actual rollout/rollback with matching image/frontend and verify service/account/media recovery.",
       "owner": "Assistant + Runner",
       "blocker_ids": [
         "B-02"
       ],
-      "checkpoint_updated": "CP-02",
+      "checkpoint_updated": "H05",
       "previous_status": "P"
     },
     {
@@ -1698,8 +1698,8 @@
       "id": "B-02",
       "title": "AWS deployment access unavailable",
       "scope": "Cloud provisioning and AWS staging",
-      "evidence": "AWS CLI unavailable; config and credential files have 0 profiles. AWS_PROFILE is present but no access-key/session-token/role/web-identity binding or authenticated context is established. GitHub deployment environments are empty; variable/secret-name APIs return 403, so their contents are unknown.",
-      "unblock": "Establish a scoped, authorised AWS deployment context and verify account, role, Region and permitted actions. No credentials in chat.",
+      "evidence": "AWS CLI 2.38.5 official pinned-source installation and offline v2 parsing passed. Actual read-only STS identity attempt exits 255 at unavailable configured profile; no authenticated account/role established. Owner account/Region/spend and secure binding still absent. GitHub environment creation returns integration HTTP 403.",
+      "unblock": "Owner connects scoped AWS profile/role securely and supplies expected account, Region, approved spend/traffic and launch inputs. Owner/admin configures GitHub protected environments/OIDC variables or grants scoped permission; Codex then verifies identity and reviews the real plan/cost.",
       "owner": "Account owner / deployment environment",
       "hard_release_gate": true
     },
@@ -1802,8 +1802,8 @@
       "title": "GitHub hosted Actions billing restriction",
       "scope": "Hosted verification jobs and image-security artifacts",
       "status": "resolved_hosted",
-      "evidence": "H04 source-push run 40069202760: hosted verification passed. 7 successful jobs, 7 jobs with steps. Earlier billing failures are historical.",
-      "unblock": "No current billing block: all seven H04 hosted jobs executed and passed. Inspect retained artifacts; this cloud runtime needs its saved artifact-storage host setting applied to download them.",
+      "evidence": "Hosted H05 run 40118655022 passed all seven jobs on a4529b44e3b752039433575509576185e866935e. Earlier billing failures are historical; actual jobs and artifacts are retained.",
+      "unblock": "No current hosted-CI billing/execution block. Maintain checks on future changes. Actual AWS release remains separate.",
       "owner": "GitHub account owner",
       "hard_release_gate": true
     },
@@ -1812,7 +1812,7 @@
       "title": "Local runtime image vulnerability gate remediated",
       "scope": "Release image security and media runtime dependencies",
       "status": "resolved_local",
-      "evidence": "H04 exact Compose image sha256:1e03721bfd9086e928e721a2813747fb572bcd56d545bf7c4b095040a5bdcd94: strict Trivy HIGH/CRITICAL OS/library and secret gate passed with 0 findings. Pinned upstream libxml2 2.15.4 and FFmpeg 9.0.2 built together; source identity/hash checks and five-format runtime passed. Vendor feed alone is insufficient.",
+      "evidence": "H04 exact Compose image sha256:1e03721bfd9086e928e721a2813747fb572bcd56d545bf7c4b095040a5bdcd94: strict Trivy HIGH/CRITICAL OS/library and secret gate passed with 0 findings. Pinned upstream libxml2 2.15.4 and FFmpeg 9.0.2 built together; source identity/hash checks and five-format runtime passed. Vendor feed alone is insufficient. H04 hosted artifact bytes have now been retrieved and original strict-report/SBOM hashes verified; H05 hosted exact-image gate also passed.",
       "unblock": "No remaining local vulnerability fix from this scan. Scan the actual release digest again with current database, SBOM and provenance before accepting production.",
       "owner": "Engineering owner; package/upstream maintainers where updates are needed",
       "hard_release_gate": true
@@ -1823,7 +1823,7 @@
     "codex_or_runner": "Codex owns current implementation/verification/CI and direct main commits/pushes; no extra branch or PR. User supplies account/spend/source/public-policy inputs.",
     "user": "Scoped AWS/account/Region/budget/traffic authorization, sender/alert recipient, public operator/contact/policy/market/source rights inputs. DNS and payments only if selected."
   },
-  "source_base_commit": "e795ebb37227a6d65e79355fdcd5da6989829d5e",
+  "source_base_commit": "670ac96328ea24e820e5a593ba27f092b2480394",
   "target_batch": {
     "task_count": 51,
     "prior_counts": {
@@ -1905,5 +1905,5 @@
     "source_archive_sha256": "8353c76f1b4d6083e3f8139d1a7a0732f69f4fd20639f9a0dd9f8a72fd7c9cf6",
     "historical_site_snapshot": true
   },
-  "handoff_revision": "H04"
+  "handoff_revision": "H05"
 }

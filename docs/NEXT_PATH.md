@@ -1,4 +1,4 @@
-# ClipNest implementation and testing path — H04
+# ClipNest implementation and testing path — H05
 
 The user's 24 October 2026 instruction transfers the current engineering work to Codex: implement observed fixes, improve Actions, test feasible behavior and push verified commits **directly to main, without another branch or PR**. The old H02 execution-only assignment is historical unless explicitly selected. Use [the complete next-task prompt](../CODEX_NEXT_PROMPT.md).
 
@@ -16,6 +16,8 @@ The project remains CP-02/version 1.2.0. Source changes/results are recorded in 
 | Browser | npm run test:browser | Desktop/mobile emulation and axe; synthetic media, actual browser version |
 | Terraform | Pinned fmt, locked init, validate, mocks | Provider schema and executed mocks; no account plan/apply |
 | Container | bash scripts/external/containers.sh | TLS/image/Compose/migration/API/worker/non-root/work/tmp/readiness/restart/account and five media formats |
+| Active local container faults | node scripts/ops/container-resource-drill.mjs | SIGTERM/SIGKILL/OOM/ENOSPC/deadline, exact accounting and measured RSS/scratch; not real ECS |
+| Launch input/account discovery | node scripts/ops/launch-readiness.mjs PRIVATE_INPUTS --probe-account | Actual owner inputs and expected STS account; no provisioning/production pass |
 | Security | Production npm audit; CI exact-image scan/SBOM | Current results, image identity and software bill of materials |
 | Packaging | npm run package; read-only scripts/package.py --verify | Complete source manifest and whole-ZIP checksum |
 
@@ -25,7 +27,7 @@ Existing Chromium can be explicitly selected with CLIPNEST_CHROMIUM_EXECUTABLE_P
 
 ## Remaining stages
 
-1. Inspect hosted run 40069202760 for H04 commit 36f744d352af47ffc399395abdf6d9e46fb4bc99 and its retained artifacts. It started successfully after the earlier billing restriction. Current final outcome is in delivery/LOCAL_VERIFICATION.json. Fix actual source failures, push directly to main and rerun affected groups. Do not mistake Dependabot checks for the application matrix.
+1. Inspect H05 merged-source run 40118655022 and its actual artifacts; current outcome is in delivery/LOCAL_VERIFICATION.json. The concurrent main release-safety patch was preserved through a normal merge. Old billing and artifact-download failures are superseded by successful execution/retrieval; retain their historical evidence.
 2. Obtain a permitted source-test reference and verify the actual app/image/network transfer before an expensive always-on stack. Preserve source restrictions; no cookies, alternate networks or TLS bypasses to conceal them.
 3. Establish scoped AWS access, Region/availability, approved staging/monthly spend and traffic, sender/alerts, public operator/support and policy/market inputs. Domain/payments remain optional. Inspect existing bindings before requesting secure values.
 4. Review account-specific staging cost/plan and execute only within actual authorization. Deploy matching image/schema/frontend with native DB, separate workers, queue and private signed media delivery.
@@ -35,3 +37,5 @@ Existing Chromium can be explicitly selected with CLIPNEST_CHROMIUM_EXECUTABLE_P
 Preserve112 IDs and all five L/P/R/B/N counts. Update evidence and remaining acceptance instead of promoting a broad task from one local check. Deliver complete source/evidence ZIPs and checksums, updated status/handoff and the next precise prompt. Exclude credentials, private media, database contents, state and account-bearing traces from distributable artifacts.
 
 The Alpine package host now returned verified HTTPS 200 and the complete application image was built. Pinned upstream libxml2 2.15.4 and FFmpeg 9.0.2 are compiled together; the strict local image gate and five-format media checks passed. Use `python3 scripts/ci/image-security.py clipnest:local --output qa-artifacts/image-security`; remote releases require the exact digest and `--source remote`. Cold builds took about 14.4 minutes locally; allow a 30-minute container group or 35-minute combined batch and sufficient free disk. Preserve original failures and current source coverage.
+
+Use [the ordered AWS launch plan](AWS_LAUNCH_PLAN.md). AWS CLI v2 source preparation now passes, but the configured identity profile is unavailable and GitHub environment creation returns integration HTTP 403. The owner supplies the secure target/Region/spend/source/contact inputs and scoped configuration access; Codex retains plan/cost review, implementation and actual staging/gate execution.

@@ -1,9 +1,9 @@
 {
   "project": "ClipNest",
   "checkpoint": "CP-02",
-  "updated_at": "2026-10-24T11:53:55+05:30",
+  "updated_at": "2026-10-24T23:42:29+05:30",
   "release_decision": "NO_GO",
-  "release_reason": "Production acceptance remains NO_GO. Local patched-image vulnerability gate is resolved; hosted execution and actual AWS/source/device/resource/owner gates remain pending.",
+  "release_reason": "Production NO_GO. Local/hosted engineering checks pass; actual authorized AWS target, owner launch decisions and real service acceptance remain pending.",
   "status_labels": {
     "implemented": "Implemented",
     "partial": "Partial",
@@ -1791,6 +1791,3026 @@
         "fresh_task_restoration_tested": false,
         "hosted_artifact_download_runtime_access": false
       }
+    },
+    "h05": {
+      "project": "ClipNest",
+      "checkpoint": "CP-02",
+      "handoff_revision": "H05",
+      "recorded_at": "2026-10-24T23:42:29+05:30",
+      "application_version": "1.2.0",
+      "tested_implementation_commit": "a4529b44e3b752039433575509576185e866935e",
+      "tested_application_commit": "a4529b44e3b752039433575509576185e866935e",
+      "source_base_commit": "670ac96328ea24e820e5a593ba27f092b2480394",
+      "runtime_source_baseline_commit": "36f744d352af47ffc399395abdf6d9e46fb4bc99",
+      "prior_application_baseline_commit": "92a00a4bb1a2c0ae3de12105f37e129ab5e8df10",
+      "application_sources_changed": false,
+      "deployment_infrastructure_and_tests_changed": true,
+      "app_test_tree_sha256": "8d10afdd65157b267a730afba1f41a011222a5677c94b4b6cf321cd1771176c9",
+      "checks": [
+        {
+          "name": "h05-merged-syntax",
+          "recorded_at": "2026-10-24T17:59:41.370577+00:00",
+          "source_commit": "ab0b36035901a67036d6b49629d5b5cee2e32fe5",
+          "app_test_tree_sha256": "8d10afdd65157b267a730afba1f41a011222a5677c94b4b6cf321cd1771176c9",
+          "argv": [
+            "npm",
+            "run",
+            "check"
+          ],
+          "exit_code": 0,
+          "timed_out": false,
+          "seconds": 3.54,
+          "log": "h05-merged-syntax.log",
+          "scope": "CI command evidence; not production acceptance"
+        },
+        {
+          "name": "h05-merged-unit",
+          "recorded_at": "2026-10-24T17:58:56.440579+00:00",
+          "source_commit": "ab0b36035901a67036d6b49629d5b5cee2e32fe5",
+          "app_test_tree_sha256": "8d10afdd65157b267a730afba1f41a011222a5677c94b4b6cf321cd1771176c9",
+          "argv": [
+            "npm",
+            "test"
+          ],
+          "exit_code": 0,
+          "timed_out": false,
+          "seconds": 19.41,
+          "log": "h05-merged-unit.log",
+          "scope": "CI command evidence; not production acceptance"
+        },
+        {
+          "name": "h05-final-python",
+          "recorded_at": "2026-10-24T17:54:34.090481+00:00",
+          "source_commit": "670ac96328ea24e820e5a593ba27f092b2480394",
+          "app_test_tree_sha256": "522ef76d61be509e31e9cf979d2112279045654165a206b2477b114e6a17ab9e",
+          "argv": [
+            "python3",
+            "-m",
+            "unittest",
+            "discover",
+            "-s",
+            "tests",
+            "-p",
+            "*_test.py"
+          ],
+          "exit_code": 0,
+          "timed_out": false,
+          "seconds": 2.51,
+          "log": "h05-final-python.log",
+          "scope": "CI command evidence; not production acceptance"
+        },
+        {
+          "name": "h05-final-workflows",
+          "recorded_at": "2026-10-24T17:54:31.175710+00:00",
+          "source_commit": "670ac96328ea24e820e5a593ba27f092b2480394",
+          "app_test_tree_sha256": "522ef76d61be509e31e9cf979d2112279045654165a206b2477b114e6a17ab9e",
+          "argv": [
+            "bash",
+            "scripts/ci/lint-workflows.sh"
+          ],
+          "exit_code": 0,
+          "timed_out": false,
+          "seconds": 1.14,
+          "log": "h05-final-workflows.log",
+          "scope": "CI command evidence; not production acceptance"
+        },
+        {
+          "name": "h05-resource-portable",
+          "recorded_at": "2026-10-24T17:54:44.634348+00:00",
+          "source_commit": "670ac96328ea24e820e5a593ba27f092b2480394",
+          "app_test_tree_sha256": "522ef76d61be509e31e9cf979d2112279045654165a206b2477b114e6a17ab9e",
+          "argv": [
+            "node",
+            "scripts/ops/container-resource-drill.mjs",
+            "--output",
+            "qa-artifacts/h05-resource-portable"
+          ],
+          "exit_code": 0,
+          "timed_out": false,
+          "seconds": 156.06,
+          "log": "h05-resource-portable.log",
+          "scope": "CI command evidence; not production acceptance"
+        },
+        {
+          "name": "h05-aws-cli-install",
+          "recorded_at": "2026-10-24T17:45:33.093319+00:00",
+          "source_commit": "670ac96328ea24e820e5a593ba27f092b2480394",
+          "app_test_tree_sha256": "9c992a738577ae8e37815182b73682068393d6c89c05bd19033d0528b5595407",
+          "argv": [
+            "bash",
+            "scripts/external/install-aws-cli.sh"
+          ],
+          "exit_code": 0,
+          "timed_out": false,
+          "seconds": 57.24,
+          "log": "h05-aws-cli-install.log",
+          "scope": "CI command evidence; not production acceptance"
+        }
+      ],
+      "terraform": {
+        "profile": "ClipNest-E01",
+        "started_at": "2026-10-24T17:52:14.649806+00:00",
+        "capabilities": {
+          "profile": "ClipNest-E01",
+          "recorded_at": "2026-10-24T17:52:14.470793+00:00",
+          "platform": "posix",
+          "source_commit": "670ac96328ea24e820e5a593ba27f092b2480394",
+          "tracked_source_changes": true,
+          "app_test_tree_sha256": "e89ffb59427ede7fb78fcc2884d2b5962fe74cd123f6374ae2bb896b94abac13",
+          "tools": {
+            "node": {
+              "installed": true,
+              "version": "v24.19.0"
+            },
+            "npm": {
+              "installed": true,
+              "version": "11.9.0"
+            },
+            "ffmpeg": {
+              "installed": true,
+              "version": "ffmpeg version 7.1.5-0+deb13u1 Copyright (c) 2000-2026 the FFmpeg developers"
+            },
+            "openssl": {
+              "installed": true,
+              "version": "OpenSSL 3.5.7 9 Jun 2026 (Library: OpenSSL 3.5.7 9 Jun 2026)"
+            },
+            "docker": {
+              "installed": true,
+              "version": "Docker version 28.4.0, build d8eb465"
+            },
+            "terraform": {
+              "installed": true,
+              "version": "Terraform v1.17.0"
+            }
+          },
+          "loopback_tcp": {
+            "available": true
+          },
+          "unix_socket": {
+            "available": true
+          },
+          "nonroot_native_user": {
+            "available": true,
+            "reason": "Non-root process"
+          },
+          "browser_runtime": {
+            "installed": false,
+            "executable": "/home/agent/.cache/ms-playwright/chromium-1248/chrome-linux64/chrome",
+            "selection": "Playwright-pinned browser",
+            "reason": "Executable existence only; no browser launch in capability probe"
+          },
+          "docker_daemon": {
+            "available": true,
+            "detail": "28.4.0\n"
+          },
+          "docker_compose": {
+            "available": true
+          },
+          "dependencies_installed": true,
+          "native_database_mode": "auto",
+          "external_test_db_present": false,
+          "scope": "Capability metadata only. Does not prove a suite or production service passed."
+        },
+        "results": [
+          {
+            "group": "terraform",
+            "task_ids_for_review": [
+              "I-03",
+              "I-04",
+              "I-05",
+              "I-06",
+              "I-07",
+              "I-08"
+            ],
+            "status": "passed",
+            "commands": [
+              {
+                "argv": [
+                  "/workspace/clipnest/.cache/external/bin/terraform",
+                  "-chdir=infra/terraform",
+                  "init",
+                  "-backend=false",
+                  "-input=false",
+                  "-lockfile=readonly"
+                ],
+                "exit_code": 0,
+                "timed_out": false,
+                "seconds": 6.62,
+                "log": "terraform-1.log"
+              },
+              {
+                "argv": [
+                  "/workspace/clipnest/.cache/external/bin/terraform",
+                  "-chdir=infra/terraform",
+                  "validate",
+                  "-no-color"
+                ],
+                "exit_code": 0,
+                "timed_out": false,
+                "seconds": 9.35,
+                "log": "terraform-2.log"
+              },
+              {
+                "argv": [
+                  "/workspace/clipnest/.cache/external/bin/terraform",
+                  "-chdir=infra/terraform",
+                  "test",
+                  "-json",
+                  "-no-color"
+                ],
+                "exit_code": 0,
+                "timed_out": false,
+                "seconds": 6.5,
+                "log": "terraform-3.log"
+              }
+            ],
+            "test_counts": {
+              "status": "pass",
+              "passed": 2,
+              "failed": 0,
+              "errored": 0,
+              "skipped": 0
+            },
+            "scope": "Locked real provider schema/mock checks; no account plan/apply"
+          }
+        ],
+        "production_release_decision": "NO_GO",
+        "app_edits_allowed": false,
+        "aws_api_calls_or_deployment_allowed": false,
+        "master_statuses_changed": false,
+        "finished_at": "2026-10-24T17:52:37.129957+00:00"
+      },
+      "container_resources": {
+        "recordedAt": "2026-10-24T17:52:08.648Z",
+        "scope": "Local generated-media WorkerRunner/PgStore and disposable PostgreSQL 17 in Docker; not authorized source, AWS/RDS/S3/SQS, physical-device or production acceptance.",
+        "productionAcceptance": false,
+        "scenarios": [
+          {
+            "name": "sigterm",
+            "startedAt": "2026-10-24T17:52:37.458Z",
+            "status": "passed",
+            "containerName": "clipnest-resource-6c0d9a2326d24324-sigterm-sigterm",
+            "active": {
+              "event": "active",
+              "mode": "sigterm",
+              "rssBytes": 86204416,
+              "cgroupCurrentBytes": 29847552,
+              "cgroupPeakBytes": 31436800,
+              "scratchBytes": 262144,
+              "uid": 1000
+            },
+            "activeJobObserved": true,
+            "dockerStats": "{\"BlockIO\":\"0B / 0B\",\"CPUPerc\":\"0.21%\",\"Container\":\"clipnest-resource-6c0d9a2326d24324-sigterm-sigterm\",\"ID\":\"508168235efa\",\"MemPerc\":\"14.77%\",\"MemUsage\":\"28.36MiB / 192MiB\",\"Name\":\"clipnest-resource-6c0d9a2326d24324-sigterm-sigterm\",\"NetIO\":\"4.51kB / 3.1kB\",\"PIDs\":\"11\"}",
+            "containerExit": {
+              "exitCode": 0,
+              "oomKilled": false,
+              "error": ""
+            },
+            "telemetry": [
+              {
+                "event": "active",
+                "mode": "sigterm",
+                "rssBytes": 86204416,
+                "cgroupCurrentBytes": 29847552,
+                "cgroupPeakBytes": 31436800,
+                "scratchBytes": 262144,
+                "uid": 1000
+              },
+              {
+                "event": "stopped",
+                "rssBytes": 86335488,
+                "cgroupCurrentBytes": 29618176,
+                "cgroupPeakBytes": 31436800,
+                "scratchBytes": 0,
+                "uid": 1000
+              }
+            ],
+            "recoveryWaitSeconds": 0.004,
+            "replacementExit": {
+              "exitCode": 0,
+              "oomKilled": false
+            },
+            "replacementTelemetry": [
+              {
+                "event": "finished",
+                "mode": "complete",
+                "rssBytes": 86331392,
+                "cgroupCurrentBytes": 29462528,
+                "cgroupPeakBytes": 33886208,
+                "scratchBytes": 6149,
+                "uid": 1000,
+                "remainingFiles": [
+                  {
+                    "path": "job-UzrM2C9DZQC23_eXX-uI2jPPP8sStrrD/attempt-d50fb874-0ec4-4418-9924-2fa98b84aa68-2/media.mp4",
+                    "bytes": 6149
+                  }
+                ]
+              }
+            ],
+            "settlement": {
+              "status": "ready",
+              "attempts": 2,
+              "errorCode": null,
+              "assetCount": 1,
+              "bytesReserved": 0,
+              "bytesCompleted": 6149,
+              "reservationState": "settled"
+            },
+            "finalFile": {
+              "bytes": 6149,
+              "sha256": "c97bc7619bf9d93cbe58c9c3e7927c6d75ba08582edca620e6d3a1cd58823b46"
+            },
+            "completedAt": "2026-10-24T17:52:52.648Z"
+          },
+          {
+            "name": "sigkill",
+            "startedAt": "2026-10-24T17:52:53.269Z",
+            "status": "passed",
+            "containerName": "clipnest-resource-6c0d9a2326d24324-sigkill-sigkill",
+            "active": {
+              "event": "active",
+              "mode": "sigkill",
+              "rssBytes": 85929984,
+              "cgroupCurrentBytes": 30035968,
+              "cgroupPeakBytes": 31399936,
+              "scratchBytes": 262144,
+              "uid": 1000
+            },
+            "activeJobObserved": true,
+            "dockerStats": "{\"BlockIO\":\"0B / 0B\",\"CPUPerc\":\"0.19%\",\"Container\":\"clipnest-resource-6c0d9a2326d24324-sigkill-sigkill\",\"ID\":\"d7b006f143fa\",\"MemPerc\":\"14.84%\",\"MemUsage\":\"28.48MiB / 192MiB\",\"Name\":\"clipnest-resource-6c0d9a2326d24324-sigkill-sigkill\",\"NetIO\":\"4.51kB / 3.1kB\",\"PIDs\":\"11\"}",
+            "containerExit": {
+              "exitCode": 137,
+              "oomKilled": false,
+              "error": ""
+            },
+            "telemetry": [
+              {
+                "event": "active",
+                "mode": "sigkill",
+                "rssBytes": 85929984,
+                "cgroupCurrentBytes": 30035968,
+                "cgroupPeakBytes": 31399936,
+                "scratchBytes": 262144,
+                "uid": 1000
+              }
+            ],
+            "recoveryWaitSeconds": 28.229,
+            "replacementExit": {
+              "exitCode": 0,
+              "oomKilled": false
+            },
+            "replacementTelemetry": [
+              {
+                "event": "finished",
+                "mode": "complete",
+                "rssBytes": 86687744,
+                "cgroupCurrentBytes": 29917184,
+                "cgroupPeakBytes": 34021376,
+                "scratchBytes": 268293,
+                "uid": 1000,
+                "remainingFiles": [
+                  {
+                    "path": "job-egqVwHuL0NCq8KKvzRdartInWoh6qH3V/attempt-6ccbffd9-3803-41e0-987d-4e95a9f597c1-2/media.mp4",
+                    "bytes": 6149
+                  },
+                  {
+                    "path": "job-egqVwHuL0NCq8KKvzRdartInWoh6qH3V/attempt-813aecb0-068f-4145-98f0-fc36bb52b6f0-1/fragment.part",
+                    "bytes": 262144
+                  }
+                ]
+              }
+            ],
+            "settlement": {
+              "status": "ready",
+              "attempts": 2,
+              "errorCode": null,
+              "assetCount": 1,
+              "bytesReserved": 0,
+              "bytesCompleted": 6149,
+              "reservationState": "settled"
+            },
+            "finalFile": {
+              "bytes": 6149,
+              "sha256": "c97bc7619bf9d93cbe58c9c3e7927c6d75ba08582edca620e6d3a1cd58823b46"
+            },
+            "completedAt": "2026-10-24T17:53:36.462Z"
+          },
+          {
+            "name": "oom",
+            "startedAt": "2026-10-24T17:53:37.312Z",
+            "status": "passed",
+            "containerName": "clipnest-resource-6c0d9a2326d24324-oom-oom",
+            "active": {
+              "event": "active",
+              "mode": "oom",
+              "rssBytes": 85962752,
+              "cgroupCurrentBytes": 29720576,
+              "cgroupPeakBytes": 31395840,
+              "scratchBytes": 262144,
+              "uid": 1000
+            },
+            "activeJobObserved": true,
+            "dockerStats": "{\"BlockIO\":\"0B / 0B\",\"CPUPerc\":\"0.20%\",\"Container\":\"clipnest-resource-6c0d9a2326d24324-oom-oom\",\"ID\":\"d77890bae3e5\",\"MemPerc\":\"14.73%\",\"MemUsage\":\"28.29MiB / 192MiB\",\"Name\":\"clipnest-resource-6c0d9a2326d24324-oom-oom\",\"NetIO\":\"4.51kB / 3.1kB\",\"PIDs\":\"11\"}",
+            "containerExit": {
+              "exitCode": 137,
+              "oomKilled": true,
+              "error": ""
+            },
+            "telemetry": [
+              {
+                "event": "active",
+                "mode": "oom",
+                "rssBytes": 85962752,
+                "cgroupCurrentBytes": 29720576,
+                "cgroupPeakBytes": 31395840,
+                "scratchBytes": 262144,
+                "uid": 1000
+              },
+              {
+                "event": "oom_pressure",
+                "allocatedBytes": 16777216,
+                "rssBytes": 102838272,
+                "cgroupCurrentBytes": 46366720,
+                "cgroupPeakBytes": 46784512,
+                "scratchBytes": 262144,
+                "uid": 1000
+              },
+              {
+                "event": "oom_pressure",
+                "allocatedBytes": 33554432,
+                "rssBytes": 119484416,
+                "cgroupCurrentBytes": 63565824,
+                "cgroupPeakBytes": 63590400,
+                "scratchBytes": 262144,
+                "uid": 1000
+              },
+              {
+                "event": "oom_pressure",
+                "allocatedBytes": 50331648,
+                "rssBytes": 136261632,
+                "cgroupCurrentBytes": 80384000,
+                "cgroupPeakBytes": 80404480,
+                "scratchBytes": 262144,
+                "uid": 1000
+              },
+              {
+                "event": "oom_pressure",
+                "allocatedBytes": 67108864,
+                "rssBytes": 153038848,
+                "cgroupCurrentBytes": 97046528,
+                "cgroupPeakBytes": 97050624,
+                "scratchBytes": 262144,
+                "uid": 1000
+              },
+              {
+                "event": "oom_pressure",
+                "allocatedBytes": 83886080,
+                "rssBytes": 169947136,
+                "cgroupCurrentBytes": 113827840,
+                "cgroupPeakBytes": 114089984,
+                "scratchBytes": 262144,
+                "uid": 1000
+              },
+              {
+                "event": "oom_pressure",
+                "allocatedBytes": 100663296,
+                "rssBytes": 186462208,
+                "cgroupCurrentBytes": 131010560,
+                "cgroupPeakBytes": 131010560,
+                "scratchBytes": 262144,
+                "uid": 1000
+              },
+              {
+                "event": "oom_pressure",
+                "allocatedBytes": 117440512,
+                "rssBytes": 203382784,
+                "cgroupCurrentBytes": 147091456,
+                "cgroupPeakBytes": 147423232,
+                "scratchBytes": 262144,
+                "uid": 1000
+              },
+              {
+                "event": "oom_pressure",
+                "allocatedBytes": 134217728,
+                "rssBytes": 220028928,
+                "cgroupCurrentBytes": 164036608,
+                "cgroupPeakBytes": 164044800,
+                "scratchBytes": 262144,
+                "uid": 1000
+              },
+              {
+                "event": "oom_pressure",
+                "allocatedBytes": 150994944,
+                "rssBytes": 236806144,
+                "cgroupCurrentBytes": 180875264,
+                "cgroupPeakBytes": 180920320,
+                "scratchBytes": 262144,
+                "uid": 1000
+              },
+              {
+                "event": "oom_pressure",
+                "allocatedBytes": 167772160,
+                "rssBytes": 253583360,
+                "cgroupCurrentBytes": 197599232,
+                "cgroupPeakBytes": 197804032,
+                "scratchBytes": 262144,
+                "uid": 1000
+              }
+            ],
+            "recoveryWaitSeconds": 27.478,
+            "replacementExit": {
+              "exitCode": 0,
+              "oomKilled": false
+            },
+            "replacementTelemetry": [
+              {
+                "event": "finished",
+                "mode": "complete",
+                "rssBytes": 86306816,
+                "cgroupCurrentBytes": 29437952,
+                "cgroupPeakBytes": 33423360,
+                "scratchBytes": 268293,
+                "uid": 1000,
+                "remainingFiles": [
+                  {
+                    "path": "job-DyN2YMAC-3r4wSaaNQfHp9ewA1Tu-ErU/attempt-503745e5-df4d-4d68-9991-5946b4d8804f-1/fragment.part",
+                    "bytes": 262144
+                  },
+                  {
+                    "path": "job-DyN2YMAC-3r4wSaaNQfHp9ewA1Tu-ErU/attempt-a5bb5080-2c3f-416d-8714-0e0f2a5bf6bd-2/media.mp4",
+                    "bytes": 6149
+                  }
+                ]
+              }
+            ],
+            "settlement": {
+              "status": "ready",
+              "attempts": 2,
+              "errorCode": null,
+              "assetCount": 1,
+              "bytesReserved": 0,
+              "bytesCompleted": 6149,
+              "reservationState": "settled"
+            },
+            "finalFile": {
+              "bytes": 6149,
+              "sha256": "c97bc7619bf9d93cbe58c9c3e7927c6d75ba08582edca620e6d3a1cd58823b46"
+            },
+            "completedAt": "2026-10-24T17:54:22.297Z"
+          },
+          {
+            "name": "disk",
+            "startedAt": "2026-10-24T17:54:22.929Z",
+            "status": "passed",
+            "containerName": "clipnest-resource-6c0d9a2326d24324-disk-disk",
+            "active": {
+              "event": "active",
+              "mode": "disk",
+              "rssBytes": 85827584,
+              "cgroupCurrentBytes": 29585408,
+              "cgroupPeakBytes": 30773248,
+              "scratchBytes": 262144,
+              "uid": 1000
+            },
+            "activeJobObserved": true,
+            "dockerStats": "{\"BlockIO\":\"0B / 0B\",\"CPUPerc\":\"0.84%\",\"Container\":\"clipnest-resource-6c0d9a2326d24324-disk-disk\",\"ID\":\"8169ca2e89d8\",\"MemPerc\":\"14.73%\",\"MemUsage\":\"28.27MiB / 192MiB\",\"Name\":\"clipnest-resource-6c0d9a2326d24324-disk-disk\",\"NetIO\":\"4.67kB / 3.1kB\",\"PIDs\":\"11\"}",
+            "containerExit": {
+              "exitCode": 0,
+              "oomKilled": false,
+              "error": ""
+            },
+            "telemetry": [
+              {
+                "event": "active",
+                "mode": "disk",
+                "rssBytes": 85827584,
+                "cgroupCurrentBytes": 29585408,
+                "cgroupPeakBytes": 30773248,
+                "scratchBytes": 262144,
+                "uid": 1000
+              },
+              {
+                "event": "disk_error",
+                "code": "ENOSPC",
+                "rssBytes": 102776832,
+                "cgroupCurrentBytes": 54558720,
+                "cgroupPeakBytes": 54571008,
+                "scratchBytes": 8388608,
+                "uid": 1000
+              },
+              {
+                "event": "finished",
+                "mode": "disk",
+                "rssBytes": 103301120,
+                "cgroupCurrentBytes": 46043136,
+                "cgroupPeakBytes": 54571008,
+                "scratchBytes": 0,
+                "uid": 1000,
+                "remainingFiles": []
+              }
+            ],
+            "settlement": {
+              "status": "failed",
+              "attempts": 1,
+              "errorCode": "DOWNLOAD_FAILED",
+              "assetCount": 0,
+              "bytesReserved": 0,
+              "bytesCompleted": 0,
+              "reservationState": "released"
+            },
+            "failedAttemptScratchCleaned": true,
+            "completedAt": "2026-10-24T17:54:31.718Z"
+          },
+          {
+            "name": "deadline",
+            "startedAt": "2026-10-24T17:54:32.066Z",
+            "status": "passed",
+            "containerName": "clipnest-resource-6c0d9a2326d24324-deadline-deadline",
+            "active": {
+              "event": "active",
+              "mode": "deadline",
+              "rssBytes": 85823488,
+              "cgroupCurrentBytes": 29577216,
+              "cgroupPeakBytes": 31346688,
+              "scratchBytes": 262144,
+              "uid": 1000
+            },
+            "activeJobObserved": true,
+            "dockerStats": "{\"BlockIO\":\"0B / 0B\",\"CPUPerc\":\"0.19%\",\"Container\":\"clipnest-resource-6c0d9a2326d24324-deadline-deadline\",\"ID\":\"872601c0f41c\",\"MemPerc\":\"14.64%\",\"MemUsage\":\"28.11MiB / 192MiB\",\"Name\":\"clipnest-resource-6c0d9a2326d24324-deadline-deadline\",\"NetIO\":\"4.51kB / 3.1kB\",\"PIDs\":\"11\"}",
+            "containerExit": {
+              "exitCode": 0,
+              "oomKilled": false,
+              "error": ""
+            },
+            "telemetry": [
+              {
+                "event": "active",
+                "mode": "deadline",
+                "rssBytes": 85823488,
+                "cgroupCurrentBytes": 29577216,
+                "cgroupPeakBytes": 31346688,
+                "scratchBytes": 262144,
+                "uid": 1000
+              },
+              {
+                "event": "finished",
+                "mode": "deadline",
+                "rssBytes": 86609920,
+                "cgroupCurrentBytes": 29298688,
+                "cgroupPeakBytes": 47284224,
+                "scratchBytes": 0,
+                "uid": 1000,
+                "remainingFiles": []
+              }
+            ],
+            "settlement": {
+              "status": "failed",
+              "attempts": 1,
+              "errorCode": "DEADLINE_EXCEEDED",
+              "assetCount": 0,
+              "bytesReserved": 0,
+              "bytesCompleted": 0,
+              "reservationState": "released"
+            },
+            "failedAttemptScratchCleaned": true,
+            "completedAt": "2026-10-24T17:54:43.583Z"
+          }
+        ],
+        "cleanup": {
+          "clipnest-resource-6c0d9a2326d24324-db": true,
+          "network": true
+        },
+        "commands": [
+          {
+            "command": [
+              "docker",
+              "image",
+              "inspect",
+              "--format",
+              "{{.Id}}",
+              "clipnest:local"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 0.031
+          },
+          {
+            "command": [
+              "docker",
+              "run",
+              "--rm",
+              "--user",
+              "1000:1000",
+              "--network",
+              "none",
+              "--read-only",
+              "--cap-drop",
+              "ALL",
+              "--tmpfs",
+              "/tmp:rw,size=16m,uid=1000,gid=1000",
+              "--tmpfs",
+              "/app/.cache:rw,size=16m,uid=1000,gid=1000",
+              "--mount",
+              "type=bind,src=/tmp/clipnest-container-resource-cyLxdS,dst=/fixture",
+              "--entrypoint",
+              "ffmpeg",
+              "sha256:1e03721bfd9086e928e721a2813747fb572bcd56d545bf7c4b095040a5bdcd94",
+              "-hide_banner",
+              "-loglevel",
+              "error",
+              "-f",
+              "lavfi",
+              "-i",
+              "color=c=blue:s=160x90:r=10",
+              "-f",
+              "lavfi",
+              "-i",
+              "sine=frequency=440",
+              "-t",
+              "0.4",
+              "-c:v",
+              "libx264",
+              "-c:a",
+              "aac",
+              "-shortest",
+              "/fixture/media.mp4"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 14.169
+          },
+          {
+            "command": [
+              "docker",
+              "network",
+              "create",
+              "clipnest-resource-6c0d9a2326d24324"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 0.163
+          },
+          {
+            "command": [
+              "docker",
+              "run",
+              "-d",
+              "--name",
+              "clipnest-resource-6c0d9a2326d24324-db",
+              "--network",
+              "clipnest-resource-6c0d9a2326d24324",
+              "--network-alias",
+              "db",
+              "--memory",
+              "256m",
+              "--pids-limit",
+              "96",
+              "-p",
+              "127.0.0.1::5432",
+              "--tmpfs",
+              "/var/lib/postgresql/data:rw,nosuid,nodev,size=128m",
+              "-e",
+              "POSTGRES_USER=clipnest",
+              "-e",
+              "POSTGRES_DB=clipnest",
+              "-e",
+              "POSTGRES_PASSWORD",
+              "postgres:17-bookworm",
+              "-c",
+              "shared_buffers=16MB"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 13.244
+          },
+          {
+            "command": [
+              "docker",
+              "port",
+              "clipnest-resource-6c0d9a2326d24324-db",
+              "5432/tcp"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 0.029
+          },
+          {
+            "command": [
+              "docker",
+              "run",
+              "-d",
+              "--name",
+              "clipnest-resource-6c0d9a2326d24324-sigterm-sigterm",
+              "--network",
+              "clipnest-resource-6c0d9a2326d24324",
+              "--user",
+              "1000:1000",
+              "--read-only",
+              "--cap-drop",
+              "ALL",
+              "--security-opt",
+              "no-new-privileges:true",
+              "--memory",
+              "192m",
+              "--memory-swap",
+              "192m",
+              "--cpus",
+              "1",
+              "--pids-limit",
+              "96",
+              "--tmpfs",
+              "/tmp:rw,nosuid,nodev,size=16m,uid=1000,gid=1000",
+              "--tmpfs",
+              "/app/.cache:rw,nosuid,nodev,size=16m,uid=1000,gid=1000",
+              "--mount",
+              "type=bind,src=/tmp/clipnest-container-resource-cyLxdS/sigterm,dst=/drill-data",
+              "--mount",
+              "type=bind,src=/tmp/clipnest-container-resource-cyLxdS,dst=/drill-fixture,readonly",
+              "--mount",
+              "type=bind,src=/workspace/clipnest/tests/helpers/container-resource-worker.mjs,dst=/app/tests/helpers/container-resource-worker.mjs,readonly",
+              "-e",
+              "TEST_DATABASE_URL",
+              "-e",
+              "DRILL_SCHEMA",
+              "-e",
+              "DRILL_MODE",
+              "-e",
+              "DRILL_CASE",
+              "--entrypoint",
+              "node",
+              "sha256:1e03721bfd9086e928e721a2813747fb572bcd56d545bf7c4b095040a5bdcd94",
+              "tests/helpers/container-resource-worker.mjs"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 6.423
+          },
+          {
+            "command": [
+              "docker",
+              "logs",
+              "clipnest-resource-6c0d9a2326d24324-sigterm-sigterm"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 0.022
+          },
+          {
+            "command": [
+              "docker",
+              "inspect",
+              "--format",
+              "{{json .State}}",
+              "clipnest-resource-6c0d9a2326d24324-sigterm-sigterm"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 0.02
+          },
+          {
+            "command": [
+              "docker",
+              "logs",
+              "clipnest-resource-6c0d9a2326d24324-sigterm-sigterm"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 0.024
+          },
+          {
+            "command": [
+              "docker",
+              "inspect",
+              "--format",
+              "{{json .State}}",
+              "clipnest-resource-6c0d9a2326d24324-sigterm-sigterm"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 0.017
+          },
+          {
+            "command": [
+              "docker",
+              "logs",
+              "clipnest-resource-6c0d9a2326d24324-sigterm-sigterm"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 0.019
+          },
+          {
+            "command": [
+              "docker",
+              "stats",
+              "--no-stream",
+              "--format",
+              "{{json .}}",
+              "clipnest-resource-6c0d9a2326d24324-sigterm-sigterm"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 1.524
+          },
+          {
+            "command": [
+              "docker",
+              "kill",
+              "--signal",
+              "SIGTERM",
+              "clipnest-resource-6c0d9a2326d24324-sigterm-sigterm"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 0.034
+          },
+          {
+            "command": [
+              "docker",
+              "wait",
+              "clipnest-resource-6c0d9a2326d24324-sigterm-sigterm"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 0.108
+          },
+          {
+            "command": [
+              "docker",
+              "inspect",
+              "--format",
+              "{{json .State}}",
+              "clipnest-resource-6c0d9a2326d24324-sigterm-sigterm"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 0.018
+          },
+          {
+            "command": [
+              "docker",
+              "logs",
+              "clipnest-resource-6c0d9a2326d24324-sigterm-sigterm"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 0.016
+          },
+          {
+            "command": [
+              "docker",
+              "logs",
+              "clipnest-resource-6c0d9a2326d24324-sigterm-sigterm"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 0.019
+          },
+          {
+            "command": [
+              "docker",
+              "run",
+              "-d",
+              "--name",
+              "clipnest-resource-6c0d9a2326d24324-sigterm-replacement-complete",
+              "--network",
+              "clipnest-resource-6c0d9a2326d24324",
+              "--user",
+              "1000:1000",
+              "--read-only",
+              "--cap-drop",
+              "ALL",
+              "--security-opt",
+              "no-new-privileges:true",
+              "--memory",
+              "192m",
+              "--memory-swap",
+              "192m",
+              "--cpus",
+              "1",
+              "--pids-limit",
+              "96",
+              "--tmpfs",
+              "/tmp:rw,nosuid,nodev,size=16m,uid=1000,gid=1000",
+              "--tmpfs",
+              "/app/.cache:rw,nosuid,nodev,size=16m,uid=1000,gid=1000",
+              "--mount",
+              "type=bind,src=/tmp/clipnest-container-resource-cyLxdS/sigterm,dst=/drill-data",
+              "--mount",
+              "type=bind,src=/tmp/clipnest-container-resource-cyLxdS,dst=/drill-fixture,readonly",
+              "--mount",
+              "type=bind,src=/workspace/clipnest/tests/helpers/container-resource-worker.mjs,dst=/app/tests/helpers/container-resource-worker.mjs,readonly",
+              "-e",
+              "TEST_DATABASE_URL",
+              "-e",
+              "DRILL_SCHEMA",
+              "-e",
+              "DRILL_MODE",
+              "-e",
+              "DRILL_CASE",
+              "--entrypoint",
+              "node",
+              "sha256:1e03721bfd9086e928e721a2813747fb572bcd56d545bf7c4b095040a5bdcd94",
+              "tests/helpers/container-resource-worker.mjs"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 6.146
+          },
+          {
+            "command": [
+              "docker",
+              "wait",
+              "clipnest-resource-6c0d9a2326d24324-sigterm-replacement-complete"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 0.423
+          },
+          {
+            "command": [
+              "docker",
+              "inspect",
+              "--format",
+              "{{json .State}}",
+              "clipnest-resource-6c0d9a2326d24324-sigterm-replacement-complete"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 0.019
+          },
+          {
+            "command": [
+              "docker",
+              "logs",
+              "clipnest-resource-6c0d9a2326d24324-sigterm-replacement-complete"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 0.019
+          },
+          {
+            "command": [
+              "docker",
+              "rm",
+              "--force",
+              "--volumes",
+              "clipnest-resource-6c0d9a2326d24324-sigterm-sigterm"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 0.346
+          },
+          {
+            "command": [
+              "docker",
+              "rm",
+              "--force",
+              "--volumes",
+              "clipnest-resource-6c0d9a2326d24324-sigterm-replacement-complete"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 0.274
+          },
+          {
+            "command": [
+              "docker",
+              "run",
+              "-d",
+              "--name",
+              "clipnest-resource-6c0d9a2326d24324-sigkill-sigkill",
+              "--network",
+              "clipnest-resource-6c0d9a2326d24324",
+              "--user",
+              "1000:1000",
+              "--read-only",
+              "--cap-drop",
+              "ALL",
+              "--security-opt",
+              "no-new-privileges:true",
+              "--memory",
+              "192m",
+              "--memory-swap",
+              "192m",
+              "--cpus",
+              "1",
+              "--pids-limit",
+              "96",
+              "--tmpfs",
+              "/tmp:rw,nosuid,nodev,size=16m,uid=1000,gid=1000",
+              "--tmpfs",
+              "/app/.cache:rw,nosuid,nodev,size=16m,uid=1000,gid=1000",
+              "--mount",
+              "type=bind,src=/tmp/clipnest-container-resource-cyLxdS/sigkill,dst=/drill-data",
+              "--mount",
+              "type=bind,src=/tmp/clipnest-container-resource-cyLxdS,dst=/drill-fixture,readonly",
+              "--mount",
+              "type=bind,src=/workspace/clipnest/tests/helpers/container-resource-worker.mjs,dst=/app/tests/helpers/container-resource-worker.mjs,readonly",
+              "-e",
+              "TEST_DATABASE_URL",
+              "-e",
+              "DRILL_SCHEMA",
+              "-e",
+              "DRILL_MODE",
+              "-e",
+              "DRILL_CASE",
+              "--entrypoint",
+              "node",
+              "sha256:1e03721bfd9086e928e721a2813747fb572bcd56d545bf7c4b095040a5bdcd94",
+              "tests/helpers/container-resource-worker.mjs"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 5.974
+          },
+          {
+            "command": [
+              "docker",
+              "logs",
+              "clipnest-resource-6c0d9a2326d24324-sigkill-sigkill"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 0.019
+          },
+          {
+            "command": [
+              "docker",
+              "inspect",
+              "--format",
+              "{{json .State}}",
+              "clipnest-resource-6c0d9a2326d24324-sigkill-sigkill"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 0.018
+          },
+          {
+            "command": [
+              "docker",
+              "logs",
+              "clipnest-resource-6c0d9a2326d24324-sigkill-sigkill"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 0.02
+          },
+          {
+            "command": [
+              "docker",
+              "inspect",
+              "--format",
+              "{{json .State}}",
+              "clipnest-resource-6c0d9a2326d24324-sigkill-sigkill"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 0.017
+          },
+          {
+            "command": [
+              "docker",
+              "logs",
+              "clipnest-resource-6c0d9a2326d24324-sigkill-sigkill"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 0.018
+          },
+          {
+            "command": [
+              "docker",
+              "stats",
+              "--no-stream",
+              "--format",
+              "{{json .}}",
+              "clipnest-resource-6c0d9a2326d24324-sigkill-sigkill"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 1.524
+          },
+          {
+            "command": [
+              "docker",
+              "kill",
+              "--signal",
+              "SIGKILL",
+              "clipnest-resource-6c0d9a2326d24324-sigkill-sigkill"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 0.172
+          },
+          {
+            "command": [
+              "docker",
+              "wait",
+              "clipnest-resource-6c0d9a2326d24324-sigkill-sigkill"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 0.023
+          },
+          {
+            "command": [
+              "docker",
+              "inspect",
+              "--format",
+              "{{json .State}}",
+              "clipnest-resource-6c0d9a2326d24324-sigkill-sigkill"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 0.018
+          },
+          {
+            "command": [
+              "docker",
+              "logs",
+              "clipnest-resource-6c0d9a2326d24324-sigkill-sigkill"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 0.019
+          },
+          {
+            "command": [
+              "docker",
+              "logs",
+              "clipnest-resource-6c0d9a2326d24324-sigkill-sigkill"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 0.019
+          },
+          {
+            "command": [
+              "docker",
+              "run",
+              "-d",
+              "--name",
+              "clipnest-resource-6c0d9a2326d24324-sigkill-replacement-complete",
+              "--network",
+              "clipnest-resource-6c0d9a2326d24324",
+              "--user",
+              "1000:1000",
+              "--read-only",
+              "--cap-drop",
+              "ALL",
+              "--security-opt",
+              "no-new-privileges:true",
+              "--memory",
+              "192m",
+              "--memory-swap",
+              "192m",
+              "--cpus",
+              "1",
+              "--pids-limit",
+              "96",
+              "--tmpfs",
+              "/tmp:rw,nosuid,nodev,size=16m,uid=1000,gid=1000",
+              "--tmpfs",
+              "/app/.cache:rw,nosuid,nodev,size=16m,uid=1000,gid=1000",
+              "--mount",
+              "type=bind,src=/tmp/clipnest-container-resource-cyLxdS/sigkill,dst=/drill-data",
+              "--mount",
+              "type=bind,src=/tmp/clipnest-container-resource-cyLxdS,dst=/drill-fixture,readonly",
+              "--mount",
+              "type=bind,src=/workspace/clipnest/tests/helpers/container-resource-worker.mjs,dst=/app/tests/helpers/container-resource-worker.mjs,readonly",
+              "-e",
+              "TEST_DATABASE_URL",
+              "-e",
+              "DRILL_SCHEMA",
+              "-e",
+              "DRILL_MODE",
+              "-e",
+              "DRILL_CASE",
+              "--entrypoint",
+              "node",
+              "sha256:1e03721bfd9086e928e721a2813747fb572bcd56d545bf7c4b095040a5bdcd94",
+              "tests/helpers/container-resource-worker.mjs"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 6.277
+          },
+          {
+            "command": [
+              "docker",
+              "wait",
+              "clipnest-resource-6c0d9a2326d24324-sigkill-replacement-complete"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 0.484
+          },
+          {
+            "command": [
+              "docker",
+              "inspect",
+              "--format",
+              "{{json .State}}",
+              "clipnest-resource-6c0d9a2326d24324-sigkill-replacement-complete"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 0.017
+          },
+          {
+            "command": [
+              "docker",
+              "logs",
+              "clipnest-resource-6c0d9a2326d24324-sigkill-replacement-complete"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 0.018
+          },
+          {
+            "command": [
+              "docker",
+              "rm",
+              "--force",
+              "--volumes",
+              "clipnest-resource-6c0d9a2326d24324-sigkill-sigkill"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 0.386
+          },
+          {
+            "command": [
+              "docker",
+              "rm",
+              "--force",
+              "--volumes",
+              "clipnest-resource-6c0d9a2326d24324-sigkill-replacement-complete"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 0.463
+          },
+          {
+            "command": [
+              "docker",
+              "run",
+              "-d",
+              "--name",
+              "clipnest-resource-6c0d9a2326d24324-oom-oom",
+              "--network",
+              "clipnest-resource-6c0d9a2326d24324",
+              "--user",
+              "1000:1000",
+              "--read-only",
+              "--cap-drop",
+              "ALL",
+              "--security-opt",
+              "no-new-privileges:true",
+              "--memory",
+              "192m",
+              "--memory-swap",
+              "192m",
+              "--cpus",
+              "1",
+              "--pids-limit",
+              "96",
+              "--tmpfs",
+              "/tmp:rw,nosuid,nodev,size=16m,uid=1000,gid=1000",
+              "--tmpfs",
+              "/app/.cache:rw,nosuid,nodev,size=16m,uid=1000,gid=1000",
+              "--mount",
+              "type=bind,src=/tmp/clipnest-container-resource-cyLxdS/oom,dst=/drill-data",
+              "--mount",
+              "type=bind,src=/tmp/clipnest-container-resource-cyLxdS,dst=/drill-fixture,readonly",
+              "--mount",
+              "type=bind,src=/workspace/clipnest/tests/helpers/container-resource-worker.mjs,dst=/app/tests/helpers/container-resource-worker.mjs,readonly",
+              "-e",
+              "TEST_DATABASE_URL",
+              "-e",
+              "DRILL_SCHEMA",
+              "-e",
+              "DRILL_MODE",
+              "-e",
+              "DRILL_CASE",
+              "--entrypoint",
+              "node",
+              "sha256:1e03721bfd9086e928e721a2813747fb572bcd56d545bf7c4b095040a5bdcd94",
+              "tests/helpers/container-resource-worker.mjs"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 6.865
+          },
+          {
+            "command": [
+              "docker",
+              "logs",
+              "clipnest-resource-6c0d9a2326d24324-oom-oom"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 0.034
+          },
+          {
+            "command": [
+              "docker",
+              "inspect",
+              "--format",
+              "{{json .State}}",
+              "clipnest-resource-6c0d9a2326d24324-oom-oom"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 0.025
+          },
+          {
+            "command": [
+              "docker",
+              "logs",
+              "clipnest-resource-6c0d9a2326d24324-oom-oom"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 0.03
+          },
+          {
+            "command": [
+              "docker",
+              "inspect",
+              "--format",
+              "{{json .State}}",
+              "clipnest-resource-6c0d9a2326d24324-oom-oom"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 0.018
+          },
+          {
+            "command": [
+              "docker",
+              "logs",
+              "clipnest-resource-6c0d9a2326d24324-oom-oom"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 0.027
+          },
+          {
+            "command": [
+              "docker",
+              "stats",
+              "--no-stream",
+              "--format",
+              "{{json .}}",
+              "clipnest-resource-6c0d9a2326d24324-oom-oom"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 1.534
+          },
+          {
+            "command": [
+              "docker",
+              "kill",
+              "--signal",
+              "SIGUSR1",
+              "clipnest-resource-6c0d9a2326d24324-oom-oom"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 0.065
+          },
+          {
+            "command": [
+              "docker",
+              "wait",
+              "clipnest-resource-6c0d9a2326d24324-oom-oom"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 0.788
+          },
+          {
+            "command": [
+              "docker",
+              "inspect",
+              "--format",
+              "{{json .State}}",
+              "clipnest-resource-6c0d9a2326d24324-oom-oom"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 0.021
+          },
+          {
+            "command": [
+              "docker",
+              "logs",
+              "clipnest-resource-6c0d9a2326d24324-oom-oom"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 0.024
+          },
+          {
+            "command": [
+              "docker",
+              "logs",
+              "clipnest-resource-6c0d9a2326d24324-oom-oom"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 0.022
+          },
+          {
+            "command": [
+              "docker",
+              "run",
+              "-d",
+              "--name",
+              "clipnest-resource-6c0d9a2326d24324-oom-replacement-complete",
+              "--network",
+              "clipnest-resource-6c0d9a2326d24324",
+              "--user",
+              "1000:1000",
+              "--read-only",
+              "--cap-drop",
+              "ALL",
+              "--security-opt",
+              "no-new-privileges:true",
+              "--memory",
+              "192m",
+              "--memory-swap",
+              "192m",
+              "--cpus",
+              "1",
+              "--pids-limit",
+              "96",
+              "--tmpfs",
+              "/tmp:rw,nosuid,nodev,size=16m,uid=1000,gid=1000",
+              "--tmpfs",
+              "/app/.cache:rw,nosuid,nodev,size=16m,uid=1000,gid=1000",
+              "--mount",
+              "type=bind,src=/tmp/clipnest-container-resource-cyLxdS/oom,dst=/drill-data",
+              "--mount",
+              "type=bind,src=/tmp/clipnest-container-resource-cyLxdS,dst=/drill-fixture,readonly",
+              "--mount",
+              "type=bind,src=/workspace/clipnest/tests/helpers/container-resource-worker.mjs,dst=/app/tests/helpers/container-resource-worker.mjs,readonly",
+              "-e",
+              "TEST_DATABASE_URL",
+              "-e",
+              "DRILL_SCHEMA",
+              "-e",
+              "DRILL_MODE",
+              "-e",
+              "DRILL_CASE",
+              "--entrypoint",
+              "node",
+              "sha256:1e03721bfd9086e928e721a2813747fb572bcd56d545bf7c4b095040a5bdcd94",
+              "tests/helpers/container-resource-worker.mjs"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 6.937
+          },
+          {
+            "command": [
+              "docker",
+              "wait",
+              "clipnest-resource-6c0d9a2326d24324-oom-replacement-complete"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 0.738
+          },
+          {
+            "command": [
+              "docker",
+              "inspect",
+              "--format",
+              "{{json .State}}",
+              "clipnest-resource-6c0d9a2326d24324-oom-replacement-complete"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 0.021
+          },
+          {
+            "command": [
+              "docker",
+              "logs",
+              "clipnest-resource-6c0d9a2326d24324-oom-replacement-complete"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 0.024
+          },
+          {
+            "command": [
+              "docker",
+              "rm",
+              "--force",
+              "--volumes",
+              "clipnest-resource-6c0d9a2326d24324-oom-oom"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 0.31
+          },
+          {
+            "command": [
+              "docker",
+              "rm",
+              "--force",
+              "--volumes",
+              "clipnest-resource-6c0d9a2326d24324-oom-replacement-complete"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 0.322
+          },
+          {
+            "command": [
+              "docker",
+              "run",
+              "-d",
+              "--name",
+              "clipnest-resource-6c0d9a2326d24324-disk-disk",
+              "--network",
+              "clipnest-resource-6c0d9a2326d24324",
+              "--user",
+              "1000:1000",
+              "--read-only",
+              "--cap-drop",
+              "ALL",
+              "--security-opt",
+              "no-new-privileges:true",
+              "--memory",
+              "192m",
+              "--memory-swap",
+              "192m",
+              "--cpus",
+              "1",
+              "--pids-limit",
+              "96",
+              "--tmpfs",
+              "/tmp:rw,nosuid,nodev,size=16m,uid=1000,gid=1000",
+              "--tmpfs",
+              "/app/.cache:rw,nosuid,nodev,size=16m,uid=1000,gid=1000",
+              "--tmpfs",
+              "/drill-data:rw,nosuid,nodev,size=8m,uid=1000,gid=1000",
+              "--mount",
+              "type=bind,src=/tmp/clipnest-container-resource-cyLxdS,dst=/drill-fixture,readonly",
+              "--mount",
+              "type=bind,src=/workspace/clipnest/tests/helpers/container-resource-worker.mjs,dst=/app/tests/helpers/container-resource-worker.mjs,readonly",
+              "-e",
+              "TEST_DATABASE_URL",
+              "-e",
+              "DRILL_SCHEMA",
+              "-e",
+              "DRILL_MODE",
+              "-e",
+              "DRILL_CASE",
+              "--entrypoint",
+              "node",
+              "sha256:1e03721bfd9086e928e721a2813747fb572bcd56d545bf7c4b095040a5bdcd94",
+              "tests/helpers/container-resource-worker.mjs"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 6.367
+          },
+          {
+            "command": [
+              "docker",
+              "logs",
+              "clipnest-resource-6c0d9a2326d24324-disk-disk"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 0.021
+          },
+          {
+            "command": [
+              "docker",
+              "inspect",
+              "--format",
+              "{{json .State}}",
+              "clipnest-resource-6c0d9a2326d24324-disk-disk"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 0.021
+          },
+          {
+            "command": [
+              "docker",
+              "logs",
+              "clipnest-resource-6c0d9a2326d24324-disk-disk"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 0.036
+          },
+          {
+            "command": [
+              "docker",
+              "inspect",
+              "--format",
+              "{{json .State}}",
+              "clipnest-resource-6c0d9a2326d24324-disk-disk"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 0.04
+          },
+          {
+            "command": [
+              "docker",
+              "logs",
+              "clipnest-resource-6c0d9a2326d24324-disk-disk"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 0.025
+          },
+          {
+            "command": [
+              "docker",
+              "stats",
+              "--no-stream",
+              "--format",
+              "{{json .}}",
+              "clipnest-resource-6c0d9a2326d24324-disk-disk"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 1.544
+          },
+          {
+            "command": [
+              "docker",
+              "kill",
+              "--signal",
+              "SIGUSR1",
+              "clipnest-resource-6c0d9a2326d24324-disk-disk"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 0.043
+          },
+          {
+            "command": [
+              "docker",
+              "wait",
+              "clipnest-resource-6c0d9a2326d24324-disk-disk"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 0.274
+          },
+          {
+            "command": [
+              "docker",
+              "inspect",
+              "--format",
+              "{{json .State}}",
+              "clipnest-resource-6c0d9a2326d24324-disk-disk"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 0.029
+          },
+          {
+            "command": [
+              "docker",
+              "logs",
+              "clipnest-resource-6c0d9a2326d24324-disk-disk"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 0.027
+          },
+          {
+            "command": [
+              "docker",
+              "logs",
+              "clipnest-resource-6c0d9a2326d24324-disk-disk"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 0.024
+          },
+          {
+            "command": [
+              "docker",
+              "rm",
+              "--force",
+              "--volumes",
+              "clipnest-resource-6c0d9a2326d24324-disk-disk"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 0.348
+          },
+          {
+            "command": [
+              "docker",
+              "run",
+              "-d",
+              "--name",
+              "clipnest-resource-6c0d9a2326d24324-deadline-deadline",
+              "--network",
+              "clipnest-resource-6c0d9a2326d24324",
+              "--user",
+              "1000:1000",
+              "--read-only",
+              "--cap-drop",
+              "ALL",
+              "--security-opt",
+              "no-new-privileges:true",
+              "--memory",
+              "192m",
+              "--memory-swap",
+              "192m",
+              "--cpus",
+              "1",
+              "--pids-limit",
+              "96",
+              "--tmpfs",
+              "/tmp:rw,nosuid,nodev,size=16m,uid=1000,gid=1000",
+              "--tmpfs",
+              "/app/.cache:rw,nosuid,nodev,size=16m,uid=1000,gid=1000",
+              "--mount",
+              "type=bind,src=/tmp/clipnest-container-resource-cyLxdS/deadline,dst=/drill-data",
+              "--mount",
+              "type=bind,src=/tmp/clipnest-container-resource-cyLxdS,dst=/drill-fixture,readonly",
+              "--mount",
+              "type=bind,src=/workspace/clipnest/tests/helpers/container-resource-worker.mjs,dst=/app/tests/helpers/container-resource-worker.mjs,readonly",
+              "-e",
+              "TEST_DATABASE_URL",
+              "-e",
+              "DRILL_SCHEMA",
+              "-e",
+              "DRILL_MODE",
+              "-e",
+              "DRILL_CASE",
+              "--entrypoint",
+              "node",
+              "sha256:1e03721bfd9086e928e721a2813747fb572bcd56d545bf7c4b095040a5bdcd94",
+              "tests/helpers/container-resource-worker.mjs"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 5.962
+          },
+          {
+            "command": [
+              "docker",
+              "logs",
+              "clipnest-resource-6c0d9a2326d24324-deadline-deadline"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 0.022
+          },
+          {
+            "command": [
+              "docker",
+              "inspect",
+              "--format",
+              "{{json .State}}",
+              "clipnest-resource-6c0d9a2326d24324-deadline-deadline"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 0.019
+          },
+          {
+            "command": [
+              "docker",
+              "logs",
+              "clipnest-resource-6c0d9a2326d24324-deadline-deadline"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 0.022
+          },
+          {
+            "command": [
+              "docker",
+              "inspect",
+              "--format",
+              "{{json .State}}",
+              "clipnest-resource-6c0d9a2326d24324-deadline-deadline"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 0.019
+          },
+          {
+            "command": [
+              "docker",
+              "logs",
+              "clipnest-resource-6c0d9a2326d24324-deadline-deadline"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 0.023
+          },
+          {
+            "command": [
+              "docker",
+              "stats",
+              "--no-stream",
+              "--format",
+              "{{json .}}",
+              "clipnest-resource-6c0d9a2326d24324-deadline-deadline"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 1.529
+          },
+          {
+            "command": [
+              "docker",
+              "wait",
+              "clipnest-resource-6c0d9a2326d24324-deadline-deadline"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 3.531
+          },
+          {
+            "command": [
+              "docker",
+              "inspect",
+              "--format",
+              "{{json .State}}",
+              "clipnest-resource-6c0d9a2326d24324-deadline-deadline"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 0.019
+          },
+          {
+            "command": [
+              "docker",
+              "logs",
+              "clipnest-resource-6c0d9a2326d24324-deadline-deadline"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 0.019
+          },
+          {
+            "command": [
+              "docker",
+              "logs",
+              "clipnest-resource-6c0d9a2326d24324-deadline-deadline"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 0.027
+          },
+          {
+            "command": [
+              "docker",
+              "rm",
+              "--force",
+              "--volumes",
+              "clipnest-resource-6c0d9a2326d24324-deadline-deadline"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 0.271
+          },
+          {
+            "command": [
+              "docker",
+              "rm",
+              "--force",
+              "--volumes",
+              "clipnest-resource-6c0d9a2326d24324-db"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 0.589
+          },
+          {
+            "command": [
+              "docker",
+              "network",
+              "rm",
+              "clipnest-resource-6c0d9a2326d24324"
+            ],
+            "exitCode": 0,
+            "signal": null,
+            "seconds": 0.104
+          }
+        ],
+        "imageId": "sha256:1e03721bfd9086e928e721a2813747fb572bcd56d545bf7c4b095040a5bdcd94",
+        "imageRequested": "clipnest:local",
+        "node": "v24.19.0",
+        "startedAt": "2026-10-24T17:52:08.681Z",
+        "runtimeUser": {
+          "uid": 1000,
+          "gid": 1000,
+          "selection": "Explicit non-root runner UID/GID for private bind mounts. The Compose smoke separately checks the image default user."
+        },
+        "fixture": {
+          "generated": true,
+          "bytes": 6149,
+          "sha256": "c97bc7619bf9d93cbe58c9c3e7927c6d75ba08582edca620e6d3a1cd58823b46"
+        },
+        "databaseConnection": {
+          "publishedAddress": "127.0.0.1",
+          "transport": "disposable local PostgreSQL TCP, not RDS TLS"
+        },
+        "postgres": "17.11 (Debian 17.11-1.pgdg12+2)",
+        "schema": "clipnest_resource_6c0d9a2326d24324",
+        "status": "passed",
+        "finishedAt": "2026-10-24T17:54:44.588Z",
+        "unproved": [
+          "Real source restrictions/authorized transfer",
+          "AWS/RDS/S3/SQS/CDN and release image",
+          "Production traffic/capacity thresholds",
+          "Elapsed orphan-retention grace and active multi-instance service outage"
+        ]
+      },
+      "hosted_ci": {
+        "recorded_at": "2026-10-24T18:12:17.264081+00:00",
+        "run_id": 40118655022,
+        "url": "https://github.com/kawakaze430/clipnest/actions/runs/40118655022",
+        "application_commit": "a4529b44e3b752039433575509576185e866935e",
+        "status": "completed",
+        "conclusion": "success",
+        "all_expected_jobs_passed": true,
+        "jobs": [
+          {
+            "id": 120945230474,
+            "name": "containers",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/kawakaze430/clipnest/actions/runs/40118655022/job/120945230474",
+            "started_at": "2026-10-24T17:59:58Z",
+            "completed_at": "2026-10-24T18:10:26Z",
+            "steps": [
+              {
+                "name": "Set up job",
+                "status": "completed",
+                "conclusion": "success",
+                "started_at": "2026-10-24T17:59:58Z",
+                "completed_at": "2026-10-24T18:00:01Z"
+              },
+              {
+                "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+                "status": "completed",
+                "conclusion": "success",
+                "started_at": "2026-10-24T18:00:01Z",
+                "completed_at": "2026-10-24T18:00:02Z"
+              },
+              {
+                "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+                "status": "completed",
+                "conclusion": "success",
+                "started_at": "2026-10-24T18:00:02Z",
+                "completed_at": "2026-10-24T18:00:03Z"
+              },
+              {
+                "name": "Run npm ci --ignore-scripts --no-audit --no-fund",
+                "status": "completed",
+                "conclusion": "success",
+                "started_at": "2026-10-24T18:00:03Z",
+                "completed_at": "2026-10-24T18:00:06Z"
+              },
+              {
+                "name": "Disposable TLS, image, Compose, non-root, readiness and worker restart",
+                "status": "completed",
+                "conclusion": "success",
+                "started_at": "2026-10-24T18:00:06Z",
+                "completed_at": "2026-10-24T18:08:53Z"
+              },
+              {
+                "name": "Immutable image security gate and SBOM",
+                "status": "completed",
+                "conclusion": "success",
+                "started_at": "2026-10-24T18:08:53Z",
+                "completed_at": "2026-10-24T18:09:10Z"
+              },
+              {
+                "name": "Active container SIGTERM, SIGKILL, OOM, disk and deadline recovery",
+                "status": "completed",
+                "conclusion": "success",
+                "started_at": "2026-10-24T18:09:10Z",
+                "completed_at": "2026-10-24T18:10:23Z"
+              },
+              {
+                "name": "Retain sanitized container evidence and image reports",
+                "status": "completed",
+                "conclusion": "success",
+                "started_at": "2026-10-24T18:10:23Z",
+                "completed_at": "2026-10-24T18:10:25Z"
+              },
+              {
+                "name": "Post Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+                "status": "completed",
+                "conclusion": "success",
+                "started_at": "2026-10-24T18:10:25Z",
+                "completed_at": "2026-10-24T18:10:25Z"
+              },
+              {
+                "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+                "status": "completed",
+                "conclusion": "success",
+                "started_at": "2026-10-24T18:10:25Z",
+                "completed_at": "2026-10-24T18:10:25Z"
+              },
+              {
+                "name": "Complete job",
+                "status": "completed",
+                "conclusion": "success",
+                "started_at": "2026-10-24T18:10:25Z",
+                "completed_at": "2026-10-24T18:10:25Z"
+              }
+            ]
+          },
+          {
+            "id": 120945230593,
+            "name": "terraform",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/kawakaze430/clipnest/actions/runs/40118655022/job/120945230593",
+            "started_at": "2026-10-24T17:59:58Z",
+            "completed_at": "2026-10-24T18:00:26Z",
+            "steps": [
+              {
+                "name": "Set up job",
+                "status": "completed",
+                "conclusion": "success",
+                "started_at": "2026-10-24T17:59:58Z",
+                "completed_at": "2026-10-24T17:59:59Z"
+              },
+              {
+                "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+                "status": "completed",
+                "conclusion": "success",
+                "started_at": "2026-10-24T17:59:59Z",
+                "completed_at": "2026-10-24T18:00:00Z"
+              },
+              {
+                "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+                "status": "completed",
+                "conclusion": "success",
+                "started_at": "2026-10-24T18:00:00Z",
+                "completed_at": "2026-10-24T18:00:01Z"
+              },
+              {
+                "name": "Prepare checksum-verified Terraform and locked provider",
+                "status": "completed",
+                "conclusion": "success",
+                "started_at": "2026-10-24T18:00:01Z",
+                "completed_at": "2026-10-24T18:00:15Z"
+              },
+              {
+                "name": "Terraform format",
+                "status": "completed",
+                "conclusion": "success",
+                "started_at": "2026-10-24T18:00:15Z",
+                "completed_at": "2026-10-24T18:00:15Z"
+              },
+              {
+                "name": "Locked provider initialization, schema validation and mock security test",
+                "status": "completed",
+                "conclusion": "success",
+                "started_at": "2026-10-24T18:00:15Z",
+                "completed_at": "2026-10-24T18:00:24Z"
+              },
+              {
+                "name": "Retain sanitized provider evidence",
+                "status": "completed",
+                "conclusion": "success",
+                "started_at": "2026-10-24T18:00:24Z",
+                "completed_at": "2026-10-24T18:00:25Z"
+              },
+              {
+                "name": "Post Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+                "status": "completed",
+                "conclusion": "success",
+                "started_at": "2026-10-24T18:00:25Z",
+                "completed_at": "2026-10-24T18:00:25Z"
+              },
+              {
+                "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+                "status": "completed",
+                "conclusion": "success",
+                "started_at": "2026-10-24T18:00:25Z",
+                "completed_at": "2026-10-24T18:00:25Z"
+              },
+              {
+                "name": "Complete job",
+                "status": "completed",
+                "conclusion": "success",
+                "started_at": "2026-10-24T18:00:25Z",
+                "completed_at": "2026-10-24T18:00:25Z"
+              }
+            ]
+          },
+          {
+            "id": 120945230594,
+            "name": "native",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/kawakaze430/clipnest/actions/runs/40118655022/job/120945230594",
+            "started_at": "2026-10-24T17:59:58Z",
+            "completed_at": "2026-10-24T18:01:16Z",
+            "steps": [
+              {
+                "name": "Set up job",
+                "status": "completed",
+                "conclusion": "success",
+                "started_at": "2026-10-24T17:59:58Z",
+                "completed_at": "2026-10-24T17:59:59Z"
+              },
+              {
+                "name": "Initialize containers",
+                "status": "completed",
+                "conclusion": "success",
+                "started_at": "2026-10-24T17:59:59Z",
+                "completed_at": "2026-10-24T18:00:14Z"
+              },
+              {
+                "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+                "status": "completed",
+                "conclusion": "success",
+                "started_at": "2026-10-24T18:00:14Z",
+                "completed_at": "2026-10-24T18:00:15Z"
+              },
+              {
+                "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+                "status": "completed",
+                "conclusion": "success",
+                "started_at": "2026-10-24T18:00:15Z",
+                "completed_at": "2026-10-24T18:00:16Z"
+              },
+              {
+                "name": "Run sudo apt-get update && sudo apt-get install -y --no-install-recommends ffmpeg openssl",
+                "status": "completed",
+                "conclusion": "success",
+                "started_at": "2026-10-24T18:00:16Z",
+                "completed_at": "2026-10-24T18:00:30Z"
+              },
+              {
+                "name": "Run npm ci --ignore-scripts --no-audit --no-fund",
+                "status": "completed",
+                "conclusion": "success",
+                "started_at": "2026-10-24T18:00:30Z",
+                "completed_at": "2026-10-24T18:00:33Z"
+              },
+              {
+                "name": "PostgreSQL 17 pooling, transactions, races, upgrade and active SIGKILL",
+                "status": "completed",
+                "conclusion": "success",
+                "started_at": "2026-10-24T18:00:33Z",
+                "completed_at": "2026-10-24T18:01:11Z"
+              },
+              {
+                "name": "Trusted native TLS and negative hostname/CA checks",
+                "status": "completed",
+                "conclusion": "success",
+                "started_at": "2026-10-24T18:01:11Z",
+                "completed_at": "2026-10-24T18:01:13Z"
+              },
+              {
+                "name": "Retain sanitized native evidence",
+                "status": "completed",
+                "conclusion": "success",
+                "started_at": "2026-10-24T18:01:13Z",
+                "completed_at": "2026-10-24T18:01:14Z"
+              },
+              {
+                "name": "Post Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+                "status": "completed",
+                "conclusion": "success",
+                "started_at": "2026-10-24T18:01:14Z",
+                "completed_at": "2026-10-24T18:01:14Z"
+              },
+              {
+                "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+                "status": "completed",
+                "conclusion": "success",
+                "started_at": "2026-10-24T18:01:14Z",
+                "completed_at": "2026-10-24T18:01:14Z"
+              },
+              {
+                "name": "Stop containers",
+                "status": "completed",
+                "conclusion": "success",
+                "started_at": "2026-10-24T18:01:14Z",
+                "completed_at": "2026-10-24T18:01:15Z"
+              },
+              {
+                "name": "Complete job",
+                "status": "completed",
+                "conclusion": "success",
+                "started_at": "2026-10-24T18:01:15Z",
+                "completed_at": "2026-10-24T18:01:15Z"
+              }
+            ]
+          },
+          {
+            "id": 120945230604,
+            "name": "unit",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/kawakaze430/clipnest/actions/runs/40118655022/job/120945230604",
+            "started_at": "2026-10-24T17:59:58Z",
+            "completed_at": "2026-10-24T18:00:47Z",
+            "steps": [
+              {
+                "name": "Set up job",
+                "status": "completed",
+                "conclusion": "success",
+                "started_at": "2026-10-24T17:59:59Z",
+                "completed_at": "2026-10-24T18:00:00Z"
+              },
+              {
+                "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+                "status": "completed",
+                "conclusion": "success",
+                "started_at": "2026-10-24T18:00:00Z",
+                "completed_at": "2026-10-24T18:00:00Z"
+              },
+              {
+                "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+                "status": "completed",
+                "conclusion": "success",
+                "started_at": "2026-10-24T18:00:00Z",
+                "completed_at": "2026-10-24T18:00:02Z"
+              },
+              {
+                "name": "Run sudo apt-get update && sudo apt-get install -y --no-install-recommends ffmpeg",
+                "status": "completed",
+                "conclusion": "success",
+                "started_at": "2026-10-24T18:00:02Z",
+                "completed_at": "2026-10-24T18:00:21Z"
+              },
+              {
+                "name": "Run npm ci --ignore-scripts --no-audit --no-fund",
+                "status": "completed",
+                "conclusion": "success",
+                "started_at": "2026-10-24T18:00:21Z",
+                "completed_at": "2026-10-24T18:00:25Z"
+              },
+              {
+                "name": "Validate all workflow syntax and expressions",
+                "status": "completed",
+                "conclusion": "success",
+                "started_at": "2026-10-24T18:00:25Z",
+                "completed_at": "2026-10-24T18:00:25Z"
+              },
+              {
+                "name": "Syntax, lockfile and frontend assets",
+                "status": "completed",
+                "conclusion": "success",
+                "started_at": "2026-10-24T18:00:25Z",
+                "completed_at": "2026-10-24T18:00:28Z"
+              },
+              {
+                "name": "Unit, SQL, HTTP, fixture media, UI and security contracts",
+                "status": "completed",
+                "conclusion": "success",
+                "started_at": "2026-10-24T18:00:28Z",
+                "completed_at": "2026-10-24T18:00:42Z"
+              },
+              {
+                "name": "Evidence controller and CI failure handling",
+                "status": "completed",
+                "conclusion": "success",
+                "started_at": "2026-10-24T18:00:42Z",
+                "completed_at": "2026-10-24T18:00:45Z"
+              },
+              {
+                "name": "Retain sanitized check evidence",
+                "status": "completed",
+                "conclusion": "success",
+                "started_at": "2026-10-24T18:00:45Z",
+                "completed_at": "2026-10-24T18:00:46Z"
+              },
+              {
+                "name": "Post Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+                "status": "completed",
+                "conclusion": "success",
+                "started_at": "2026-10-24T18:00:46Z",
+                "completed_at": "2026-10-24T18:00:46Z"
+              },
+              {
+                "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+                "status": "completed",
+                "conclusion": "success",
+                "started_at": "2026-10-24T18:00:46Z",
+                "completed_at": "2026-10-24T18:00:46Z"
+              },
+              {
+                "name": "Complete job",
+                "status": "completed",
+                "conclusion": "success",
+                "started_at": "2026-10-24T18:00:46Z",
+                "completed_at": "2026-10-24T18:00:46Z"
+              }
+            ]
+          },
+          {
+            "id": 120945230608,
+            "name": "browser",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/kawakaze430/clipnest/actions/runs/40118655022/job/120945230608",
+            "started_at": "2026-10-24T17:59:58Z",
+            "completed_at": "2026-10-24T18:01:38Z",
+            "steps": [
+              {
+                "name": "Set up job",
+                "status": "completed",
+                "conclusion": "success",
+                "started_at": "2026-10-24T17:59:59Z",
+                "completed_at": "2026-10-24T18:00:00Z"
+              },
+              {
+                "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+                "status": "completed",
+                "conclusion": "success",
+                "started_at": "2026-10-24T18:00:00Z",
+                "completed_at": "2026-10-24T18:00:01Z"
+              },
+              {
+                "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+                "status": "completed",
+                "conclusion": "success",
+                "started_at": "2026-10-24T18:00:01Z",
+                "completed_at": "2026-10-24T18:00:05Z"
+              },
+              {
+                "name": "Run sudo apt-get update && sudo apt-get install -y --no-install-recommends ffmpeg",
+                "status": "completed",
+                "conclusion": "success",
+                "started_at": "2026-10-24T18:00:05Z",
+                "completed_at": "2026-10-24T18:00:25Z"
+              },
+              {
+                "name": "Run npm ci --ignore-scripts --no-audit --no-fund",
+                "status": "completed",
+                "conclusion": "success",
+                "started_at": "2026-10-24T18:00:25Z",
+                "completed_at": "2026-10-24T18:00:29Z"
+              },
+              {
+                "name": "Prepare pinned browser and system libraries",
+                "status": "completed",
+                "conclusion": "success",
+                "started_at": "2026-10-24T18:00:29Z",
+                "completed_at": "2026-10-24T18:00:45Z"
+              },
+              {
+                "name": "Desktop/mobile Chromium journeys and axe; synthetic media only",
+                "status": "completed",
+                "conclusion": "success",
+                "started_at": "2026-10-24T18:00:45Z",
+                "completed_at": "2026-10-24T18:01:35Z"
+              },
+              {
+                "name": "Retain sanitized browser evidence without credential-bearing traces",
+                "status": "completed",
+                "conclusion": "success",
+                "started_at": "2026-10-24T18:01:35Z",
+                "completed_at": "2026-10-24T18:01:36Z"
+              },
+              {
+                "name": "Post Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+                "status": "completed",
+                "conclusion": "success",
+                "started_at": "2026-10-24T18:01:36Z",
+                "completed_at": "2026-10-24T18:01:36Z"
+              },
+              {
+                "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+                "status": "completed",
+                "conclusion": "success",
+                "started_at": "2026-10-24T18:01:36Z",
+                "completed_at": "2026-10-24T18:01:36Z"
+              },
+              {
+                "name": "Complete job",
+                "status": "completed",
+                "conclusion": "success",
+                "started_at": "2026-10-24T18:01:36Z",
+                "completed_at": "2026-10-24T18:01:36Z"
+              }
+            ]
+          },
+          {
+            "id": 120945230664,
+            "name": "security",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/kawakaze430/clipnest/actions/runs/40118655022/job/120945230664",
+            "started_at": "2026-10-24T17:59:58Z",
+            "completed_at": "2026-10-24T18:00:16Z",
+            "steps": [
+              {
+                "name": "Set up job",
+                "status": "completed",
+                "conclusion": "success",
+                "started_at": "2026-10-24T17:59:59Z",
+                "completed_at": "2026-10-24T18:00:01Z"
+              },
+              {
+                "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+                "status": "completed",
+                "conclusion": "success",
+                "started_at": "2026-10-24T18:00:01Z",
+                "completed_at": "2026-10-24T18:00:02Z"
+              },
+              {
+                "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+                "status": "completed",
+                "conclusion": "success",
+                "started_at": "2026-10-24T18:00:02Z",
+                "completed_at": "2026-10-24T18:00:06Z"
+              },
+              {
+                "name": "Run npm ci --ignore-scripts --no-audit --no-fund",
+                "status": "completed",
+                "conclusion": "success",
+                "started_at": "2026-10-24T18:00:06Z",
+                "completed_at": "2026-10-24T18:00:11Z"
+              },
+              {
+                "name": "Production dependency vulnerability gate",
+                "status": "completed",
+                "conclusion": "success",
+                "started_at": "2026-10-24T18:00:11Z",
+                "completed_at": "2026-10-24T18:00:11Z"
+              },
+              {
+                "name": "Retain dependency audit evidence",
+                "status": "completed",
+                "conclusion": "success",
+                "started_at": "2026-10-24T18:00:11Z",
+                "completed_at": "2026-10-24T18:00:13Z"
+              },
+              {
+                "name": "Post Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+                "status": "completed",
+                "conclusion": "success",
+                "started_at": "2026-10-24T18:00:13Z",
+                "completed_at": "2026-10-24T18:00:13Z"
+              },
+              {
+                "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+                "status": "completed",
+                "conclusion": "success",
+                "started_at": "2026-10-24T18:00:13Z",
+                "completed_at": "2026-10-24T18:00:13Z"
+              },
+              {
+                "name": "Complete job",
+                "status": "completed",
+                "conclusion": "success",
+                "started_at": "2026-10-24T18:00:13Z",
+                "completed_at": "2026-10-24T18:00:13Z"
+              }
+            ]
+          },
+          {
+            "id": 120947684689,
+            "name": "package",
+            "status": "completed",
+            "conclusion": "success",
+            "html_url": "https://github.com/kawakaze430/clipnest/actions/runs/40118655022/job/120947684689",
+            "started_at": "2026-10-24T18:10:28Z",
+            "completed_at": "2026-10-24T18:10:34Z",
+            "steps": [
+              {
+                "name": "Set up job",
+                "status": "completed",
+                "conclusion": "success",
+                "started_at": "2026-10-24T18:10:29Z",
+                "completed_at": "2026-10-24T18:10:30Z"
+              },
+              {
+                "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+                "status": "completed",
+                "conclusion": "success",
+                "started_at": "2026-10-24T18:10:30Z",
+                "completed_at": "2026-10-24T18:10:31Z"
+              },
+              {
+                "name": "Build and verify complete source",
+                "status": "completed",
+                "conclusion": "success",
+                "started_at": "2026-10-24T18:10:31Z",
+                "completed_at": "2026-10-24T18:10:31Z"
+              },
+              {
+                "name": "Return complete source and checksum",
+                "status": "completed",
+                "conclusion": "success",
+                "started_at": "2026-10-24T18:10:31Z",
+                "completed_at": "2026-10-24T18:10:32Z"
+              },
+              {
+                "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+                "status": "completed",
+                "conclusion": "success",
+                "started_at": "2026-10-24T18:10:32Z",
+                "completed_at": "2026-10-24T18:10:32Z"
+              },
+              {
+                "name": "Complete job",
+                "status": "completed",
+                "conclusion": "success",
+                "started_at": "2026-10-24T18:10:32Z",
+                "completed_at": "2026-10-24T18:10:32Z"
+              }
+            ]
+          }
+        ],
+        "artifact_metadata": [
+          {
+            "id": 12570477054,
+            "name": "browser-evidence-a4529b44e3b752039433575509576185e866935e",
+            "size_in_bytes": 14165,
+            "digest": "sha256:a795ab0ef19db6921ee5ffc99451ee532deec44c44910bcaf37237594567586f",
+            "expired": false,
+            "created_at": "2026-10-24T18:01:36Z"
+          },
+          {
+            "id": 12570433396,
+            "name": "unit-evidence-a4529b44e3b752039433575509576185e866935e",
+            "size_in_bytes": 6770,
+            "digest": "sha256:470844a98fe561f2199fdf27f8686688161f3c940fca6958e0b07936f4398ade",
+            "expired": false,
+            "created_at": "2026-10-24T18:00:46Z"
+          },
+          {
+            "id": 12570332708,
+            "name": "terraform-evidence-a4529b44e3b752039433575509576185e866935e",
+            "size_in_bytes": 9171,
+            "digest": "sha256:6131581fdd202bcbff972d9e873c019e081777868bf66e3db0b2468dc35daa46",
+            "expired": false,
+            "created_at": "2026-10-24T18:00:24Z"
+          },
+          {
+            "id": 12570294466,
+            "name": "container-evidence-a4529b44e3b752039433575509576185e866935e",
+            "size_in_bytes": 137934,
+            "digest": "sha256:7fa611017766a94777613c8e36a62b9df0eff8d15ec7168c716d086c56cbf5a6",
+            "expired": false,
+            "created_at": "2026-10-24T18:10:24Z"
+          },
+          {
+            "id": 12570204852,
+            "name": "clipnest-source-a4529b44e3b752039433575509576185e866935e",
+            "size_in_bytes": 499145,
+            "digest": "sha256:fe692a5e1ead530df31e73a65a54a1ad176e93c57f5d2876a827d8bca12222a5",
+            "expired": false,
+            "created_at": "2026-10-24T18:10:32Z"
+          },
+          {
+            "id": 12570112522,
+            "name": "dependency-evidence-a4529b44e3b752039433575509576185e866935e",
+            "size_in_bytes": 771,
+            "digest": "sha256:cabaad4fb9655ed731797e174992f8fc81012d04c765aea6c7555c04066e0734",
+            "expired": false,
+            "created_at": "2026-10-24T18:00:13Z"
+          },
+          {
+            "id": 12569408775,
+            "name": "native-evidence-a4529b44e3b752039433575509576185e866935e",
+            "size_in_bytes": 3251,
+            "digest": "sha256:a76763fb850a5b4fb639850cf45a0fd2bd62fa766e0489224bdd59ce936320ed",
+            "expired": false,
+            "created_at": "2026-10-24T18:01:14Z"
+          }
+        ],
+        "production_acceptance": false
+      },
+      "hosted_h04_artifacts": {
+        "recorded_at": "2026-10-24T18:10:01.873101+00:00",
+        "run_id": 40069202760,
+        "implementation_commit": "36f744d352af47ffc399395abdf6d9e46fb4bc99",
+        "artifact_download_exit_code": 0,
+        "signed_redirect_urls_retained": false,
+        "scan_artifacts": [
+          {
+            "image_id": "sha256:f8a8d78828d1f56a77945ea89f8c1310a4c8a5043dfafb2cf4a05b45539677f8",
+            "source_commit": "36f744d352af47ffc399395abdf6d9e46fb4bc99",
+            "fingerprint": "8a80ec384137dd43e1942002fa0dccb1a18eb1ff595cfd28449cc6766564905f",
+            "findings": {
+              "high": 0,
+              "critical": 0,
+              "secret_findings": 0,
+              "distinct_cves": 0
+            },
+            "original_report_and_sbom_hashes_verified": {
+              "trivy-report.json": true,
+              "image.sbom.cdx.json": true
+            },
+            "path": "qa-artifacts/h05-hosted/container-evidence-36f744d352af47ffc399395abdf6d9e46fb4bc99/image-security/summary.json"
+          }
+        ],
+        "group_results": {
+          "terraform": {
+            "status": "passed",
+            "test_counts": {
+              "status": "pass",
+              "passed": 1,
+              "failed": 0,
+              "errored": 0,
+              "skipped": 0
+            }
+          },
+          "browser": {
+            "status": "passed",
+            "test_counts": {
+              "tests": 8,
+              "pass": 8,
+              "fail": 0,
+              "skipped": 0,
+              "flaky": 0,
+              "projects": [
+                "desktop-chromium",
+                "mobile-chromium"
+              ]
+            }
+          },
+          "containers": {
+            "status": "passed",
+            "test_counts": {
+              "scope": "TLS + image/Compose/non-root/readiness/restart smoke only"
+            }
+          }
+        }
+      },
+      "aws_cli": {
+        "recorded_at": "2026-10-24T06:51:03.493371+00:00",
+        "version": "aws-cli/2.38.5 Python/3.12.14 Linux/6.18.55 source-sandbox/x86_64.debian.13",
+        "distribution": "Official AWS CLI v2 source-sandbox build, not downloaded binary installer",
+        "source_repository": "aws/aws-cli",
+        "source_tag": "2.38.5",
+        "source_commit": "31563df3204a0215ff9da3b72e4c8f8cf1b80cc6",
+        "source_archive_sha256": "0b76dcc85780e5b9a4ab8bab28b4fbd2b7e5e8594498c1a7a4c94f1edfc1b2f8",
+        "binary_installer_endpoint": {
+          "host": "awscli.amazonaws.com",
+          "result": "HTTP 403; no TLS or signature bypass"
+        },
+        "dependency_locks": {
+          "requirements/download-deps/bootstrap-lock.txt": "942e70949bc6f3b4f02e2c4017cc9006c0cf002221da6e38c90a344fd6de06a2",
+          "requirements/download-deps/system-sandbox-lock.txt": "ae49d3b24bb72037d80a879dbf54803708b8e3b15754d63c21b33d5c51569eea"
+        },
+        "aws_api_calls": false,
+        "offline_v2_parser_check": {
+          "exit_code": 0,
+          "stdout": "{}",
+          "stderr": ""
+        }
+      },
+      "aws_identity_attempt": {
+        "recorded_at": "2026-10-24T17:47:38.661525+00:00",
+        "command": [
+          ".cache/external/bin/aws",
+          "sts",
+          "get-caller-identity",
+          "--region",
+          "us-east-1",
+          "--no-cli-pager",
+          "--output",
+          "json",
+          "--cli-connect-timeout",
+          "5",
+          "--cli-read-timeout",
+          "10"
+        ],
+        "exit_code": 255,
+        "diagnostic": "aws: [ERROR]: The config profile (__oai_no_aws_identity__) could not be found",
+        "endpoint_scope": "us-east-1 selected only for read-only STS identity; no deployment Region selected",
+        "aws_resources_created": false
+      },
+      "launch_readiness": {
+        "readyForAccountDiscovery": false,
+        "productionReady": false,
+        "blockers": [
+          {
+            "field": "accountId",
+            "reason": "Supply the expected owner-authorized 12-digit AWS account."
+          },
+          {
+            "field": "region",
+            "reason": "Select a commercial AWS Region supported by this infrastructure."
+          },
+          {
+            "field": "monthlyBudgetUsd",
+            "reason": "Supply an explicit positive owner-approved spending bound; alerts are not a hard spending cap."
+          },
+          {
+            "field": "stagingSpendLimitUsd",
+            "reason": "Supply an explicit positive owner-approved spending bound; alerts are not a hard spending cap."
+          },
+          {
+            "field": "traffic.dailyJobs",
+            "reason": "Supply a positive traffic target for measured capacity/cost review."
+          },
+          {
+            "field": "traffic.peakConcurrentJobs",
+            "reason": "Supply a positive traffic target for measured capacity/cost review."
+          },
+          {
+            "field": "traffic.maxFileMiB",
+            "reason": "Select a file bound up to the implemented 1024 MiB limit."
+          },
+          {
+            "field": "traffic.maxDurationSeconds",
+            "reason": "Select a duration bound up to the implemented 7200-second limit."
+          },
+          {
+            "field": "mailFrom",
+            "reason": "Supply the intended owner-controlled sender/recipient; actual delivery still requires verification."
+          },
+          {
+            "field": "alertEmail",
+            "reason": "Supply the intended owner-controlled sender/recipient; actual delivery still requires verification."
+          },
+          {
+            "field": "owner.legalEntity",
+            "reason": "Supply the accountable public operator/support commitment."
+          },
+          {
+            "field": "owner.onCall",
+            "reason": "Supply the accountable public operator/support commitment."
+          },
+          {
+            "field": "owner.supportContact",
+            "reason": "Supply the accountable public operator/support commitment."
+          },
+          {
+            "field": "owner.launchMarkets",
+            "reason": "List the approved distinct two-letter launch countries."
+          },
+          {
+            "field": "mediaAuthorization.reference",
+            "reason": "Supply the actual media/source authorization reference; a public URL alone is insufficient."
+          },
+          {
+            "field": "mediaAuthorization.testVideoUrl",
+            "reason": "Supply a supported HTTPS individual YouTube/Shorts test reference covered by that authorization."
+          }
+        ],
+        "recordedAt": "2026-10-24T17:44:40.395Z",
+        "scope": "Owner-input/account discovery only. No AWS resources, source requests or production acceptance.",
+        "accountProbe": {
+          "status": "blocked_by_missing_inputs"
+        },
+        "nextSteps": [
+          "Verify authenticated account/role and Region availability; discover supported RDS version/class and actual prices.",
+          "Review the traffic/cost model, remote-state bootstrap and full Terraform plan within the approved spend.",
+          "Apply the reviewed staging plan, populate private secrets, verify SES and deploy exact scanned ECR digest/schema/frontend.",
+          "Execute all 16 real release gates, including source-to-device, recovery, security, load, delivery and device/geography evidence.",
+          "Open an approved capped invitation beta; record launch/1h/24h/7d observations before worldwide expansion."
+        ]
+      },
+      "github_environment_setup": {
+        "staging": {
+          "exit_code": 1,
+          "diagnostic": "gh: Resource not accessible by integration (HTTP 403)"
+        }
+      },
+      "runtime_security_gate": {
+        "application_commit": "36f744d352af47ffc399395abdf6d9e46fb4bc99",
+        "image_id": "sha256:1e03721bfd9086e928e721a2813747fb572bcd56d545bf7c4b095040a5bdcd94",
+        "image_subject": "sha256:1e03721bfd9086e928e721a2813747fb572bcd56d545bf7c4b095040a5bdcd94",
+        "status": "passed_local",
+        "scan_exit_code": 0,
+        "findings": {
+          "high": 0,
+          "critical": 0,
+          "secret_findings": 0,
+          "distinct_cves": 0
+        },
+        "node": "24.22.1",
+        "os": "Alpine 3.24.3",
+        "python": "3.14.8",
+        "yt_dlp": "2026.10.21",
+        "ffmpeg": "9.0.2",
+        "libxml2": "2.15.4",
+        "media_sources": {
+          "schema_version": 1,
+          "sources": {
+            "libxml2": {
+              "version": "2.15.4",
+              "repository": "GNOME/libxml2",
+              "tag": "v2.15.4",
+              "commit": "96498992efa48d52b0e8b83058bd88dbdaf153c1",
+              "sha256": "3fa264c6117569780ea0f6447d98c77f29b285cfd665ced2ec7da4f51183607f"
+            },
+            "ffmpeg": {
+              "version": "9.0.2",
+              "repository": "FFmpeg/FFmpeg",
+              "tag": "n9.0.2",
+              "commit": "946fcce07b6dcd0331c8cc609192aeff5e1924f8",
+              "sha256": "0aa2b1de2a5698b20a23e93d539a9a8e82ca0117496c5bdf05d198805f42bb3b"
+            }
+          }
+        },
+        "scan_tool": "Official checksum-verified Trivy 0.70.0",
+        "scanner_database": {
+          "Version": 2,
+          "NextUpdate": "2026-10-25T01:18:19.814880324Z",
+          "UpdatedAt": "2026-10-24T01:18:19.814880615Z",
+          "DownloadedAt": "2026-10-24T04:05:39.787431302Z"
+        },
+        "evidence": "qa-artifacts/h04-security/final-image/",
+        "scope": "Exact local Compose image only. Source-built components added explicitly to SBOM; release ECR digest/provenance/hosted acceptance remain unproved. Local SOURCE_COMMIT is development, not a deployed release."
+      },
+      "counts": {
+        "Locally implemented": 66,
+        "Partially implemented": 27,
+        "Prepared, not executed": 9,
+        "Externally blocked": 10,
+        "Not started": 0
+      },
+      "production_release_decision": "NO_GO",
+      "not_proved": [
+        "Authenticated expected AWS target/profile/role (actual STS attempt exits 255 at unavailable profile); owner Region and approved staging/monthly spend/traffic inputs",
+        "GitHub protected main-only deployment environments/OIDC variables: this integration returns HTTP 403 on environment creation; owner/admin setup or scoped permission required",
+        "Authorized real source-to-device transfer and approved source/market/operator/support/policy inputs",
+        "Actual release ECR digest scan/build attestations and target ECS/RDS TLS/roles/services",
+        "Real S3/SQS/CloudFront/SES/email/alarms/security and distributed outage/physical deletion evidence",
+        "Physical device and independent geography transfer/accessibility acceptance",
+        "Admitted-workload peak resources/load/cost and real restore/compatible rollback/RTO/RPO",
+        "Actual capped-beta operating observation and reviewed worldwide expansion"
+      ],
+      "evidence_paths": [
+        "qa-artifacts/h05-hosted-ci.json",
+        "qa-artifacts/h05-hosted/",
+        "qa-artifacts/h05-current-hosted/",
+        "qa-artifacts/h05-resource-portable/",
+        "qa-artifacts/h05-terraform-account/",
+        "qa-artifacts/ci/h05-*"
+      ],
+      "retained_failures": [
+        {
+          "path": "qa-artifacts/h05-container-resources-initial/summary.json",
+          "classification": "Docker internal bridge did not publish loopback PG port; corrected isolated bridge and private bind-mount UID handling passed all five scenarios"
+        },
+        {
+          "path": "qa-artifacts/h05-aws-identity.json",
+          "exit_code": 255,
+          "classification": "External identity unavailable; not an application test failure or authenticated AWS request"
+        },
+        {
+          "path": "qa-artifacts/h05-launch-readiness.json",
+          "exit_code": 2,
+          "classification": "Expected refusal of incomplete owner inputs; account probe did not execute"
+        },
+        {
+          "path": "qa-artifacts/h05-github-environment-setup.json",
+          "classification": "Integration HTTP 403 prevented deployment-environment creation; no settings changed"
+        },
+        {
+          "path": "qa-artifacts/h05-git-integration.json",
+          "classification": "Direct push rejected after concurrent main change; normal merge preserved both implementations and tests, no force-push"
+        }
+      ],
+      "commit_provenance": "Reports retain original times/base HEAD/fingerprints. Verified working-tree implementation was committed and normally merged with concurrent main. Full local application and syntax checks were rerun on the merged code; Python/CLI/resource/provider evidence covers unchanged affected components, and all hosted groups executed on the exact merged implementation commit. Docs are outside the source fingerprint.",
+      "historical_results": "H04/H03 records remain in compact evidence.h04/h03 and their engineering notes; no historical timestamp is presented as fresh.",
+      "environment_configuration": {
+        "revision": 11,
+        "status": "saved",
+        "requires_publish": true,
+        "includes_verified_aws_cli_source_setup": true,
+        "secret_binding_count": 0,
+        "runtime_authentication_established": false,
+        "hosted_h04_artifact_download_passed": true,
+        "hosted_h05_artifact_download_passed": false,
+        "additional_artifact_host": "productionresultssa19.blob.core.windows.net",
+        "fresh_task_restoration_tested": false
+      },
+      "current_hosted_artifact_download": {
+        "run_id": 40118655022,
+        "exit_code": 1,
+        "diagnostic": "error downloading browser-evidence-a4529b44e3b752039433575509576185e866935e: Get \"[REDACTED_SIGNED_OR_ACTION_URL]\": Forbidden",
+        "observed_redirect_hosts": [
+          "productionresultssa19.blob.core.windows.net"
+        ],
+        "signed_redirect_urls_retained": false,
+        "downloaded_files": []
+      },
+      "delivery_limitations": [
+        "H05 hosted jobs all passed; raw artifact retrieval returned HTTP 403 at productionresultssa19.blob.core.windows.net. That exact host requirement is saved in environment draft revision 11 for review/application. H04 artifact bytes and original scan/SBOM hashes were retrieved/verified."
+      ]
     }
   },
   "items": [
@@ -2043,8 +5063,8 @@
       "id": "B-02",
       "title": "AWS deployment access unavailable",
       "scope": "Cloud provisioning and AWS staging",
-      "evidence": "AWS CLI unavailable; config and credential files have 0 profiles. AWS_PROFILE is present but no access-key/session-token/role/web-identity binding or authenticated context is established. GitHub deployment environments are empty; variable/secret-name APIs return 403, so their contents are unknown.",
-      "unblock": "Establish a scoped, authorised AWS deployment context and verify account, role, Region and permitted actions. No credentials in chat.",
+      "evidence": "AWS CLI 2.38.5 official pinned-source installation and offline v2 parsing passed. Actual read-only STS identity attempt exits 255 at unavailable configured profile; no authenticated account/role established. Owner account/Region/spend and secure binding still absent. GitHub environment creation returns integration HTTP 403.",
+      "unblock": "Owner connects scoped AWS profile/role securely and supplies expected account, Region, approved spend/traffic and launch inputs. Owner/admin configures GitHub protected environments/OIDC variables or grants scoped permission; Codex then verifies identity and reviews the real plan/cost.",
       "owner": "Account owner / deployment environment",
       "hard_release_gate": true
     },
@@ -2147,8 +5167,8 @@
       "title": "GitHub hosted Actions billing restriction",
       "scope": "Hosted verification jobs and image-security artifacts",
       "status": "resolved_hosted",
-      "evidence": "H04 source-push run 40069202760: hosted verification passed. 7 successful jobs, 7 jobs with steps. Earlier billing failures are historical.",
-      "unblock": "No current billing block: all seven H04 hosted jobs executed and passed. Inspect retained artifacts; this cloud runtime needs its saved artifact-storage host setting applied to download them.",
+      "evidence": "Hosted H05 run 40118655022 passed all seven jobs on a4529b44e3b752039433575509576185e866935e. Earlier billing failures are historical; actual jobs and artifacts are retained.",
+      "unblock": "No current hosted-CI billing/execution block. Maintain checks on future changes. Actual AWS release remains separate.",
       "owner": "GitHub account owner",
       "hard_release_gate": true
     },
@@ -2157,7 +5177,7 @@
       "title": "Local runtime image vulnerability gate remediated",
       "scope": "Release image security and media runtime dependencies",
       "status": "resolved_local",
-      "evidence": "H04 exact Compose image sha256:1e03721bfd9086e928e721a2813747fb572bcd56d545bf7c4b095040a5bdcd94: strict Trivy HIGH/CRITICAL OS/library and secret gate passed with 0 findings. Pinned upstream libxml2 2.15.4 and FFmpeg 9.0.2 built together; source identity/hash checks and five-format runtime passed. Vendor feed alone is insufficient.",
+      "evidence": "H04 exact Compose image sha256:1e03721bfd9086e928e721a2813747fb572bcd56d545bf7c4b095040a5bdcd94: strict Trivy HIGH/CRITICAL OS/library and secret gate passed with 0 findings. Pinned upstream libxml2 2.15.4 and FFmpeg 9.0.2 built together; source identity/hash checks and five-format runtime passed. Vendor feed alone is insufficient. H04 hosted artifact bytes have now been retrieved and original strict-report/SBOM hashes verified; H05 hosted exact-image gate also passed.",
       "unblock": "No remaining local vulnerability fix from this scan. Scan the actual release digest again with current database, SBOM and provenance before accepting production.",
       "owner": "Engineering owner; package/upstream maintainers where updates are needed",
       "hard_release_gate": true
@@ -2347,7 +5367,7 @@
     "machine_register": "docs/END_TO_END_STATUS.json",
     "conditional_tasks_excluded": 8,
     "counting_note": "These 112 original task IDs are authoritative; do not add old broad areas/checkpoint batch counts. Counts are not weighted effort or production readiness.",
-    "source_commit": "36f744d352af47ffc399395abdf6d9e46fb4bc99"
+    "source_commit": "a4529b44e3b752039433575509576185e866935e"
   },
   "target_batch": {
     "task_count": 51,
@@ -2417,6 +5437,6 @@
     ],
     "note": "All 51 received code, tests, definitions, runbooks or concrete owner/execution preparation. They are not all production-complete. Full task IDs and acceptance scope are preserved."
   },
-  "handoff_revision": "H04",
+  "handoff_revision": "H05",
   "historical_counts_note": "Top-level counts/items preserve the historical 24-area compact view. master_register counts mirror the authoritative original 112 core IDs."
 }
