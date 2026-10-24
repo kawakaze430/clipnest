@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-FROM node:24-trixie-slim
+FROM node:25-trixie-slim
 WORKDIR /app
 COPY --chmod=0644 package.json package-lock.json ./
 # Package managers are build tools; the runtime executes node and yt-dlp directly.
