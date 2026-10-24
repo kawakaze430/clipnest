@@ -2,17 +2,17 @@
   "schema_version": 1,
   "project": "ClipNest",
   "checkpoint": "CP-02",
-  "handoff_revision": "H03",
+  "handoff_revision": "H04",
   "prepared_date": "2026-10-24",
   "application_version": "1.2.0",
   "application_baseline_commit": "92a00a4bb1a2c0ae3de12105f37e129ab5e8df10",
   "handoff_changes": [
-    "Codex engineering ownership and verified direct main push workflow, no extra branch/PR",
-    "UTF8 JSON/password preservation and realaxe contrast fixes",
-    "DockerPG17 native/crash/TLS harness and explicitumaskpermissions",
-    "Verified publicbuild CA injection, writable Buildx state, full container accountsmoke",
-    "Independent CIgroups, pinnedactions, failureartifacts, scan/SBOM and completepackaging",
-    "Current112task evidence/counts and complete nexttesting prompt"
+    "Pinned ABI-consistent upstream media build fixes remaining observed local image vulnerabilities",
+    "Fail-closed immutable image scan/SBOM/source gate shared by local, CI and deployment",
+    "Secret-bearing unused non-YouTube extractor removed without scanner suppression",
+    "Permanent five-format media/runtime checks and source-integrity/security negative tests",
+    "Cold build budgets and complete-source packaging updated for build directory",
+    "Fresh complete applicable local matrix, retained failures and deterministic browser pending-state test"
   ],
   "application_source_changed_in_handoff": true,
   "release_decision": "NO_GO",
@@ -29,8 +29,8 @@
     "no_guaranteed_download_speed": true
   },
   "status_counts": {
-    "Locally implemented": 65,
-    "Partially implemented": 28,
+    "Locally implemented": 66,
+    "Partially implemented": 27,
     "Prepared, not executed": 9,
     "Externally blocked": 10,
     "Not started": 0
@@ -75,10 +75,13 @@
     "skipped": 1,
     "native_pg17_passed": 29,
     "browser_passed": 8,
-    "python_helper_passed": 20,
+    "python_helper_passed": 32,
     "terraform_mock_passed": 1,
     "container_smoke": "passed",
-    "production_accepted": false
+    "production_accepted": false,
+    "image_scan": "passed: 0 HIGH/CRITICAL/secret findings",
+    "source_integrity": "passed",
+    "browser_initial_failure_retained": true
   },
   "prior_evidence": {
     "local_burst": {
@@ -93,25 +96,23 @@
     "complete_authorized_source_to_device_transfer": false,
     "browser": "Real desktop illustrative picker/privacy review only; full Playwright/axe suite unrun",
     "terraform": "fmt parses; actual provider startup failed listen unix socket operation not permitted",
-    "audit": "Production npm audit had zero known vulnerabilities at CP-02; not rerun by H01 unless receipt states so"
+    "audit": "Production npm audit had zero known vulnerabilities at CP-02; not rerun by H01 unless receipt states so",
+    "note": "Historical CP-02/H01 capability failures below are superseded locally by current_local_run; real external acceptance remains separate."
   },
   "evidence_not_yet_passed": [
-    "Native PostgreSQL pooling/concurrency/TLS",
-    "Docker build/run/lifecycle/resource/image scan/SBOM",
-    "Terraform provider validate/mock and account plan/apply",
-    "Full real desktop/mobile browser and device journey",
-    "Actual AWS S3/SQS/CloudFront/SES/IAM/WAF",
-    "Full real authorized YouTube app→worker→device transfer",
-    "Multi-instance active loss/outages and physical object deletion",
-    "Real RDS restore/RTO/RPO and compatible image/frontend rollback",
-    "Actual multi-geography load/speed/cost",
-    "Real alarm/inbox/support delivery",
-    "Owner final budget/traffic/policy/markets inputs",
-    "Elapsed capped-beta observation"
+    "Download hosted evidence after saved artifact-storage host requirement is applied",
+    "Actual release ECR digest scan/build provenance and staged deployment",
+    "Authorized real application source-to-device transfer",
+    "Actual AWS/RDS/S3/SQS/CloudFront/SES/IAM/WAF, alarms, restore and compatible rollback",
+    "Physical devices and independent transfer geographies",
+    "Active container OOM/hard-kill/disk/deadline and measured peak resources",
+    "Owner account/Region/budget/traffic/source/sender/operator/policy inputs",
+    "Elapsed capped-beta operating observation"
   ],
   "first_read": [
     "CODEX_NEXT_PROMPT.md",
     "docs/NEXT_PATH.md",
+    "delivery/ENGINEERING_H04.md",
     "START_HERE.md",
     "AGENTS.md",
     "delivery/HANDOFF_STATE.json",
@@ -126,12 +127,12 @@
     "infra/terraform/README.md"
   ],
   "next_steps": [
-    "Resolve runtime image security findings with supported patched dependencies; strict scan remains failed.",
-    "Inspect main-push Actions, fix actual findings and rerun affected groups only",
-    "Read CODEX_NEXT_PROMPT.md; commit/pushdirect main withoutbranch/PR",
-    "Obtain scopedAWS/Region/spend/source/sender/operator inputs",
-    "Costreviewedstaging and all 16 realproduction gates",
-    "Operate cappedbeta and recordelapsedobservation"
+    "Inspect successful hosted artifacts; apply saved artifact-storage host setting and retry only the blocked cloud artifact download",
+    "Establish scoped AWS deployment context, Region, approved spend/traffic, permitted source and sender/operator inputs",
+    "Review account-specific staging cost/plan and deploy matching release image/schema/frontend only within authorization",
+    "Scan actual release digest and retain build attestations; execute all 16 real acceptance gates",
+    "Measure active container/resource recovery and real source/device/geography/restore/email/alarm behavior",
+    "Operate capped beta only after acceptance; collect actual elapsed observation"
   ],
   "blockers": [
     {
@@ -148,7 +149,7 @@
       "id": "B-02",
       "title": "AWS deployment access unavailable",
       "scope": "Cloud provisioning and AWS staging",
-      "evidence": "Current AWS config/credential paths exist but contain0 profiles; access-key/session-token/role/web-identity bindings absent; AWSCLI unavailable. No authenticated deployment context established.",
+      "evidence": "AWS CLI unavailable; config and credential files have 0 profiles. AWS_PROFILE is present but no access-key/session-token/role/web-identity binding or authenticated context is established. GitHub deployment environments are empty; variable/secret-name APIs return 403, so their contents are unknown.",
       "unblock": "Establish a scoped, authorised AWS deployment context and verify account, role, Region and permitted actions. No credentials in chat.",
       "owner": "Account owner / deployment environment",
       "hard_release_gate": true
@@ -251,19 +252,19 @@
       "id": "B-13",
       "title": "GitHub hosted Actions billing restriction",
       "scope": "Hosted verification jobs and image-security artifacts",
-      "status": "open",
-      "evidence": "Main run 40060732120 on6b73b565e054b8be472bbb96e28fc2e99548dffd:all seven jobs failed before any step. GitHub annotation: The job was not started because recent account payments have failed or your spending limit needs to be increased.",
-      "unblock": "Account owner reviews Billing & plans and resolves the payment/spending restriction, then reruns the existing workflow. No payment/billing configuration was changed.",
+      "status": "resolved_hosted",
+      "evidence": "H04 source-push run 40069202760: hosted verification passed. 7 successful jobs, 7 jobs with steps. Earlier billing failures are historical.",
+      "unblock": "No current billing block: all seven H04 hosted jobs executed and passed. Inspect retained artifacts; this cloud runtime needs its saved artifact-storage host setting applied to download them.",
       "owner": "GitHub account owner",
       "hard_release_gate": true
     },
     {
       "id": "B-14",
-      "title": "Runtime image fails strict vulnerability gate",
+      "title": "Local runtime image vulnerability gate remediated",
       "scope": "Release image security and media runtime dependencies",
-      "status": "open",
-      "evidence": "Current Debian13 candidate:228 findings representing47uniqueCVEs,227HIGH/1CRITICAL. Critical CVE-2026-6653 affects packaged libxml2. No fixed Debian13 version is recorded; upstream patched libxml2/FFmpeg releases exist, so this is not a claim that remediation is impossible.",
-      "unblock": "Evaluate a supported patched dependency/base set or verified compatible source builds; validate media and strict scan without exclusions. Keep production NO_GO while unresolved.",
+      "status": "resolved_local",
+      "evidence": "H04 exact Compose image sha256:1e03721bfd9086e928e721a2813747fb572bcd56d545bf7c4b095040a5bdcd94: strict Trivy HIGH/CRITICAL OS/library and secret gate passed with 0 findings. Pinned upstream libxml2 2.15.4 and FFmpeg 9.0.2 built together; source identity/hash checks and five-format runtime passed. Vendor feed alone is insufficient.",
+      "unblock": "No remaining local vulnerability fix from this scan. Scan the actual release digest again with current database, SBOM and provenance before accepting production.",
       "owner": "Engineering owner; package/upstream maintainers where updates are needed",
       "hard_release_gate": true
     }
@@ -296,22 +297,22 @@
     "intermediate_updates": "Brief progress updates do not require repackaging",
     "external_test_only": "No feature/source fixes; return both evidence ZIP and complete unchanged/latest source ZIP plus checksums"
   },
-  "prior_handoff_source_commit": "2f498a9d61a402660386eccd92d912dc1c91e640",
+  "prior_handoff_source_commit": "e795ebb37227a6d65e79355fdcd5da6989829d5e",
   "h02_verification_record": "delivery/EXTERNAL_PREPARATION_H02.json",
   "external_execution": {
     "profile": "E01",
-    "status": "Prepared, not executed on an external runner",
-    "engineering_owner": "Original ChatGPT project chat",
+    "status": "Historical bounded E01 profile; checks executed locally and on hosted CI in H04",
+    "engineering_owner": "Current Codex engineering session",
     "external_role": "Run fixed assigned checks and return evidence; no source fixes/feature work/deployment",
     "prompt": "CLOUD_TEST_ONLY_PROMPT.md",
     "guide": "docs/NEXT_PATH.md",
     "contract": "docs/EXTERNAL_EXECUTION.md",
-    "command": "python3 scripts/external/verify.py run --groups native browser terraform containers --budget-minutes 20",
+    "command": "python3 scripts/external/verify.py run --groups native browser terraform containers --budget-minutes 35",
     "return_evidence_and_full_source_separately": true,
     "automatic_master_promotion": false,
     "docker_if_working_daemon_only": true,
     "windows_local_heavy_setup": "Last fallback only",
-    "current_direction": "Engineeringownership supersedes oldexecution-only profile unless explicitlyselected; direct main, no extra branch/PR."
+    "current_direction": "Engineering ownership supersedes the old limited profile unless explicitly selected. Direct main, no branch/worktree/PR."
   },
   "user_reported_resources": {
     "codex_cloud": "Limited Plus access; actual quota not verified",
@@ -322,45 +323,78 @@
     "aws": "Reported USD 200 credit, balance/eligibility/spend authorization unverified",
     "azure": "Reported USD 100 credit, backup remote runner only"
   },
-  "current_application_commit": "91f5c7b14206669a9c7e0d1f344e794836941c09",
+  "current_application_commit": "36f744d352af47ffc399395abdf6d9e46fb4bc99",
   "git_workflow": {
     "branch": "main",
     "extra_branch_or_pr_created": false,
     "push_verified": true,
-    "application_commit": "91f5c7b14206669a9c7e0d1f344e794836941c09",
-    "ci_run_url": "https://github.com/kawakaze430/clipnest/actions/runs/40061432748",
-    "ci_status": "blocked before job execution:GitHub account payment/spending restriction",
-    "ci_jobs_started": 0
+    "application_commit": "36f744d352af47ffc399395abdf6d9e46fb4bc99",
+    "ci_run_url": "https://github.com/kawakaze430/clipnest/actions/runs/40069202760",
+    "ci_status": "hosted verification passed",
+    "ci_jobs_started": 7
   },
   "runtime_security_gate": {
-    "application_commit": "91f5c7b14206669a9c7e0d1f344e794836941c09",
-    "files_changed_since_full_combined_run": [
-      "Dockerfile"
-    ],
-    "container_and_media_checks": "passed; separate fresh run, not reused original image evidence",
-    "image_id": "sha256:7ccf6117ea3bc498067b5be51480a0c36682de6ca53d36a1798e1985e6bee82e",
+    "application_commit": "36f744d352af47ffc399395abdf6d9e46fb4bc99",
+    "image_id": "sha256:1e03721bfd9086e928e721a2813747fb572bcd56d545bf7c4b095040a5bdcd94",
+    "image_subject": "sha256:1e03721bfd9086e928e721a2813747fb572bcd56d545bf7c4b095040a5bdcd94",
+    "status": "passed_local",
+    "scan_exit_code": 0,
+    "findings": {
+      "high": 0,
+      "critical": 0,
+      "secret_findings": 0,
+      "distinct_cves": 0
+    },
     "node": "24.22.1",
-    "os": "Debian13.7",
-    "python": "3.13.5",
-    "ffmpeg": "7.1.5",
-    "scan_tool": "Official checksum-verified Trivy0.70.0",
-    "database": "Official ghcr.io/aquasecurity/trivy-db:2; OCI verified download",
-    "scan_exit_code": 1,
-    "high_findings": 227,
-    "critical_findings": 1,
-    "distinct_cves": 47,
-    "baseline_findings": 293,
-    "baseline_distinct_cves": 84,
-    "node_findings": 0,
-    "python_findings": 0,
-    "sbom": "CycloneDX1.6 generated for exact candidate image",
-    "scope": "Package findings are not all distinct CVEs; no exploitability exception or suppression. Upstream remediation remains to investigate.",
-    "artifacts": [
-      "qa-artifacts/harness-repair/trivy-trixie-report.json",
-      "qa-artifacts/harness-repair/trixie-sbom.cdx.json",
-      "qa-artifacts/harness-repair/security-triage.json",
-      "qa-artifacts/harness-repair/trixie-runtime-media.log",
-      "qa-artifacts/harness-repair/container-trixie-security.log"
-    ]
+    "os": "Alpine 3.24.3",
+    "python": "3.14.8",
+    "yt_dlp": "2026.10.21",
+    "ffmpeg": "9.0.2",
+    "libxml2": "2.15.4",
+    "media_sources": {
+      "schema_version": 1,
+      "sources": {
+        "libxml2": {
+          "version": "2.15.4",
+          "repository": "GNOME/libxml2",
+          "tag": "v2.15.4",
+          "commit": "96498992efa48d52b0e8b83058bd88dbdaf153c1",
+          "sha256": "3fa264c6117569780ea0f6447d98c77f29b285cfd665ced2ec7da4f51183607f"
+        },
+        "ffmpeg": {
+          "version": "9.0.2",
+          "repository": "FFmpeg/FFmpeg",
+          "tag": "n9.0.2",
+          "commit": "946fcce07b6dcd0331c8cc609192aeff5e1924f8",
+          "sha256": "0aa2b1de2a5698b20a23e93d539a9a8e82ca0117496c5bdf05d198805f42bb3b"
+        }
+      }
+    },
+    "scan_tool": "Official checksum-verified Trivy 0.70.0",
+    "scanner_database": {
+      "Version": 2,
+      "NextUpdate": "2026-10-25T01:18:19.814880324Z",
+      "UpdatedAt": "2026-10-24T01:18:19.814880615Z",
+      "DownloadedAt": "2026-10-24T04:05:39.787431302Z"
+    },
+    "evidence": "qa-artifacts/h04-security/final-image/",
+    "scope": "Exact local Compose image only. Source-built components added explicitly to SBOM; release ECR digest/provenance/hosted acceptance remain unproved. Local SOURCE_COMMIT is development, not a deployed release."
+  },
+  "environment_configuration": {
+    "draft_id": "b6294b15-ec89-4a82-af9d-7541fd391671~cecfgdraft_6adb9714a8b0819db9625de6060882e5",
+    "revision": 9,
+    "status": "saved",
+    "requires_publish": true,
+    "install_script_unchanged": true,
+    "custom_network_domains": [
+      "api.github.com",
+      "cdn.playwright.dev",
+      "dl-cdn.alpinelinux.org",
+      "productionresultssa17.blob.core.windows.net",
+      "results-receiver.actions.githubusercontent.com",
+      "storage.googleapis.com"
+    ],
+    "fresh_task_restoration_tested": false,
+    "hosted_artifact_download_runtime_access": false
   }
 }

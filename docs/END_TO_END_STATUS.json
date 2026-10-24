@@ -3,13 +3,13 @@
   "register_version": 3,
   "checkpoint": "CP-02",
   "scope": "Full core free-beta release: initial scope through worldwide AWS rollout and post-launch operation.",
-  "as_of": "2026-10-24T09:29:33+05:30",
-  "source_commit": "91f5c7b14206669a9c7e0d1f344e794836941c09",
+  "as_of": "2026-10-24T11:53:55+05:30",
+  "source_commit": "36f744d352af47ffc399395abdf6d9e46fb4bc99",
   "source_unchanged_during_reporting": false,
   "total_core_tasks": 112,
   "counts": {
-    "Locally implemented": 65,
-    "Partially implemented": 28,
+    "Locally implemented": 66,
+    "Partially implemented": 27,
     "Prepared, not executed": 9,
     "Externally blocked": 10,
     "Not started": 0
@@ -36,10 +36,10 @@
     "passed": 55,
     "failed": 0,
     "skipped": 1,
-    "scope": "Local PGlite/HTTP/FFmpeg/emulatedDOM/activeSIGTERM; separate native PostgreSQL 17 suite29/29, real Chromium desktop/mobile8/8, Terraform mock1/1 and full container smoke passed.",
+    "scope": "Local PGlite/HTTP/FFmpeg/emulated DOM/active SIGTERM: 55 pass and one native skip. Separate fresh native PostgreSQL 17 29/29, Chromium desktop/mobile rerun 8/8, Python helpers 32/32, Terraform mock 1/1, patched container/media and exact-image strict scan passed.",
     "skipped_test": "PGlite-only native concurrency case; exercised in separate native PostgreSQL 17 suite"
   },
-  "verification_note": "H03 actual current-machine evidence:68 JS syntax checks;55unit passes+1explicitPGlite skip;20Python controller/CI tests;native PostgreSQL 17.11 29/29;Chromium 154 8/8;Terraform mock1/1;containerfunctional smoke;production npm audit0 known vulnerabilities. CI remote scan/pinnedbrowser and actual AWS/source/device acceptance are separate. Runtime refresh:strict image scan remains FAILED(228package findings/47CVEs), exact-image SBOM generated; GitHub hosted runs blocked before execution by account billing.",
+  "verification_note": "H04 fresh checks: 68 JS syntax files; 55 application passes + 1 explicit PGlite-native skip; 32 Python helper/source/gate tests; native PostgreSQL 17 suite 29/29; browser initial 7/8, corrected rerun 8/8; Terraform locked init/validate/mock 1/1; patched Compose and five-format media passed; production npm audit 0. Exact local image strict scan passed with 0 HIGH/CRITICAL/secret findings. Historical failures retained. Actual AWS/release/source/device gates remain pending. Hosted CI: hosted verification passed.",
   "phases": [
     {
       "id": "A",
@@ -110,8 +110,8 @@
       "name": "Build, containers and delivery pipeline",
       "task_count": 7,
       "counts": {
-        "L": 4,
-        "P": 3
+        "L": 5,
+        "P": 2
       }
     },
     {
@@ -1100,16 +1100,14 @@
       "id": "H-04",
       "phase": "Build, containers and delivery pipeline",
       "title": "Hosted CI workflow",
-      "status": "P",
-      "status_label": "Partially implemented",
-      "evidence": "Independent main-push/manual groups, verified action pins, actionlint and sanitized failure artifacts implemented and locally validated. Both direct main code pushes succeeded; hosted runs40060732120 and40061432748 was rejected before all seven jobs executed due account payment/spending restriction.",
-      "whats_left": "Account owner resolves GitHub billing restriction, then rerun and inspect pinned-browser/image-scan/SBOM/full hosted results.",
+      "status": "L",
+      "status_label": "Locally implemented",
+      "evidence": "Independent hosted jobs, immutable scan/SBOM helper, checksum-verified tooling, actionlint, failure retention and cold-build budgets implemented and locally tested. Latest source-push CI: https://github.com/kawakaze430/clipnest/actions/runs/40069202760; hosted verification passed.",
+      "whats_left": "Maintain hosted checks on future source changes; real release/AWS acceptance remains in separate task IDs.",
       "owner": "Runner",
-      "blocker_ids": [
-        "B-13"
-      ],
-      "previous_status": "R",
-      "checkpoint_updated": "H03"
+      "blocker_ids": [],
+      "previous_status": "P",
+      "checkpoint_updated": "H04"
     },
     {
       "id": "H-05",
@@ -1128,11 +1126,11 @@
       "title": "Container lifecycle/resource acceptance",
       "status": "P",
       "status_label": "Partially implemented",
-      "evidence": "Actual image/start/readiness/non-root/work/tmp/restart smoke passed. Explicit permissions fix umask 077 failures; failure diagnostics and verified build-CA injection executed.",
+      "evidence": "H04 patched image/Compose/TLS/migrations/non-root/work/tmp/readiness/restart and account HTTP smoke passed. Five media formats encoded/probed. Earlier disk-exhaustion failure retained and environment cache storage corrected.",
       "whats_left": "Active container SIGKILL/OOM/disk/deadline and measured peak RSS/scratch acceptance remain unrun.",
       "owner": "Assistant + Runner",
       "blocker_ids": [],
-      "checkpoint_updated": "H03",
+      "checkpoint_updated": "H04",
       "previous_status": "R"
     },
     {
@@ -1141,14 +1139,11 @@
       "title": "Image scanning, SBOM and provenance",
       "status": "P",
       "status_label": "Partially implemented",
-      "evidence": "Exact local image Trivy scan and CycloneDX SBOM executed. Supported Node 24/Debian13 update and build-tool removal reduced293 package findings/84CVEs to228 findings/47CVEs; strict gate still fails with227HIGH and1CRITICAL. Node/Python package findings are0. No suppression or severity override.",
-      "whats_left": "Remediate the remaining runtime package findings using a supported patched package/base set or verified ABI-consistent builds; rerun strict scan/media/container checks and generate release provenance.",
+      "evidence": "H04 exact local immutable image strict Trivy scan passed: 0 HIGH/CRITICAL/secret findings. CycloneDX inventory includes pinned source-built FFmpeg 9.0.2/libxml2 2.15.4 archive hashes. Vendor-feed-only old-media candidate rejected. Common fail-closed local/CI/deploy gate tested with negative cases; no exclusions. The hosted patched-container image scan/SBOM job also executed and passed on the H04 source commit.",
+      "whats_left": "Hosted image scan/SBOM job passed. Scan the actual release ECR digest and retain build provenance/attestations and real production acceptance.",
       "owner": "Assistant + Runner",
-      "blocker_ids": [
-        "B-13",
-        "B-14"
-      ],
-      "checkpoint_updated": "H03",
+      "blocker_ids": [],
+      "checkpoint_updated": "H04",
       "previous_status": "R"
     },
     {
@@ -1337,11 +1332,11 @@
       "title": "Full browser end-to-end test suite",
       "status": "L",
       "status_label": "Locally implemented",
-      "evidence": "Complete desktop/mobile Chromium synthetic-media Playwright suite: 8 passed, 0 failed/skipped/flaky. Actual axe contrast failures fixed without weakening assertions. System Chromium 154 is recorded separately from pinned CI.",
-      "whats_left": "Keep browser/mobile-emulation evidence separate from real source, physical devices and deployed ingress; run pinned browser in CI.",
+      "evidence": "Fresh H04 real Chromium 154 desktop/mobile emulation + axe: 8/8 passed after a deterministic pending-analysis response removed a transient fixture race. Initial 7/8 failure retained. Real cancellation DELETE and subsequent real synthetic API/media paths remain checked.",
+      "whats_left": "Maintain browser checks; keep synthetic desktop/mobile-emulation evidence separate from real source, physical devices and deployed ingress. Pinned Chromium hosted job passed in H04.",
       "owner": "Assistant + Runner",
       "blocker_ids": [],
-      "checkpoint_updated": "H03",
+      "checkpoint_updated": "H04",
       "previous_status": "R"
     },
     {
@@ -1703,7 +1698,7 @@
       "id": "B-02",
       "title": "AWS deployment access unavailable",
       "scope": "Cloud provisioning and AWS staging",
-      "evidence": "Current AWS config/credential paths exist but contain0 profiles; access-key/session-token/role/web-identity bindings absent; AWSCLI unavailable. No authenticated deployment context established.",
+      "evidence": "AWS CLI unavailable; config and credential files have 0 profiles. AWS_PROFILE is present but no access-key/session-token/role/web-identity binding or authenticated context is established. GitHub deployment environments are empty; variable/secret-name APIs return 403, so their contents are unknown.",
       "unblock": "Establish a scoped, authorised AWS deployment context and verify account, role, Region and permitted actions. No credentials in chat.",
       "owner": "Account owner / deployment environment",
       "hard_release_gate": true
@@ -1806,19 +1801,19 @@
       "id": "B-13",
       "title": "GitHub hosted Actions billing restriction",
       "scope": "Hosted verification jobs and image-security artifacts",
-      "status": "open",
-      "evidence": "Main run 40060732120 on6b73b565e054b8be472bbb96e28fc2e99548dffd:all seven jobs failed before any step. GitHub annotation: The job was not started because recent account payments have failed or your spending limit needs to be increased.",
-      "unblock": "Account owner reviews Billing & plans and resolves the payment/spending restriction, then reruns the existing workflow. No payment/billing configuration was changed.",
+      "status": "resolved_hosted",
+      "evidence": "H04 source-push run 40069202760: hosted verification passed. 7 successful jobs, 7 jobs with steps. Earlier billing failures are historical.",
+      "unblock": "No current billing block: all seven H04 hosted jobs executed and passed. Inspect retained artifacts; this cloud runtime needs its saved artifact-storage host setting applied to download them.",
       "owner": "GitHub account owner",
       "hard_release_gate": true
     },
     {
       "id": "B-14",
-      "title": "Runtime image fails strict vulnerability gate",
+      "title": "Local runtime image vulnerability gate remediated",
       "scope": "Release image security and media runtime dependencies",
-      "status": "open",
-      "evidence": "Current Debian13 candidate:228 findings representing47uniqueCVEs,227HIGH/1CRITICAL. Critical CVE-2026-6653 affects packaged libxml2. No fixed Debian13 version is recorded; upstream patched libxml2/FFmpeg releases exist, so this is not a claim that remediation is impossible.",
-      "unblock": "Evaluate a supported patched dependency/base set or verified compatible source builds; validate media and strict scan without exclusions. Keep production NO_GO while unresolved.",
+      "status": "resolved_local",
+      "evidence": "H04 exact Compose image sha256:1e03721bfd9086e928e721a2813747fb572bcd56d545bf7c4b095040a5bdcd94: strict Trivy HIGH/CRITICAL OS/library and secret gate passed with 0 findings. Pinned upstream libxml2 2.15.4 and FFmpeg 9.0.2 built together; source identity/hash checks and five-format runtime passed. Vendor feed alone is insufficient.",
+      "unblock": "No remaining local vulnerability fix from this scan. Scan the actual release digest again with current database, SBOM and provenance before accepting production.",
       "owner": "Engineering owner; package/upstream maintainers where updates are needed",
       "hard_release_gate": true
     }
@@ -1828,7 +1823,7 @@
     "codex_or_runner": "Codex owns current implementation/verification/CI and direct main commits/pushes; no extra branch or PR. User supplies account/spend/source/public-policy inputs.",
     "user": "Scoped AWS/account/Region/budget/traffic authorization, sender/alert recipient, public operator/contact/policy/market/source rights inputs. DNS and payments only if selected."
   },
-  "source_base_commit": "27c14536112ad7eaff27495f42111c4a532efc40",
+  "source_base_commit": "e795ebb37227a6d65e79355fdcd5da6989829d5e",
   "target_batch": {
     "task_count": 51,
     "prior_counts": {
@@ -1907,7 +1902,8 @@
     "aws_deployed": false,
     "source_archive_files": 121,
     "source_archive_bytes": 332028,
-    "source_archive_sha256": "8353c76f1b4d6083e3f8139d1a7a0732f69f4fd20639f9a0dd9f8a72fd7c9cf6"
+    "source_archive_sha256": "8353c76f1b4d6083e3f8139d1a7a0732f69f4fd20639f9a0dd9f8a72fd7c9cf6",
+    "historical_site_snapshot": true
   },
-  "handoff_revision": "H03"
+  "handoff_revision": "H04"
 }

@@ -1,8 +1,8 @@
-# ClipNest status — CP-02 / H03
+# ClipNest status — CP-02 / H04
 
 **Production NO_GO; AWS backend not deployed.**
 
-**65 Locally implemented** · **28 Partially implemented** · **9 Prepared, not executed** · **10 Externally blocked** · **0 Not started**. Total 112 core IDs; eight conditional extras excluded.
+**66 Locally implemented** · **27 Partially implemented** · **9 Prepared, not executed** · **10 Externally blocked** · **0 Not started**. Total 112 core IDs; eight conditional extras excluded.
 
 Read [the complete task register](END_TO_END_STATUS.md), [current verification](../delivery/LOCAL_VERIFICATION.json), [handoff](../delivery/HANDOFF_STATE.json), and [the next prompt](../CODEX_NEXT_PROMPT.md).
 

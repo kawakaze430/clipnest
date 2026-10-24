@@ -1,5 +1,7 @@
 # External execution handoff · CP-02
 
+**Current H04 engineering route:** read [CODEX_NEXT_PROMPT.md](../CODEX_NEXT_PROMPT.md), [current verification](../delivery/LOCAL_VERIFICATION.json) and [ENGINEERING_H04.md](../delivery/ENGINEERING_H04.md). Codex owns fixes/testing and direct-main commits/pushes, with no branch/worktree/PR. Local Docker/native/provider/browser/image-security capabilities now pass; historical unavailable-capability statements below are superseded locally. Actual AWS/source/device/resource acceptance remains pending. The H02 limited route below applies only if explicitly selected.
+
 **H02 minimal route:** Start with docs/NEXT_PATH.md, docs/EXTERNAL_EXECUTION.md and CLOUD_TEST_ONLY_PROMPT.md. E01 is execution-only and uses prepared native/browser/provider checks plus Docker smoke if available. The broad sequence below describes later stages, not a request to spend one Codex Cloud task implementing/deploying everything.
 
 The assistant owns implementation, fixes, documentation and artifact updates. Use Codex/a capable runner only for the capabilities absent here; do not ask it to rewrite the project. This is ClipNest, not StreamAtlas. The status register keeps the original 112 IDs and marks the requested 51 separately.

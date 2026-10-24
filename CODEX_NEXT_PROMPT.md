@@ -1,65 +1,50 @@
-# ClipNest engineering continuation — H03
+# ClipNest continuation — H04
 
-Take engineering ownership of the existing ClipNest repository. Continue implementation, diagnose actual failures, run relevant checks, update the handoff, and return complete source and execution evidence. The earlier E01 execution-only assignment is historical unless the user explicitly selects it again.
+Continue the existing ClipNest CP-02 application, version 1.2.0. Take engineering ownership: implement remaining feasible work, diagnose actual failures, run affected checks, improve CI, and deliver complete source plus separate sanitized evidence. Read AGENTS.md, START_HERE.md, delivery/ENGINEERING_H04.md, delivery/HANDOFF_STATE.json, delivery/LOCAL_VERIFICATION.json, docs/END_TO_END_STATUS.json, docs/NEXT_PATH.md and docs/PRODUCTION_ACCEPTANCE.md first. Preserve the architecture and original 112 core IDs; eight optional domain/payment extras remain separate. Production stays NO_GO until real acceptance passes.
 
-## Git instructions — mandatory
+## Mandatory Git workflow
 
-Work directly on `main`. **Do not create any extra branch, worktree, or pull request. Push verified commits directly to main.**
+**Work directly on main. Do not create a branch, worktree or PR. Commit verified changes and push directly with `git push origin HEAD:refs/heads/main`. Never force-push.** Inspect the working tree, fetch and safely integrate concurrent main updates, preserve existing work, and stage only intended source/tests/workflows/docs. Do not commit credentials, runtime state, caches, dependencies, logs or generated ZIPs. Actions must not edit source or auto-push fixes.
 
-Inspect `git status` and preserve existing user work. Fetch main and integrate concurrent changes safely. Never reset away work or force-push. Stage intended source/tests/workflows/docs only; exclude dependencies, runtime data, credentials, generated archives and evidence logs. After validation, commit and run `git push origin HEAD:refs/heads/main`, then verify the remote main SHA. Inspect push-triggered Actions when access is available. A push is not proof of green CI.
+The H04 implementation commit is `36f744d352af47ffc399395abdf6d9e46fb4bc99`; the later documentation commit is identified by Git and the external delivery receipt. Local image evidence identifies `sha256:1e03721bfd9086e928e721a2813747fb572bcd56d545bf7c4b095040a5bdcd94`. It is a disposable Compose image with SOURCE_COMMIT=development, not a deployed release. Keep source commit, runner fingerprint, image digest, schema, tools and timestamps distinct. Never invent self-referential commit/ZIP hashes.
 
-## Current external blocker
+## Image remediation completed locally
 
-Main application commit `6b73b565e054b8be472bbb96e28fc2e99548dffd` was pushed successfully. Hosted run40060732120 rejected every job before any step because GitHub reports failed recent payments or a spending limit requiring attention. The account owner must resolve Billing & plans before retrying hosted execution. Do not repeatedly dispatch unchanged jobs or change payment settings automatically. All four local groups passed; their evidence remains valid on the recorded fingerprint.
+Official Node 24 / Alpine 3.24 now builds pinned upstream libxml2 2.15.4 and FFmpeg 9.0.2 together under `/opt/media`. `build/media-sources.json` locks upstream commits/archive SHA-256; source bytes and version files are verified before compilation. The final exact-image strict Trivy 0.70.0 HIGH/CRITICAL OS/library plus secret gate passed with zero findings; CycloneDX includes the otherwise undiscovered source-built components. Five generated media formats and runtime imports passed. The unused non-YouTube extractor carrying an upstream bundled AWS key was removed without scanner suppression.
 
-## Image security work remains
+Keep the strict policy. Do not switch vendor feeds and claim that fixes known upstream flaws: an older Alpine candidate had zero vendor vulnerability findings but was rejected by the required patched-media check. Use the common fail-closed helper for local and digest-qualified remote release scans. A successful SBOM cannot hide scanner failure. Actual ECR digest/provenance acceptance remains pending. Current scan results are time/image/database specific.
 
-Security refresh commit `91f5c7b14206669a9c7e0d1f344e794836941c09` is also on main. Current Debian13 image functionality passes, but strict Trivy scanning still fails:228 package findings representing47 unique CVEs (227HIGH/1CRITICAL), down from293/84 on Debian12. Node/Python findings are0 after removing build-only installers. Critical CVE-2026-6653 is in libxml2. No Debian fixed package is recorded, but upstream libxml2v2.15.4/FFmpegn9.0.2 exist; investigate a supported patched package set or verified ABI-consistent build. Do not call remediation impossible or suppress findings. Read the exact image/SBOM/triage artifacts and rerun only affected runtime/media/security checks after corrections.
+## Current results and retained failures
 
-## Goal and current source
+Fresh H04 evidence: syntax/lock/assets passed (68 JS files); application 55 passed, one explicit PGlite-native skip; Python helper/source/security regressions 32 passed; native Docker PostgreSQL 17.11 suite 29/29 with no skips; Chromium 154 desktop/mobile-emulation + axe rerun 8/8; Terraform 1.17.0 / locked AWS 6.70.0 provider init/validate/mock 1/1; patched Compose/TLS/migration/API/worker/non-root/write/restart/account and five-format media checks passed; production npm audit zero vulnerabilities; exact-image strict security gate passed.
 
-ClipNest CP-02, application version 1.2.0, engineering handoff H03. Preserve the existing architecture: static frontend, Node 24 API, email/password/session identity, PostgreSQL 17/RDS, durable analysis/download workers, S3/CloudFront, SQS/DLQ and SES. The goal is authorized URL → actual qualities → selected preparation/progress/cancel → final file, with private account history and usage.
+Retain the initial browser 7/8 result: the synthetic analysis could complete before the test observed its pending state. The corrected browser case supplies deterministic pending GET status, still sends a real cancellation DELETE, checks storage cleanup, then restores actual API/media responses. Backend cancellation is covered independently. Both profiles passed afterward. Also retain the initial source include-prefix build failure, PostgreSQL disk-exhaustion failure and intentionally rejected old-image gate. Do not erase failures or label retries as original successes.
 
-Record the actual fetched commit and runner fingerprint. Read AGENTS.md, delivery/HANDOFF_STATE.json, delivery/LOCAL_VERIFICATION.json, docs/NEXT_PATH.md, the complete docs/END_TO_END_STATUS.json register and affected implementation/runbooks. The private Site is a static checkpoint, not the AWS application. Production remains NO_GO until real acceptance gates pass.
+## Complete testing matrix
 
-## Changes to retain and review
+Reuse evidence only when source coverage remains valid, retaining original timestamps/fingerprints. Rerun affected checks after corrections. Before accepting a release, execute the full applicable matrix on its exact source/image and preserve nonzero/timeout/skip results.
 
-- HTTP JSON parsing decodes UTF-8 after bounded byte collection, preserving Unicode passwords split across request chunks.
-- Actual axe failures were corrected through shared text contrast changes; retain accessibility assertions.
-- Native tests support disposable PostgreSQL 17 from an existing Docker daemon, avoiding embedded-package ICU incompatibility.
-- TLS certificates have explicit public/private permissions; startup failures retain sanitized diagnostics and stop before misleading tests.
-- Container tooling uses writable temporary state and optional public build-CA injection while preserving certificate verification.
-- Independent CI jobs retain sanitized failures and complete source, use verified action pins, and never auto-edit/push source. Reusable verification defaults to all checks before deployment.
-
-## Complete testing instructions
-
-Reuse only verified same-source evidence with matching coverage. Run affected checks after a change and the full applicable matrix before a release checkpoint. Preserve exit codes; distinguish skipped, failed, blocked and unrun checks.
-
-1. Prerequisites: Node 24/npm, Python, FFmpeg/OpenSSL and locked dependencies. Install with `npm ci --ignore-scripts --no-audit --no-fund`; do not upgrade packages to conceal failures.
+1. Node 24/npm, Python, FFmpeg/OpenSSL: `npm ci --ignore-scripts --no-audit --no-fund`; do not upgrade dependencies to conceal failures.
 2. Syntax/lock/assets: `npm run check`.
-3. Unit/SQL/HTTP/security/FFmpeg/UI/process tests: `npm test`. PGlite's native-concurrency skip is not a native pass.
-4. Runner/CI regression: `python3 -m unittest discover -s tests -p '*_test.py'`.
-5. Actions validation: `bash scripts/ci/lint-workflows.sh` (official checksum-verified actionlint).
-6. Native PostgreSQL 17: `CLIPNEST_TEST_DATABASE_MODE=docker node scripts/test-database.mjs --with-crash --with-tls`. Require concurrency, upgrade, active SIGKILL/replacement, trusted TLS and negative hostname/CA tests without skips. Docker must already work; never install/start a nested daemon. Embedded mode has a different version/host-library boundary.
-7. Browser: install pinned Playwright Chromium, then `npm run test:browser`. Require desktop/mobile-emulation account, selected synthetic download, history, cancel, interrupted progress/reload/session recovery, overflow and axe journeys. An already installed browser may be selected explicitly using `CLIPNEST_CHROMIUM_EXECUTABLE_PATH`; record its version separately from pinned CI evidence. Do not disable browser security or axe assertions.
-8. Infrastructure: checksum-verified Terraform 1.17.0, unchanged provider lock; run fmt, locked init with backend disabled, validate and mocks. Account plan/apply needs a scoped authorized target and cost inputs.
-9. Containers: `bash scripts/external/containers.sh`; require TLS, image build, migrations, API/worker readiness, non-root writable work/tmp and restart. Use supported optional BuildKit public-CA secret injection when required by the platform proxy. Preserve TLS verification and keep the CA out of final layers. Capture startup logs before cleanup.
-10. Security: production npm audit, exact-image vulnerability scan and SBOM. An authored CI job is not an executed scan.
-11. Bounded evidence after prerequisites: `CLIPNEST_TEST_DATABASE_MODE=docker python3 scripts/external/verify.py run --groups native browser terraform containers --budget-minutes 20`. Carry any explicit browser override into this command. After a correction, rerun only its group; label resumed evidence as reused.
-12. Complete source: `npm run package`, then `python3 scripts/package.py --verify dist/clipnest-source.zip`. Return complete source ZIP/checksum plus separate sanitized evidence ZIP/checksum; check distributable tracked source coverage.
+3. SQL/HTTP/security/fixture media/UI/process: `npm test`. Its PGlite-native skip is not a native pass.
+4. CI/controller/source/security regressions: `python3 -m unittest discover -s tests -p '*_test.py'`.
+5. Workflow syntax: `bash scripts/ci/lint-workflows.sh` (checksum-verified actionlint).
+6. Native DB/concurrency/upgrade/active SIGKILL/trusted and negative TLS: `CLIPNEST_TEST_DATABASE_MODE=docker node scripts/test-database.mjs --with-crash --with-tls`. Use an existing working daemon, no nested daemon. Never use production DB.
+7. Browser: install Playwright's pinned Chromium, then `npm run test:browser`. An existing `/usr/bin/chromium` may be selected explicitly with `CLIPNEST_CHROMIUM_EXECUTABLE_PATH`; record its actual version separately. Preserve axe/security assertions and credential-bearing traces outside distributable artifacts.
+8. Terraform: checksum-verified 1.17.0; `fmt -check -recursive`, `init -backend=false -input=false -lockfile=readonly`, `validate`, `test`. Never infer actual AWS acceptance from mocks.
+9. Containers: `bash scripts/external/containers.sh`. Cold pinned-source media compilation took about 14.4 minutes here; allow 25 minutes for the command and 30 minutes for its group. Ensure sufficient disk. Optional public proxy CA is mounted with BuildKit secrets; never disable TLS/signature/checksum verification or copy secrets into layers. Tests clean their disposable services.
+10. Security: `npm audit --omit=dev --audit-level=high --json`; `python3 scripts/ci/image-security.py clipnest:local --output qa-artifacts/image-security`. A release must use the exact remote digest with `--source remote`, retain scanner DB provenance, source manifest and SBOM, and fail on any HIGH/CRITICAL/secret or missing/mismatched evidence.
+11. Bounded runner after prerequisites: `CLIPNEST_TEST_DATABASE_MODE=docker python3 scripts/external/verify.py run --groups native browser terraform containers --budget-minutes 35 --output qa-artifacts/current`; add an explicit installed-browser override only when needed. This bounded controller does not change application source, master statuses or deploy AWS.
+12. Packaging: `npm run package` and `python3 scripts/package.py --verify dist/clipnest-source.zip`. Confirm all distributable tracked files, including `build/`, workflows, tests, lockfiles, SQL, Terraform/provider lock, public CA and handoff docs are included. Return a separate sanitized evidence ZIP and both checksums.
 
-`Verify ClipNest` runs on main pushes and has a manual group selector. Inspect logs/artifacts; avoid duplicate full runs. Fix confirmed failures and push directly to main. If GitHub API/network access is denied, record the limitation and finish independent work.
+H04 hosted run 40069202760 passed all seven jobs on the implementation commit, including pinned-browser, native, container/media/security and source packaging. Earlier billing failures are historical and resolved for this execution. Artifact download from this cloud runtime returned HTTP 403 at GitHub’s Azure storage host; the exact host requirement is saved in the environment draft. Apply reviewed settings and retry only that affected download, preserving the successful API job/artifact metadata and local evidence meanwhile. Do not repeatedly dispatch unchanged jobs or change billing automatically. A successful Dependabot run is not application verification.
 
-## Remaining real production acceptance
+## Remaining ownership and real acceptance
 
-Use all 16 gates in release/evidence.example.json: native target PostgreSQL/TLS, container lifecycle, image scan, browser/device, load/backpressure, security review, S3/SQS/CloudFront, multi-instance failure, restore/rollback, multi-geography, actual authorized source download, SES delivery, alarm delivery, owner-approved terms/privacy, support contact and budget/capacity.
+Counts are 66 L / 27 P / 9 R / 10 B / 0 N, not production readiness percentages. B-14 is resolved locally; H-07 remains partial until actual release digest/provenance acceptance passes. H-04 is locally implemented after all seven hosted jobs passed. Do not promote broad tasks from one local check.
 
-Require matching source/image/schema and actual services. Local PostgreSQL, mocked AWS, mobile emulation and synthetic media are separate evidence. Measure active termination/OOM/disk cleanup, target RDS recovery/RTO/RPO, physical deletion and off-task signed delivery. Operate a capped beta and gather elapsed observations before expansion.
+Inspect secure bindings before requesting inputs. No authenticated AWS deployment context has been established. Account/deploy role, Region, approved spend/traffic, authorized media reference, SES sender/alert recipients, and public operator/support/policy/markets inputs remain required. Do not invent values or provision billable resources from guesses. Custom domains/payments are conditional.
 
-Owner-specific prerequisites include scoped AWS account/deploy role, Region, staging/monthly spend bounds, traffic targets, permitted media/markets, verified sender/alerts and public operator/support/policy commitments. Inspect existing bindings by name/status and test supported read-only access before requesting missing credentials. Values belong in secure settings, never chat or archives. Do not create billable resources or launch publicly from guessed inputs.
+Once authorized prerequisites exist, review account-specific staging plan/cost, deploy matching source/image/schema/frontend, then execute all 16 gates in docs/PRODUCTION_ACCEPTANCE.md and release/evidence.example.json. Actual AWS/RDS/S3/SQS/CloudFront/SES, real source-to-device transfer, physical devices/geographies, active container OOM/hard-kill/resource limits, restore/rollback, alarms/support and measured cost/capacity remain unproved. Preserve source restrictions; no imported cookies, network rotation or TLS bypass to turn a failure green. Observe the capped beta at actual elapsed launch/1h/24h/7d times after acceptance.
 
-## Required delivery
-
-Report changes, commands/exit codes/test counts, source identity, blockers with owner/next action, and production decision. Update the same 112 IDs with evidence, recompute L/P/R/B/N counts, keep Markdown/compact status/handoff consistent, and increment the handoff for material changes. Return complete source and separate sanitized evidence ZIPs with SHA-256 checksums. State the pushed main commit and actual Actions status, including when remote results could not be inspected. Give the next bounded test/implementation prompt. Continue until feasible work is complete or a concrete external prerequisite blocks it.
-
-The official Alpine image alternative remains unbuilt: dl-cdn.alpinelinux.org package access returned HTTP403. The environment draft now contains that required domain; review/save applicable settings before retrying this affected preparation. Do not treat a bare base-image pull as application validation.
+Update the canonical JSON + rendered status, compact master counts, handoff and next prompt together. Retain historical 24-area compact counts and original 112 IDs. Deliver pushed main SHA, actual checks/failures/skips, exact remaining blockers/owners, complete source/evidence ZIPs/checksums and a precise next action. Keep production NO_GO until applicable acceptance gates pass.

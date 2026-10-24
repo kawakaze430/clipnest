@@ -1,303 +1,1313 @@
 {
   "project": "ClipNest",
   "checkpoint": "CP-02",
-  "handoff_revision": "H03",
-  "recorded_at": "2026-10-24T09:29:33+05:30",
+  "handoff_revision": "H04",
+  "recorded_at": "2026-10-24T11:53:55+05:30",
   "application_version": "1.2.0",
   "prior_application_baseline_commit": "92a00a4bb1a2c0ae3de12105f37e129ab5e8df10",
-  "source_base_commit": "a2de3f3abca40916830b06c6470198ab55479fce",
+  "source_base_commit": "e795ebb37227a6d65e79355fdcd5da6989829d5e",
+  "tested_application_commit": "36f744d352af47ffc399395abdf6d9e46fb4bc99",
   "application_sources_changed": true,
-  "app_test_tree_sha256": "9bbb87c2c368f1f4575ae02c0ddad67b22fff3ebaeb039b866281684a3354afd",
-  "commands": [
+  "app_test_tree_sha256": "8a80ec384137dd43e1942002fa0dccb1a18eb1ff595cfd28449cc6766564905f",
+  "checks": [
     {
-      "command": "npm run check",
+      "name": "h04-syntax-final",
+      "recorded_at": "2026-10-24T06:10:59.627500+00:00",
+      "source_commit": "e795ebb37227a6d65e79355fdcd5da6989829d5e",
+      "app_test_tree_sha256": "8a80ec384137dd43e1942002fa0dccb1a18eb1ff595cfd28449cc6766564905f",
+      "argv": [
+        "npm",
+        "run",
+        "check"
+      ],
       "exit_code": 0,
-      "syntax_files": 68
+      "timed_out": false,
+      "seconds": 3.58,
+      "log": "h04-syntax-final.log",
+      "scope": "CI command evidence; not production acceptance"
     },
     {
-      "command": "npm test",
+      "name": "h04-unit",
+      "recorded_at": "2026-10-24T06:05:39.955918+00:00",
+      "source_commit": "e795ebb37227a6d65e79355fdcd5da6989829d5e",
+      "app_test_tree_sha256": "ecaeaebf01d8d827a925938ea9965bb6e1f3f0217df637ce9db83d3bfa090059",
+      "argv": [
+        "npm",
+        "test"
+      ],
       "exit_code": 0,
-      "total": 56,
-      "passed": 55,
-      "failed": 0,
-      "skipped": 1
+      "timed_out": false,
+      "seconds": 32.5,
+      "log": "h04-unit.log",
+      "scope": "CI command evidence; not production acceptance"
     },
     {
-      "command": "python3 -m unittest discover -s tests -p '*_test.py'",
+      "name": "h04-helper-regression",
+      "recorded_at": "2026-10-24T06:06:01.462986+00:00",
+      "source_commit": "e795ebb37227a6d65e79355fdcd5da6989829d5e",
+      "app_test_tree_sha256": "ecaeaebf01d8d827a925938ea9965bb6e1f3f0217df637ce9db83d3bfa090059",
+      "argv": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "*_test.py"
+      ],
       "exit_code": 0,
-      "passed": 20
+      "timed_out": false,
+      "seconds": 2.4,
+      "log": "h04-helper-regression.log",
+      "scope": "CI command evidence; not production acceptance"
     },
     {
-      "command": "actionlint1.7.12",
-      "exit_code": 0
+      "name": "h04-final-lint",
+      "recorded_at": "2026-10-24T06:04:49.133333+00:00",
+      "source_commit": "e795ebb37227a6d65e79355fdcd5da6989829d5e",
+      "app_test_tree_sha256": "ecaeaebf01d8d827a925938ea9965bb6e1f3f0217df637ce9db83d3bfa090059",
+      "argv": [
+        "bash",
+        "scripts/ci/lint-workflows.sh"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "seconds": 1.19,
+      "log": "h04-final-lint.log",
+      "scope": "CI command evidence; not production acceptance"
     },
     {
-      "command": "npm audit --omit=dev --audit-level=high --json",
+      "name": "h04-audit",
+      "recorded_at": "2026-10-24T06:05:10.482143+00:00",
+      "source_commit": "e795ebb37227a6d65e79355fdcd5da6989829d5e",
+      "app_test_tree_sha256": "ecaeaebf01d8d827a925938ea9965bb6e1f3f0217df637ce9db83d3bfa090059",
+      "argv": [
+        "npm",
+        "audit",
+        "--omit=dev",
+        "--audit-level=high",
+        "--json"
+      ],
       "exit_code": 0,
-      "known_vulnerabilities": 0
+      "timed_out": false,
+      "seconds": 1.38,
+      "log": "h04-audit.log",
+      "scope": "CI command evidence; not production acceptance"
     },
     {
-      "command": "node scripts/ops/load.mjs",
+      "name": "h04-container-smoke-rerun",
+      "recorded_at": "2026-10-24T06:05:52.373732+00:00",
+      "source_commit": "e795ebb37227a6d65e79355fdcd5da6989829d5e",
+      "app_test_tree_sha256": "ecaeaebf01d8d827a925938ea9965bb6e1f3f0217df637ce9db83d3bfa090059",
+      "argv": [
+        "bash",
+        "scripts/external/containers.sh"
+      ],
       "exit_code": 0,
-      "requests": 20,
-      "accepted": 3,
-      "queue_full": 17,
-      "p95_ms": 181
-    },
-    {
-      "command": "CLIPNEST_TEST_DATABASE_MODE=docker CLIPNEST_CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium python3 scripts/external/verify.py run --groups native browser terraform containers --budget-minutes 20 --output qa-artifacts/h03-final",
-      "exit_code": 0,
-      "results": [
-        {
-          "group": "native",
-          "task_ids_for_review": [
-            "E-04",
-            "E-08",
-            "E-09",
-            "F-11",
-            "J-07",
-            "J-12"
-          ],
-          "status": "passed",
-          "commands": [
-            {
-              "argv": [
-                "node",
-                "scripts/test-database.mjs",
-                "--with-crash",
-                "--with-tls"
-              ],
-              "exit_code": 0,
-              "timed_out": false,
-              "seconds": 48.02,
-              "log": "native-1.log"
-            }
-          ],
-          "database_mode": "docker",
-          "test_counts": {
-            "tests": 29,
-            "pass": 29,
-            "fail": 0,
-            "skipped": 0
-          },
-          "scope": "Native runner PostgreSQL/concurrency/upgrade/SIGKILL/local trusted-and-negative TLS; not RDS"
-        },
-        {
-          "group": "browser",
-          "task_ids_for_review": [
-            "B-05",
-            "B-06",
-            "B-07",
-            "B-09",
-            "B-10",
-            "B-11",
-            "B-12",
-            "J-04"
-          ],
-          "status": "passed",
-          "commands": [
-            {
-              "argv": [
-                "node",
-                "node_modules/@playwright/test/cli.js",
-                "test",
-                "--reporter=json"
-              ],
-              "exit_code": 0,
-              "timed_out": false,
-              "seconds": 47.53,
-              "log": "browser-1.log"
-            }
-          ],
-          "browser_runtime": {
-            "installed": true,
-            "executable": "/usr/bin/chromium",
-            "selection": "explicit system browser",
-            "reason": "Executable existence only; no browser launch in capability probe",
-            "version": "Chromium 154.0.8037.57 built on Debian GNU/Linux 13 (trixie)"
-          },
-          "test_counts": {
-            "tests": 8,
-            "pass": 8,
-            "fail": 0,
-            "skipped": 0,
-            "flaky": 0,
-            "projects": [
-              "desktop-chromium",
-              "mobile-chromium"
-            ]
-          },
-          "scope": "Real Playwright Chromium desktop/mobile + axe with synthetic media; not real YouTube"
-        },
-        {
-          "group": "terraform",
-          "task_ids_for_review": [
-            "I-03",
-            "I-04",
-            "I-05",
-            "I-06",
-            "I-07",
-            "I-08"
-          ],
-          "status": "passed",
-          "commands": [
-            {
-              "argv": [
-                "/workspace/clipnest/.cache/external/bin/terraform",
-                "-chdir=infra/terraform",
-                "init",
-                "-backend=false",
-                "-input=false",
-                "-lockfile=readonly"
-              ],
-              "exit_code": 0,
-              "timed_out": false,
-              "seconds": 2.32,
-              "log": "terraform-1.log"
-            },
-            {
-              "argv": [
-                "/workspace/clipnest/.cache/external/bin/terraform",
-                "-chdir=infra/terraform",
-                "validate",
-                "-no-color"
-              ],
-              "exit_code": 0,
-              "timed_out": false,
-              "seconds": 3.39,
-              "log": "terraform-2.log"
-            },
-            {
-              "argv": [
-                "/workspace/clipnest/.cache/external/bin/terraform",
-                "-chdir=infra/terraform",
-                "test",
-                "-json",
-                "-no-color"
-              ],
-              "exit_code": 0,
-              "timed_out": false,
-              "seconds": 3.33,
-              "log": "terraform-3.log"
-            }
-          ],
-          "test_counts": {
-            "status": "pass",
-            "passed": 1,
-            "failed": 0,
-            "errored": 0,
-            "skipped": 0
-          },
-          "scope": "Locked real provider schema/mock checks; no account plan/apply"
-        },
-        {
-          "group": "containers",
-          "task_ids_for_review": [
-            "H-02",
-            "H-03",
-            "H-06",
-            "E-04"
-          ],
-          "status": "passed",
-          "commands": [
-            {
-              "argv": [
-                "bash",
-                "scripts/external/containers.sh"
-              ],
-              "exit_code": 0,
-              "timed_out": false,
-              "seconds": 54.74,
-              "log": "containers-1.log"
-            }
-          ],
-          "test_counts": {
-            "scope": "TLS + image/Compose/non-root/readiness/restart smoke only"
-          },
-          "scope": "Docker TLS/image/Compose/non-root/readiness/restart smoke; no active OOM/source/scan/SBOM proof"
-        }
-      ]
+      "timed_out": false,
+      "seconds": 65.87,
+      "log": "h04-container-smoke-rerun.log",
+      "scope": "CI command evidence; not production acceptance"
     }
   ],
-  "initial_failures_fixed": [
-    "Split UTF-8 HTTP chunks corrupted Unicode passwords",
-    "Actual axe secondary text contrast failures",
-    "TLS public certificate mode 0600 under umask 077 denied PostgreSQL access",
-    "Root-owned Docker public manifests mode 0600 denied non-root runtime access",
-    "Buildx state under read-only HOME",
-    "Trustedpublic proxy CA missing during npm/pip imagebuild"
-  ],
-  "not_proved": [
-    "PinnedCIbrowser and image security scan until remote run completes",
-    "ActualAWS/RDS/S3/SQS/CloudFront/SES/alarms/restore",
-    "Authorized realsource transfer",
-    "Physical devices/multigeography",
-    "ContaineractiveOOM/hardkill/disk/resource measurement",
-    "Owner publicpolicies/budget and elapsedbeta observation"
-  ],
-  "production_release_decision": "NO_GO",
-  "evidence_paths": [
-    "qa-artifacts/h03-final/summary.json",
-    "qa-artifacts/ci/",
-    "qa-artifacts/harness-repair/"
-  ],
+  "matrix": {
+    "profile": "ClipNest-E01",
+    "started_at": "2026-10-24T06:06:13.834280+00:00",
+    "capabilities": {
+      "profile": "ClipNest-E01",
+      "recorded_at": "2026-10-24T06:06:13.819214+00:00",
+      "platform": "posix",
+      "source_commit": "e795ebb37227a6d65e79355fdcd5da6989829d5e",
+      "tracked_source_changes": true,
+      "app_test_tree_sha256": "ecaeaebf01d8d827a925938ea9965bb6e1f3f0217df637ce9db83d3bfa090059",
+      "tools": {
+        "node": {
+          "installed": true,
+          "version": "v24.19.0"
+        },
+        "npm": {
+          "installed": true,
+          "version": "11.9.0"
+        },
+        "ffmpeg": {
+          "installed": true,
+          "version": "ffmpeg version 7.1.5-0+deb13u1 Copyright (c) 2000-2026 the FFmpeg developers"
+        },
+        "openssl": {
+          "installed": true,
+          "version": "OpenSSL 3.5.7 9 Jun 2026 (Library: OpenSSL 3.5.7 9 Jun 2026)"
+        },
+        "docker": {
+          "installed": true,
+          "version": "Docker version 28.4.0, build d8eb465"
+        },
+        "terraform": {
+          "installed": true,
+          "version": "Terraform v1.17.0"
+        }
+      },
+      "loopback_tcp": {
+        "available": true
+      },
+      "unix_socket": {
+        "available": true
+      },
+      "nonroot_native_user": {
+        "available": true,
+        "reason": "Non-root process"
+      },
+      "browser_runtime": {
+        "installed": true,
+        "executable": "/usr/bin/chromium",
+        "selection": "explicit system browser",
+        "reason": "Executable existence only; no browser launch in capability probe",
+        "version": "Chromium 154.0.8037.57 built on Debian GNU/Linux 13 (trixie)"
+      },
+      "docker_daemon": {
+        "available": true,
+        "detail": "28.4.0\n"
+      },
+      "docker_compose": {
+        "available": true
+      },
+      "dependencies_installed": true,
+      "native_database_mode": "docker",
+      "external_test_db_present": false,
+      "scope": "Capability metadata only. Does not prove a suite or production service passed."
+    },
+    "results": [
+      {
+        "group": "native",
+        "task_ids_for_review": [
+          "E-04",
+          "E-08",
+          "E-09",
+          "F-11",
+          "J-07",
+          "J-12"
+        ],
+        "status": "passed",
+        "commands": [
+          {
+            "argv": [
+              "node",
+              "scripts/test-database.mjs",
+              "--with-crash",
+              "--with-tls"
+            ],
+            "exit_code": 0,
+            "timed_out": false,
+            "seconds": 59.81,
+            "log": "native-1.log"
+          }
+        ],
+        "database_mode": "docker",
+        "test_counts": {
+          "tests": 29,
+          "pass": 29,
+          "fail": 0,
+          "skipped": 0
+        },
+        "scope": "Native runner PostgreSQL/concurrency/upgrade/SIGKILL/local trusted-and-negative TLS; not RDS"
+      },
+      {
+        "group": "browser",
+        "task_ids_for_review": [
+          "B-05",
+          "B-06",
+          "B-07",
+          "B-09",
+          "B-10",
+          "B-11",
+          "B-12",
+          "J-04"
+        ],
+        "status": "failed",
+        "commands": [
+          {
+            "argv": [
+              "node",
+              "node_modules/@playwright/test/cli.js",
+              "test",
+              "--reporter=json"
+            ],
+            "exit_code": 1,
+            "timed_out": false,
+            "seconds": 56.06,
+            "log": "browser-1.log"
+          }
+        ],
+        "browser_runtime": {
+          "installed": true,
+          "executable": "/usr/bin/chromium",
+          "selection": "explicit system browser",
+          "reason": "Executable existence only; no browser launch in capability probe",
+          "version": "Chromium 154.0.8037.57 built on Debian GNU/Linux 13 (trixie)"
+        },
+        "test_counts": {
+          "tests": 8,
+          "pass": 7,
+          "fail": 1,
+          "skipped": 0,
+          "flaky": 0,
+          "projects": [
+            "desktop-chromium",
+            "mobile-chromium"
+          ]
+        },
+        "reason": "Execution failed or timed out; inspect sanitized log and return findings without app edits"
+      },
+      {
+        "group": "terraform",
+        "task_ids_for_review": [
+          "I-03",
+          "I-04",
+          "I-05",
+          "I-06",
+          "I-07",
+          "I-08"
+        ],
+        "status": "passed",
+        "commands": [
+          {
+            "argv": [
+              "/workspace/clipnest/.cache/external/bin/terraform",
+              "-chdir=infra/terraform",
+              "init",
+              "-backend=false",
+              "-input=false",
+              "-lockfile=readonly"
+            ],
+            "exit_code": 0,
+            "timed_out": false,
+            "seconds": 3.13,
+            "log": "terraform-1.log"
+          },
+          {
+            "argv": [
+              "/workspace/clipnest/.cache/external/bin/terraform",
+              "-chdir=infra/terraform",
+              "validate",
+              "-no-color"
+            ],
+            "exit_code": 0,
+            "timed_out": false,
+            "seconds": 4.16,
+            "log": "terraform-2.log"
+          },
+          {
+            "argv": [
+              "/workspace/clipnest/.cache/external/bin/terraform",
+              "-chdir=infra/terraform",
+              "test",
+              "-json",
+              "-no-color"
+            ],
+            "exit_code": 0,
+            "timed_out": false,
+            "seconds": 5.06,
+            "log": "terraform-3.log"
+          }
+        ],
+        "test_counts": {
+          "status": "pass",
+          "passed": 1,
+          "failed": 0,
+          "errored": 0,
+          "skipped": 0
+        },
+        "scope": "Locked real provider schema/mock checks; no account plan/apply"
+      }
+    ],
+    "production_release_decision": "NO_GO",
+    "app_edits_allowed": false,
+    "aws_api_calls_or_deployment_allowed": false,
+    "master_statuses_changed": false,
+    "finished_at": "2026-10-24T06:08:22.100473+00:00"
+  },
+  "browser_rerun": {
+    "profile": "ClipNest-E01",
+    "started_at": "2026-10-24T06:09:44.478215+00:00",
+    "capabilities": {
+      "profile": "ClipNest-E01",
+      "recorded_at": "2026-10-24T06:09:44.461056+00:00",
+      "platform": "posix",
+      "source_commit": "e795ebb37227a6d65e79355fdcd5da6989829d5e",
+      "tracked_source_changes": true,
+      "app_test_tree_sha256": "8a80ec384137dd43e1942002fa0dccb1a18eb1ff595cfd28449cc6766564905f",
+      "tools": {
+        "node": {
+          "installed": true,
+          "version": "v24.19.0"
+        },
+        "npm": {
+          "installed": true,
+          "version": "11.9.0"
+        },
+        "ffmpeg": {
+          "installed": true,
+          "version": "ffmpeg version 7.1.5-0+deb13u1 Copyright (c) 2000-2026 the FFmpeg developers"
+        },
+        "openssl": {
+          "installed": true,
+          "version": "OpenSSL 3.5.7 9 Jun 2026 (Library: OpenSSL 3.5.7 9 Jun 2026)"
+        },
+        "docker": {
+          "installed": true,
+          "version": "Docker version 28.4.0, build d8eb465"
+        },
+        "terraform": {
+          "installed": true,
+          "version": "Terraform v1.17.0"
+        }
+      },
+      "loopback_tcp": {
+        "available": true
+      },
+      "unix_socket": {
+        "available": true
+      },
+      "nonroot_native_user": {
+        "available": true,
+        "reason": "Non-root process"
+      },
+      "browser_runtime": {
+        "installed": true,
+        "executable": "/usr/bin/chromium",
+        "selection": "explicit system browser",
+        "reason": "Executable existence only; no browser launch in capability probe",
+        "version": "Chromium 154.0.8037.57 built on Debian GNU/Linux 13 (trixie)"
+      },
+      "docker_daemon": {
+        "available": true,
+        "detail": "28.4.0\n"
+      },
+      "docker_compose": {
+        "available": true
+      },
+      "dependencies_installed": true,
+      "native_database_mode": "auto",
+      "external_test_db_present": false,
+      "scope": "Capability metadata only. Does not prove a suite or production service passed."
+    },
+    "results": [
+      {
+        "group": "browser",
+        "task_ids_for_review": [
+          "B-05",
+          "B-06",
+          "B-07",
+          "B-09",
+          "B-10",
+          "B-11",
+          "B-12",
+          "J-04"
+        ],
+        "status": "passed",
+        "commands": [
+          {
+            "argv": [
+              "node",
+              "node_modules/@playwright/test/cli.js",
+              "test",
+              "--reporter=json"
+            ],
+            "exit_code": 0,
+            "timed_out": false,
+            "seconds": 57.73,
+            "log": "browser-1.log"
+          }
+        ],
+        "browser_runtime": {
+          "installed": true,
+          "executable": "/usr/bin/chromium",
+          "selection": "explicit system browser",
+          "reason": "Executable existence only; no browser launch in capability probe",
+          "version": "Chromium 154.0.8037.57 built on Debian GNU/Linux 13 (trixie)"
+        },
+        "test_counts": {
+          "tests": 8,
+          "pass": 8,
+          "fail": 0,
+          "skipped": 0,
+          "flaky": 0,
+          "projects": [
+            "desktop-chromium",
+            "mobile-chromium"
+          ]
+        },
+        "scope": "Real Playwright Chromium desktop/mobile + axe with synthetic media; not real YouTube"
+      }
+    ],
+    "production_release_decision": "NO_GO",
+    "app_edits_allowed": false,
+    "aws_api_calls_or_deployment_allowed": false,
+    "master_statuses_changed": false,
+    "finished_at": "2026-10-24T06:10:42.211778+00:00"
+  },
+  "runtime_security_gate": {
+    "application_commit": "36f744d352af47ffc399395abdf6d9e46fb4bc99",
+    "image_id": "sha256:1e03721bfd9086e928e721a2813747fb572bcd56d545bf7c4b095040a5bdcd94",
+    "image_subject": "sha256:1e03721bfd9086e928e721a2813747fb572bcd56d545bf7c4b095040a5bdcd94",
+    "status": "passed_local",
+    "scan_exit_code": 0,
+    "findings": {
+      "high": 0,
+      "critical": 0,
+      "secret_findings": 0,
+      "distinct_cves": 0
+    },
+    "node": "24.22.1",
+    "os": "Alpine 3.24.3",
+    "python": "3.14.8",
+    "yt_dlp": "2026.10.21",
+    "ffmpeg": "9.0.2",
+    "libxml2": "2.15.4",
+    "media_sources": {
+      "schema_version": 1,
+      "sources": {
+        "libxml2": {
+          "version": "2.15.4",
+          "repository": "GNOME/libxml2",
+          "tag": "v2.15.4",
+          "commit": "96498992efa48d52b0e8b83058bd88dbdaf153c1",
+          "sha256": "3fa264c6117569780ea0f6447d98c77f29b285cfd665ced2ec7da4f51183607f"
+        },
+        "ffmpeg": {
+          "version": "9.0.2",
+          "repository": "FFmpeg/FFmpeg",
+          "tag": "n9.0.2",
+          "commit": "946fcce07b6dcd0331c8cc609192aeff5e1924f8",
+          "sha256": "0aa2b1de2a5698b20a23e93d539a9a8e82ca0117496c5bdf05d198805f42bb3b"
+        }
+      }
+    },
+    "scan_tool": "Official checksum-verified Trivy 0.70.0",
+    "scanner_database": {
+      "Version": 2,
+      "NextUpdate": "2026-10-25T01:18:19.814880324Z",
+      "UpdatedAt": "2026-10-24T01:18:19.814880615Z",
+      "DownloadedAt": "2026-10-24T04:05:39.787431302Z"
+    },
+    "evidence": "qa-artifacts/h04-security/final-image/",
+    "scope": "Exact local Compose image only. Source-built components added explicitly to SBOM; release ECR digest/provenance/hosted acceptance remain unproved. Local SOURCE_COMMIT is development, not a deployed release."
+  },
+  "hosted_ci": {
+    "recorded_at": "2026-10-24T06:23:23.374960+00:00",
+    "run_id": 40069202760,
+    "url": "https://github.com/kawakaze430/clipnest/actions/runs/40069202760",
+    "application_commit": "36f744d352af47ffc399395abdf6d9e46fb4bc99",
+    "status": "completed",
+    "conclusion": "success",
+    "classification": "hosted verification passed",
+    "job_count": 7,
+    "jobs_with_steps": 7,
+    "all_expected_jobs_passed": true,
+    "jobs": [
+      {
+        "id": 120798778626,
+        "name": "terraform",
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-10-24T06:11:23Z",
+        "completed_at": "2026-10-24T06:11:53Z",
+        "html_url": "https://github.com/kawakaze430/clipnest/actions/runs/40069202760/job/120798778626",
+        "steps": [
+          {
+            "number": 1,
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-10-24T06:11:24Z",
+            "completed_at": "2026-10-24T06:11:25Z"
+          },
+          {
+            "number": 2,
+            "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-10-24T06:11:25Z",
+            "completed_at": "2026-10-24T06:11:26Z"
+          },
+          {
+            "number": 3,
+            "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-10-24T06:11:26Z",
+            "completed_at": "2026-10-24T06:11:27Z"
+          },
+          {
+            "number": 4,
+            "name": "Prepare checksum-verified Terraform and locked provider",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-10-24T06:11:27Z",
+            "completed_at": "2026-10-24T06:11:42Z"
+          },
+          {
+            "number": 5,
+            "name": "Terraform format",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-10-24T06:11:42Z",
+            "completed_at": "2026-10-24T06:11:42Z"
+          },
+          {
+            "number": 6,
+            "name": "Locked provider initialization, schema validation and mock security test",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-10-24T06:11:42Z",
+            "completed_at": "2026-10-24T06:11:49Z"
+          },
+          {
+            "number": 7,
+            "name": "Retain sanitized provider evidence",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-10-24T06:11:49Z",
+            "completed_at": "2026-10-24T06:11:51Z"
+          },
+          {
+            "number": 13,
+            "name": "Post Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-10-24T06:11:51Z",
+            "completed_at": "2026-10-24T06:11:51Z"
+          },
+          {
+            "number": 14,
+            "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-10-24T06:11:51Z",
+            "completed_at": "2026-10-24T06:11:51Z"
+          },
+          {
+            "number": 15,
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-10-24T06:11:51Z",
+            "completed_at": "2026-10-24T06:11:51Z"
+          }
+        ]
+      },
+      {
+        "id": 120798778776,
+        "name": "browser",
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-10-24T06:11:23Z",
+        "completed_at": "2026-10-24T06:12:58Z",
+        "html_url": "https://github.com/kawakaze430/clipnest/actions/runs/40069202760/job/120798778776",
+        "steps": [
+          {
+            "number": 1,
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-10-24T06:11:24Z",
+            "completed_at": "2026-10-24T06:11:24Z"
+          },
+          {
+            "number": 2,
+            "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-10-24T06:11:24Z",
+            "completed_at": "2026-10-24T06:11:25Z"
+          },
+          {
+            "number": 3,
+            "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-10-24T06:11:25Z",
+            "completed_at": "2026-10-24T06:11:26Z"
+          },
+          {
+            "number": 4,
+            "name": "Run sudo apt-get update && sudo apt-get install -y --no-install-recommends ffmpeg",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-10-24T06:11:26Z",
+            "completed_at": "2026-10-24T06:11:41Z"
+          },
+          {
+            "number": 5,
+            "name": "Run npm ci --ignore-scripts --no-audit --no-fund",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-10-24T06:11:41Z",
+            "completed_at": "2026-10-24T06:11:47Z"
+          },
+          {
+            "number": 6,
+            "name": "Prepare pinned browser and system libraries",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-10-24T06:11:47Z",
+            "completed_at": "2026-10-24T06:12:03Z"
+          },
+          {
+            "number": 7,
+            "name": "Desktop/mobile Chromium journeys and axe; synthetic media only",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-10-24T06:12:03Z",
+            "completed_at": "2026-10-24T06:12:55Z"
+          },
+          {
+            "number": 8,
+            "name": "Retain sanitized browser evidence without credential-bearing traces",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-10-24T06:12:55Z",
+            "completed_at": "2026-10-24T06:12:56Z"
+          },
+          {
+            "number": 15,
+            "name": "Post Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-10-24T06:12:56Z",
+            "completed_at": "2026-10-24T06:12:56Z"
+          },
+          {
+            "number": 16,
+            "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-10-24T06:12:56Z",
+            "completed_at": "2026-10-24T06:12:57Z"
+          },
+          {
+            "number": 17,
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-10-24T06:12:57Z",
+            "completed_at": "2026-10-24T06:12:57Z"
+          }
+        ]
+      },
+      {
+        "id": 120798778798,
+        "name": "security",
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-10-24T06:11:23Z",
+        "completed_at": "2026-10-24T06:11:37Z",
+        "html_url": "https://github.com/kawakaze430/clipnest/actions/runs/40069202760/job/120798778798",
+        "steps": [
+          {
+            "number": 1,
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-10-24T06:11:23Z",
+            "completed_at": "2026-10-24T06:11:25Z"
+          },
+          {
+            "number": 2,
+            "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-10-24T06:11:25Z",
+            "completed_at": "2026-10-24T06:11:26Z"
+          },
+          {
+            "number": 3,
+            "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-10-24T06:11:26Z",
+            "completed_at": "2026-10-24T06:11:28Z"
+          },
+          {
+            "number": 4,
+            "name": "Run npm ci --ignore-scripts --no-audit --no-fund",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-10-24T06:11:28Z",
+            "completed_at": "2026-10-24T06:11:32Z"
+          },
+          {
+            "number": 5,
+            "name": "Production dependency vulnerability gate",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-10-24T06:11:32Z",
+            "completed_at": "2026-10-24T06:11:32Z"
+          },
+          {
+            "number": 6,
+            "name": "Retain dependency audit evidence",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-10-24T06:11:32Z",
+            "completed_at": "2026-10-24T06:11:33Z"
+          },
+          {
+            "number": 11,
+            "name": "Post Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-10-24T06:11:33Z",
+            "completed_at": "2026-10-24T06:11:35Z"
+          },
+          {
+            "number": 12,
+            "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-10-24T06:11:35Z",
+            "completed_at": "2026-10-24T06:11:35Z"
+          },
+          {
+            "number": 13,
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-10-24T06:11:35Z",
+            "completed_at": "2026-10-24T06:11:35Z"
+          }
+        ]
+      },
+      {
+        "id": 120798778817,
+        "name": "native",
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-10-24T06:11:24Z",
+        "completed_at": "2026-10-24T06:12:49Z",
+        "html_url": "https://github.com/kawakaze430/clipnest/actions/runs/40069202760/job/120798778817",
+        "steps": [
+          {
+            "number": 1,
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-10-24T06:11:24Z",
+            "completed_at": "2026-10-24T06:11:25Z"
+          },
+          {
+            "number": 2,
+            "name": "Initialize containers",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-10-24T06:11:25Z",
+            "completed_at": "2026-10-24T06:11:39Z"
+          },
+          {
+            "number": 3,
+            "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-10-24T06:11:39Z",
+            "completed_at": "2026-10-24T06:11:39Z"
+          },
+          {
+            "number": 4,
+            "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-10-24T06:11:39Z",
+            "completed_at": "2026-10-24T06:11:43Z"
+          },
+          {
+            "number": 5,
+            "name": "Run sudo apt-get update && sudo apt-get install -y --no-install-recommends ffmpeg openssl",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-10-24T06:11:43Z",
+            "completed_at": "2026-10-24T06:11:58Z"
+          },
+          {
+            "number": 6,
+            "name": "Run npm ci --ignore-scripts --no-audit --no-fund",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-10-24T06:11:58Z",
+            "completed_at": "2026-10-24T06:12:03Z"
+          },
+          {
+            "number": 7,
+            "name": "PostgreSQL 17 pooling, transactions, races, upgrade and active SIGKILL",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-10-24T06:12:03Z",
+            "completed_at": "2026-10-24T06:12:41Z"
+          },
+          {
+            "number": 8,
+            "name": "Trusted native TLS and negative hostname/CA checks",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-10-24T06:12:41Z",
+            "completed_at": "2026-10-24T06:12:46Z"
+          },
+          {
+            "number": 9,
+            "name": "Retain sanitized native evidence",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-10-24T06:12:46Z",
+            "completed_at": "2026-10-24T06:12:47Z"
+          },
+          {
+            "number": 16,
+            "name": "Post Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-10-24T06:12:47Z",
+            "completed_at": "2026-10-24T06:12:47Z"
+          },
+          {
+            "number": 17,
+            "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-10-24T06:12:47Z",
+            "completed_at": "2026-10-24T06:12:47Z"
+          },
+          {
+            "number": 18,
+            "name": "Stop containers",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-10-24T06:12:47Z",
+            "completed_at": "2026-10-24T06:12:47Z"
+          },
+          {
+            "number": 19,
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-10-24T06:12:47Z",
+            "completed_at": "2026-10-24T06:12:48Z"
+          }
+        ]
+      },
+      {
+        "id": 120798778833,
+        "name": "containers",
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-10-24T06:11:23Z",
+        "completed_at": "2026-10-24T06:22:47Z",
+        "html_url": "https://github.com/kawakaze430/clipnest/actions/runs/40069202760/job/120798778833",
+        "steps": [
+          {
+            "number": 1,
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-10-24T06:11:24Z",
+            "completed_at": "2026-10-24T06:11:26Z"
+          },
+          {
+            "number": 2,
+            "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-10-24T06:11:26Z",
+            "completed_at": "2026-10-24T06:11:27Z"
+          },
+          {
+            "number": 3,
+            "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-10-24T06:11:27Z",
+            "completed_at": "2026-10-24T06:11:28Z"
+          },
+          {
+            "number": 4,
+            "name": "Run npm ci --ignore-scripts --no-audit --no-fund",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-10-24T06:11:28Z",
+            "completed_at": "2026-10-24T06:11:31Z"
+          },
+          {
+            "number": 5,
+            "name": "Disposable TLS, image, Compose, non-root, readiness and worker restart",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-10-24T06:11:31Z",
+            "completed_at": "2026-10-24T06:22:23Z"
+          },
+          {
+            "number": 6,
+            "name": "Immutable image security gate and SBOM",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-10-24T06:22:23Z",
+            "completed_at": "2026-10-24T06:22:42Z"
+          },
+          {
+            "number": 7,
+            "name": "Retain sanitized container evidence and image reports",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-10-24T06:22:42Z",
+            "completed_at": "2026-10-24T06:22:44Z"
+          },
+          {
+            "number": 13,
+            "name": "Post Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-10-24T06:22:44Z",
+            "completed_at": "2026-10-24T06:22:44Z"
+          },
+          {
+            "number": 14,
+            "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-10-24T06:22:44Z",
+            "completed_at": "2026-10-24T06:22:45Z"
+          },
+          {
+            "number": 15,
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-10-24T06:22:45Z",
+            "completed_at": "2026-10-24T06:22:45Z"
+          }
+        ]
+      },
+      {
+        "id": 120798778863,
+        "name": "unit",
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-10-24T06:11:28Z",
+        "completed_at": "2026-10-24T06:12:28Z",
+        "html_url": "https://github.com/kawakaze430/clipnest/actions/runs/40069202760/job/120798778863",
+        "steps": [
+          {
+            "number": 1,
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-10-24T06:11:28Z",
+            "completed_at": "2026-10-24T06:11:30Z"
+          },
+          {
+            "number": 2,
+            "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-10-24T06:11:30Z",
+            "completed_at": "2026-10-24T06:11:31Z"
+          },
+          {
+            "number": 3,
+            "name": "Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-10-24T06:11:31Z",
+            "completed_at": "2026-10-24T06:11:34Z"
+          },
+          {
+            "number": 4,
+            "name": "Run sudo apt-get update && sudo apt-get install -y --no-install-recommends ffmpeg",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-10-24T06:11:34Z",
+            "completed_at": "2026-10-24T06:12:05Z"
+          },
+          {
+            "number": 5,
+            "name": "Run npm ci --ignore-scripts --no-audit --no-fund",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-10-24T06:12:05Z",
+            "completed_at": "2026-10-24T06:12:08Z"
+          },
+          {
+            "number": 6,
+            "name": "Validate all workflow syntax and expressions",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-10-24T06:12:08Z",
+            "completed_at": "2026-10-24T06:12:10Z"
+          },
+          {
+            "number": 7,
+            "name": "Syntax, lockfile and frontend assets",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-10-24T06:12:10Z",
+            "completed_at": "2026-10-24T06:12:11Z"
+          },
+          {
+            "number": 8,
+            "name": "Unit, SQL, HTTP, fixture media, UI and security contracts",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-10-24T06:12:11Z",
+            "completed_at": "2026-10-24T06:12:22Z"
+          },
+          {
+            "number": 9,
+            "name": "Evidence controller and CI failure handling",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-10-24T06:12:22Z",
+            "completed_at": "2026-10-24T06:12:24Z"
+          },
+          {
+            "number": 10,
+            "name": "Retain sanitized check evidence",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-10-24T06:12:24Z",
+            "completed_at": "2026-10-24T06:12:25Z"
+          },
+          {
+            "number": 19,
+            "name": "Post Run actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-10-24T06:12:25Z",
+            "completed_at": "2026-10-24T06:12:26Z"
+          },
+          {
+            "number": 20,
+            "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-10-24T06:12:26Z",
+            "completed_at": "2026-10-24T06:12:26Z"
+          },
+          {
+            "number": 21,
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-10-24T06:12:26Z",
+            "completed_at": "2026-10-24T06:12:26Z"
+          }
+        ]
+      },
+      {
+        "id": 120801093892,
+        "name": "package",
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-10-24T06:23:07Z",
+        "completed_at": "2026-10-24T06:23:14Z",
+        "html_url": "https://github.com/kawakaze430/clipnest/actions/runs/40069202760/job/120801093892",
+        "steps": [
+          {
+            "number": 1,
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-10-24T06:23:08Z",
+            "completed_at": "2026-10-24T06:23:09Z"
+          },
+          {
+            "number": 2,
+            "name": "Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-10-24T06:23:09Z",
+            "completed_at": "2026-10-24T06:23:10Z"
+          },
+          {
+            "number": 3,
+            "name": "Build and verify complete source",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-10-24T06:23:10Z",
+            "completed_at": "2026-10-24T06:23:10Z"
+          },
+          {
+            "number": 4,
+            "name": "Return complete source and checksum",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-10-24T06:23:10Z",
+            "completed_at": "2026-10-24T06:23:12Z"
+          },
+          {
+            "number": 8,
+            "name": "Post Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-10-24T06:23:12Z",
+            "completed_at": "2026-10-24T06:23:12Z"
+          },
+          {
+            "number": 9,
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "started_at": "2026-10-24T06:23:12Z",
+            "completed_at": "2026-10-24T06:23:12Z"
+          }
+        ]
+      }
+    ],
+    "annotations": [],
+    "annotation": "H04 source-push run 40069202760: hosted verification passed. 7 successful jobs, 7 jobs with steps. Earlier billing failures are historical.",
+    "billing_settings_changed": false,
+    "artifact_metadata": [
+      {
+        "id": 12550955322,
+        "name": "native-evidence-36f744d352af47ffc399395abdf6d9e46fb4bc99",
+        "size_in_bytes": 3253,
+        "digest": "sha256:328ddf300bf55046f7e00693fb72210d0645267a0acab9dea781946722a4d7e8",
+        "expired": false,
+        "created_at": "2026-10-24T06:12:47Z",
+        "expires_at": "2026-10-31T06:12:46Z",
+        "url": "https://api.github.com/repos/kawakaze430/clipnest/actions/artifacts/12550955322"
+      },
+      {
+        "id": 12550855604,
+        "name": "browser-evidence-36f744d352af47ffc399395abdf6d9e46fb4bc99",
+        "size_in_bytes": 14171,
+        "digest": "sha256:f7bbe648e4cf80462ad2f20028ad38fb10ec13933448433d6079cfeda036e630",
+        "expired": false,
+        "created_at": "2026-10-24T06:12:56Z",
+        "expires_at": "2026-10-31T06:12:55Z",
+        "url": "https://api.github.com/repos/kawakaze430/clipnest/actions/artifacts/12550855604"
+      },
+      {
+        "id": 12550786459,
+        "name": "container-evidence-36f744d352af47ffc399395abdf6d9e46fb4bc99",
+        "size_in_bytes": 131302,
+        "digest": "sha256:699f2f067a9fcdbe8174c6cd01cdf84fcbef028681b568e7f1d7e7714c8b2c3e",
+        "expired": false,
+        "created_at": "2026-10-24T06:22:44Z",
+        "expires_at": "2026-10-31T06:22:42Z",
+        "url": "https://api.github.com/repos/kawakaze430/clipnest/actions/artifacts/12550786459"
+      },
+      {
+        "id": 12550323826,
+        "name": "terraform-evidence-36f744d352af47ffc399395abdf6d9e46fb4bc99",
+        "size_in_bytes": 9057,
+        "digest": "sha256:c0e51a472d30f66d3f13c83b0fefc8b58aa19ced0c4d759210997685a180a0e8",
+        "expired": false,
+        "created_at": "2026-10-24T06:11:50Z",
+        "expires_at": "2026-10-31T06:11:49Z",
+        "url": "https://api.github.com/repos/kawakaze430/clipnest/actions/artifacts/12550323826"
+      },
+      {
+        "id": 12550079494,
+        "name": "unit-evidence-36f744d352af47ffc399395abdf6d9e46fb4bc99",
+        "size_in_bytes": 5632,
+        "digest": "sha256:5d836c2d96d4d243ad20921c8e4d4b7980be66989766cac5d299ce4d8aa377f1",
+        "expired": false,
+        "created_at": "2026-10-24T06:12:25Z",
+        "expires_at": "2026-10-31T06:12:24Z",
+        "url": "https://api.github.com/repos/kawakaze430/clipnest/actions/artifacts/12550079494"
+      },
+      {
+        "id": 12549799791,
+        "name": "clipnest-source-36f744d352af47ffc399395abdf6d9e46fb4bc99",
+        "size_in_bytes": 448554,
+        "digest": "sha256:e7e60986f3ac921723981a01ea1f8bbd8dcf0578310f2f29064753a268b18d15",
+        "expired": false,
+        "created_at": "2026-10-24T06:23:12Z",
+        "expires_at": "2026-10-31T06:23:10Z",
+        "url": "https://api.github.com/repos/kawakaze430/clipnest/actions/artifacts/12549799791"
+      },
+      {
+        "id": 12549719082,
+        "name": "dependency-evidence-36f744d352af47ffc399395abdf6d9e46fb4bc99",
+        "size_in_bytes": 771,
+        "digest": "sha256:6160ccf7fdc941f788b0b93385a2e65dc9c942005d6ee740c688fda2266352e5",
+        "expired": false,
+        "created_at": "2026-10-24T06:11:33Z",
+        "expires_at": "2026-10-31T06:11:32Z",
+        "url": "https://api.github.com/repos/kawakaze430/clipnest/actions/artifacts/12549719082"
+      }
+    ],
+    "artifact_download": {
+      "status": "blocked",
+      "reason": "GitHub artifact redirect to productionresultssa17.blob.core.windows.net returned HTTP 403 from this cloud environment",
+      "domain_requirement_saved_in_environment_draft": true,
+      "published_or_runtime_applied": false,
+      "signed_redirect_url_retained": false
+    },
+    "production_acceptance": false
+  },
   "counts": {
-    "Locally implemented": 65,
-    "Partially implemented": 28,
+    "Locally implemented": 66,
+    "Partially implemented": 27,
     "Prepared, not executed": 9,
     "Externally blocked": 10,
     "Not started": 0
   },
-  "tested_application_commit": "6b73b565e054b8be472bbb96e28fc2e99548dffd",
-  "commit_provenance": "Local tests executed on working-tree code subsequently committed unchanged in this application commit. Each raw report retains its original base commit, fingerprint and timestamp.",
-  "hosted_ci": {
-    "url": "https://github.com/kawakaze430/clipnest/actions/runs/40060732120",
-    "application_commit": "6b73b565e054b8be472bbb96e28fc2e99548dffd",
-    "conclusion": "failure",
-    "classification": "account-blocked before execution",
-    "job_count": 7,
-    "jobs_with_steps": 0,
-    "annotation": "Main run 40060732120 on6b73b565e054b8be472bbb96e28fc2e99548dffd:all seven jobs failed before any step. GitHub annotation: The job was not started because recent account payments have failed or your spending limit needs to be increased.",
-    "billing_settings_changed": false,
-    "latest_url": "https://github.com/kawakaze430/clipnest/actions/runs/40061432748",
-    "latest_application_commit": "91f5c7b14206669a9c7e0d1f344e794836941c09",
-    "latest_jobs_with_steps": 0
-  },
-  "runtime_security_refresh": {
-    "application_commit": "91f5c7b14206669a9c7e0d1f344e794836941c09",
-    "files_changed_since_full_combined_run": [
-      "Dockerfile"
-    ],
-    "container_and_media_checks": "passed; separate fresh run, not reused original image evidence",
-    "image_id": "sha256:7ccf6117ea3bc498067b5be51480a0c36682de6ca53d36a1798e1985e6bee82e",
-    "node": "24.22.1",
-    "os": "Debian13.7",
-    "python": "3.13.5",
-    "ffmpeg": "7.1.5",
-    "scan_tool": "Official checksum-verified Trivy0.70.0",
-    "database": "Official ghcr.io/aquasecurity/trivy-db:2; OCI verified download",
-    "scan_exit_code": 1,
-    "high_findings": 227,
-    "critical_findings": 1,
-    "distinct_cves": 47,
-    "baseline_findings": 293,
-    "baseline_distinct_cves": 84,
-    "node_findings": 0,
-    "python_findings": 0,
-    "sbom": "CycloneDX 1.6 generated for exact candidate image",
-    "scope": "Package findings are not all distinct CVEs; no exploitability exception or suppression. Upstream remediation remains to investigate.",
-    "artifacts": [
-      "qa-artifacts/harness-repair/trivy-trixie-report.json",
-      "qa-artifacts/harness-repair/trixie-sbom.cdx.json",
-      "qa-artifacts/harness-repair/security-triage.json",
-      "qa-artifacts/harness-repair/trixie-runtime-media.log",
-      "qa-artifacts/harness-repair/container-trixie-security.log"
-    ],
-    "alternative_candidate": {
-      "base": "Official Node 24 Alpine",
-      "application_built": false,
-      "blocker": "HTTP403 CONNECT denied for dl-cdn.alpinelinux.org before package installation",
-      "network_requirement_saved": true
+  "production_release_decision": "NO_GO",
+  "not_proved": [
+    "Download hosted evidence after saved artifact-storage host requirement is applied",
+    "Actual release ECR digest scan/build provenance and staged deployment",
+    "Authorized real application source-to-device transfer",
+    "Actual AWS/RDS/S3/SQS/CloudFront/SES/IAM/WAF, alarms, restore and compatible rollback",
+    "Physical devices and independent transfer geographies",
+    "Active container OOM/hard-kill/disk/deadline and measured peak resources",
+    "Owner account/Region/budget/traffic/source/sender/operator/policy inputs",
+    "Elapsed capped-beta operating observation"
+  ],
+  "evidence_paths": [
+    "qa-artifacts/h04-matrix/",
+    "qa-artifacts/h04-browser-rerun/",
+    "qa-artifacts/h04-security/",
+    "qa-artifacts/h04-patched/",
+    "qa-artifacts/ci/h04-*",
+    "qa-artifacts/h04-upstream-provenance.json",
+    "qa-artifacts/h04-owner-prerequisites.json",
+    "qa-artifacts/h04-local-aws-capability.json"
+  ],
+  "retained_failures": [
+    {
+      "path": "qa-artifacts/h04-patched/build.log",
+      "classification": "Initial custom XML include-prefix build failure, corrected in successful build"
+    },
+    {
+      "path": "qa-artifacts/h04-patched/container-smoke-disk-failure.json",
+      "exit_code": 1,
+      "classification": "PostgreSQL initialization exhausted local disk; cache moved to separate /tmp storage, fresh Compose rerun passed"
+    },
+    {
+      "path": "qa-artifacts/h04-matrix/summary.json",
+      "classification": "Browser 7 pass/1 fail due transient synthetic analysis observation; native 29 pass and Terraform mock 1 pass. Deterministic pending-status browser rerun 8 pass."
+    },
+    {
+      "path": "qa-artifacts/h04-security/unpatched-negative/summary.json",
+      "exit_code": 1,
+      "classification": "Expected rejection of old-media candidate despite clean vendor vulnerability feed; also one secret finding"
     }
+  ],
+  "commit_provenance": "Reports retain their actual base HEAD, fingerprint and timestamps. The final commit contains the tested working-tree code. Initial full matrix/image checks preceded only the browser-test correction; production app/image inputs were unchanged. The complete affected browser group was rerun after that correction. Docs are outside the runner fingerprint. No copied timestamp is presented as fresh evidence.",
+  "historical_results": "H03 record remains in docs/STATUS.json evidence.h03 and delivery/ENGINEERING_H03.md. Its Debian image failure is superseded for the exact H04 local image, not erased.",
+  "environment_configuration": {
+    "draft_id": "b6294b15-ec89-4a82-af9d-7541fd391671~cecfgdraft_6adb9714a8b0819db9625de6060882e5",
+    "revision": 9,
+    "status": "saved",
+    "requires_publish": true,
+    "install_script_unchanged": true,
+    "custom_network_domains": [
+      "api.github.com",
+      "cdn.playwright.dev",
+      "dl-cdn.alpinelinux.org",
+      "productionresultssa17.blob.core.windows.net",
+      "results-receiver.actions.githubusercontent.com",
+      "storage.googleapis.com"
+    ],
+    "fresh_task_restoration_tested": false,
+    "hosted_artifact_download_runtime_access": false
   }
 }

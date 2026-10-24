@@ -1,6 +1,6 @@
-# Remaining ClipNest core acceptance — H03
+# Remaining ClipNest core acceptance — H04
 
-47 of the original 112 core tasks are not classified locally implemented. Counts are not effort/production percentages. Production remains NO_GO.
+46 of the original 112 core tasks are not classified locally implemented. Counts are not effort/production percentages. Production remains NO_GO.
 
 | ID | Task | Status | Remaining acceptance | Owner |
 | --- | --- | --- | --- | --- |
@@ -22,9 +22,8 @@
 | G-07 | CloudFront signed media delivery | Partially implemented | Validate real CloudFront expiry/cache/unsigned rejection and actual signed byte transfer. | Assistant |
 | G-09 | Independent-task media handoff | Partially implemented | Prove ready media survives actual task replacement and API/worker separation through S3/CloudFront. | Assistant |
 | G-10 | Object retention/deletion monitoring | Partially implemented | Measure actual S3 physical deletion, overdue alarms and monitoring during failure. | Assistant |
-| H-04 | Hosted CI workflow | Partially implemented | Account owner resolves GitHub billing restriction, then rerun and inspect pinned-browser/image-scan/SBOM/full hosted results. | Runner |
 | H-06 | Container lifecycle/resource acceptance | Partially implemented | Active container SIGKILL/OOM/disk/deadline and measured peak RSS/scratch acceptance remain unrun. | Assistant + Runner |
-| H-07 | Image scanning, SBOM and provenance | Partially implemented | Remediate the remaining runtime package findings using a supported patched package/base set or verified ABI-consistent builds; rerun strict scan/media/container checks and generate release provenance. | Assistant + Runner |
+| H-07 | Image scanning, SBOM and provenance | Partially implemented | Hosted image scan/SBOM job passed. Scan the actual release ECR digest and retain build provenance/attestations and real production acceptance. | Assistant + Runner |
 | I-01 | Authorized AWS account/role runtime | Externally blocked | Owner establishes a scoped authorized AWS runtime without sharing secrets in chat. | User + Runner |
 | I-02 | Region and availability target confirmation | Externally blocked | Confirm the target against source access, budget and audience. | User + Assistant |
 | I-03 | Infrastructure-as-code modules | Partially implemented | Review cost and execute an authorized account-specific plan/apply and real cloud acceptance. | Assistant |
