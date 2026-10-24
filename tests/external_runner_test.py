@@ -115,6 +115,16 @@ class ExternalRunnerTests(unittest.TestCase):
             p.write_text('changed')
             self.assertNotEqual(original, runner.fingerprint())
 
+    def test_media_source_lock_changes_invalidate_reused_evidence(self):
+        with tempfile.TemporaryDirectory() as d, patch.object(runner, 'ROOT', Path(d)):
+            root = Path(d)
+            (root / 'build').mkdir()
+            lock = root / 'build/media-sources.json'
+            lock.write_text('{"sha256":"first"}')
+            original = runner.fingerprint()
+            lock.write_text('{"sha256":"changed"}')
+            self.assertNotEqual(original, runner.fingerprint())
+
     def test_evidence_bundle_does_not_claim_production_or_mutate_status(self):
         with tempfile.TemporaryDirectory() as d:
             path = Path(d)

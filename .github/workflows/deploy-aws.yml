@@ -74,13 +74,7 @@ jobs:
           await appendFile(process.env.GITHUB_ENV,`RELEASE_IMAGE=${process.env.IMAGE_REPOSITORY}@${meta['containerimage.digest']}\n`);
           JS
       - name: Scan the exact pushed image
-        uses: aquasecurity/trivy-action@a9c7b0f06e461e9d4b4d1711f154ee024b8d7ab8
-        with:
-          image-ref: ${{ env.RELEASE_IMAGE }}
-          severity: HIGH,CRITICAL
-          exit-code: '1'
-          format: json
-          output: trivy-release.json
+        run: python3 scripts/ci/image-security.py "$RELEASE_IMAGE" --source remote --output .cache/release/image-security
       - name: Migrate, roll tasks and verify readiness
         run: node scripts/ops/deploy.mjs .cache/release/outputs.json "$RELEASE_IMAGE" "$GITHUB_SHA" --execute
       - name: Publish matching frontend
@@ -99,6 +93,7 @@ jobs:
             .cache/release/build.json
             .cache/release/probe.json
             trivy-release.json
+            .cache/release/image-security/
             dist/
           include-hidden-files: true
           retention-days: 30

@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "sources": {
+    "libxml2": {
+      "version": "2.15.4",
+      "repository": "GNOME/libxml2",
+      "tag": "v2.15.4",
+      "commit": "96498992efa48d52b0e8b83058bd88dbdaf153c1",
+      "sha256": "3fa264c6117569780ea0f6447d98c77f29b285cfd665ced2ec7da4f51183607f"
+    },
+    "ffmpeg": {
+      "version": "9.0.2",
+      "repository": "FFmpeg/FFmpeg",
+      "tag": "n9.0.2",
+      "commit": "946fcce07b6dcd0331c8cc609192aeff5e1924f8",
+      "sha256": "0aa2b1de2a5698b20a23e93d539a9a8e82ca0117496c5bdf05d198805f42bb3b"
+    }
+  }
+}

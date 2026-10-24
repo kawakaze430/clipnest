@@ -153,7 +153,7 @@ jobs:
   containers:
     if: github.event_name != 'workflow_dispatch' || inputs.group == 'all' || inputs.group == 'containers'
     runs-on: ubuntu-24.04
-    timeout-minutes: 25
+    timeout-minutes: 40
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with: {persist-credentials: false}
@@ -162,23 +162,10 @@ jobs:
       - run: npm ci --ignore-scripts --no-audit --no-fund
       - name: Disposable TLS, image, Compose, non-root, readiness and worker restart
         id: smoke
-        run: python3 scripts/external/verify.py run --groups containers --budget-minutes 15 --output qa-artifacts/containers
-      - name: Image vulnerability gate
+        run: python3 scripts/external/verify.py run --groups containers --budget-minutes 30 --output qa-artifacts/containers
+      - name: Immutable image security gate and SBOM
         if: success() && steps.smoke.outcome == 'success'
-        uses: aquasecurity/trivy-action@a9c7b0f06e461e9d4b4d1711f154ee024b8d7ab8 # v0.36.0
-        with:
-          image-ref: clipnest:local
-          severity: HIGH,CRITICAL
-          exit-code: '1'
-          format: json
-          output: qa-artifacts/trivy-report.json
-      - name: Retain image software bill of materials
-        if: always() && steps.smoke.outcome == 'success'
-        uses: aquasecurity/trivy-action@a9c7b0f06e461e9d4b4d1711f154ee024b8d7ab8 # v0.36.0
-        with:
-          image-ref: clipnest:local
-          format: spdx-json
-          output: qa-artifacts/image.sbom.spdx.json
+        run: python3 scripts/ci/image-security.py clipnest:local --output qa-artifacts/image-security
       - name: Retain sanitized container evidence and image reports
         if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2

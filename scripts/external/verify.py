@@ -78,7 +78,7 @@ def terraform_bin():
 
 def fingerprint():
     files = []
-    for name in ('backend', 'dist', 'tests', 'scripts', 'infra', 'certs', '.github'):
+    for name in ('backend', 'build', 'dist', 'tests', 'scripts', 'infra', 'certs', '.github'):
         for p in (ROOT / name).rglob('*'):
             rel = p.relative_to(ROOT)
             if SKIP_PARTS.intersection(rel.parts) or p.is_symlink() or not p.is_file():
@@ -319,7 +319,9 @@ def group_commands(group):
         return [(prefix + ['init', '-backend=false', '-input=false', '-lockfile=readonly'], 240),
                 (prefix + ['validate', '-no-color'], 90),
                 (prefix + ['test', '-json', '-no-color'], 240)]
-    return [(['bash', 'scripts/external/containers.sh'], 720)]
+    # The pinned upstream XML/media build is a cold-build prerequisite on a
+    # fresh runner. The overall caller budget still bounds this command.
+    return [(['bash', 'scripts/external/containers.sh'], 1500)]
 
 
 def write_report(directory, report):

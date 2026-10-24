@@ -14,7 +14,7 @@ from zipfile import BadZipFile, ZipFile, ZipInfo, ZIP_DEFLATED
 ROOT = Path(__file__).resolve().parent.parent
 PREFIX = 'clipnest/'
 MANIFEST = PREFIX + 'delivery/FILE_MANIFEST.json'
-SOURCE_DIRS = ('backend', 'dist', 'tests', 'scripts', 'docs', '.github', 'infra', 'certs', 'release', 'delivery')
+SOURCE_DIRS = ('backend', 'build', 'dist', 'tests', 'scripts', 'docs', '.github', 'infra', 'certs', 'release', 'delivery')
 ROOT_FILES = ('package.json', 'package-lock.json', 'requirements.txt', '.env.example',
               'Dockerfile', 'compose.yaml', '.dockerignore', '.gitignore',
               'playwright.config.mjs', '.openai/hosting.json', 'ClipNest-H02-Delivery-Receipt.json')

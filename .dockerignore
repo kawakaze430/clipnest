@@ -14,3 +14,7 @@ infra
 *.tfstate*
 playwright-report
 test-results
+qa-artifacts
+downloads
+*.zip
+*.sha256

@@ -19,7 +19,7 @@ defaults:
 jobs:
   execute:
     runs-on: ubuntu-24.04
-    timeout-minutes: 35
+    timeout-minutes: 45
     env:
       CHECK_GROUP: ${{ inputs.group }}
       CLIPNEST_TEST_DATABASE_MODE: docker
@@ -38,7 +38,9 @@ jobs:
         if: always() && steps.checkout.outcome == 'success' && steps.node.outcome == 'success'
         run: |
           if [ "$CHECK_GROUP" = all ]; then
-            python3 scripts/external/verify.py run --groups native browser terraform containers --budget-minutes 20 --output qa-artifacts/return
+            python3 scripts/external/verify.py run --groups native browser terraform containers --budget-minutes 35 --output qa-artifacts/return
+          elif [ "$CHECK_GROUP" = containers ]; then
+            python3 scripts/external/verify.py run --groups containers --budget-minutes 30 --output qa-artifacts/return
           else
             python3 scripts/external/verify.py run --groups "$CHECK_GROUP" --budget-minutes 20 --output qa-artifacts/return
           fi

@@ -75,6 +75,7 @@ bash scripts/ops/native-tls.sh
 "${compose[@]}" up --no-build -d --wait --wait-timeout 180
 curl --fail --silent --show-error --max-time 10 http://localhost:8787/readyz
 "${compose[@]}" exec -T worker sh -c 'test "$(id -u)" != 0 && test -w /app/.cache && test -w /tmp'
+"${compose[@]}" exec -T worker sh -s < scripts/ops/media-smoke.sh
 docker image inspect clipnest:local --format '{{.Id}}'
 "${compose[@]}" restart worker
 "${compose[@]}" up --no-build -d --wait --wait-timeout 120
